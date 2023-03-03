@@ -1,0 +1,8 @@
+crud data barang 
+belum
+-delete
+sudah
+-crus
+-filter
+-search
+-filter by kategory
