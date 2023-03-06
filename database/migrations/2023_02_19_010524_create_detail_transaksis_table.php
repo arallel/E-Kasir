@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('total_transaksi', function (Blueprint $table) {
+        Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->uuid('id_total_transaksi')->primary();
             $table->ForeignId('no_transaksi');
             $table->decimal('total_pembayaran');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('total_transaksis');
+        Schema::dropIfExists('detail_transaksi');
     }
 };

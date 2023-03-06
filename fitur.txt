@@ -1,8 +1,23 @@
-crud data barang 
-belum
--delete
+-crud data barang 
 sudah
--crus
--filter
--search
--filter by kategory
+
+fitur transaksi
+-melakukan transaksi item 
+-apabila memiliki fitur diskon maka sebelum transaksi akan mengecek apakah 
+sebuah item akan memiliki diskon yang sedang aktif apa tidak
+
+membuat history login
+-ketika login mencatat masuk dan keluar nya semua kariawan
+-dan menghitung berapa lama mereka login
+-ketika ada karyawan login dan tidak sengaja logout maka 
+akan mengecek terlebih dahulu apabila pernah login di tgl yang sama 
+apabila tidak ada maka akan di hitung sebagai sekali login
+apabila ada maka akan dijumlahkan dengan dengan jam lainya dia login di tgl yg sama
+
+membuat setting
+-fitur pajak total item dikosongin 
+ apabila tidak ada isinya atau null maka tidak akan menghitung pajak
+-input nama toko
+
+
+

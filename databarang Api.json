@@ -1,0 +1,215 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "6b8b290e-3ebe-4516-ba8c-a01dba54ddc8",
+        "name": "kasirku"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.5",
+              "name": "DELETE"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:8000",
+              "path": "/api/databarang/{databarang_id}"
+            },
+            "id": "06490bc7-e651-4351-ab9a-b6575aa3cc40",
+            "name": "delete databarang",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:8000",
+              "path": "/api/databarang"
+            },
+            "id": "19a60c80-152b-4176-a48d-e3e3445a9448",
+            "name": "index databarang",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "nama_barang",
+                    "value": "test"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "stok",
+                    "value": "12"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "id_kategory",
+                    "value": "2"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "barcode",
+                    "value": "22221"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "harga_barang",
+                    "value": "12000"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:8000",
+              "path": "/api/databarang"
+            },
+            "id": "461aff43-0063-427a-a0c3-6bbecc4e0e2e",
+            "name": "store databarang",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc5789",
+              "name": "PATCH"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": [
+                  {
+                    "enabled": true,
+                    "type": "Text",
+                    "name": "nama_barang",
+                    "value": ""
+                  }
+                ]
+              },
+              "bodyType": "Form"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "nama_barang",
+                    "value": "test-update-2"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "stok",
+                    "value": "12"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "id_kategory",
+                    "value": "2"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "barcode",
+                    "value": "22221"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "harga_barang",
+                    "value": "12000"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "127.0.0.1:8000",
+              "path": "/api/databarang/{databarang_id}"
+            },
+            "id": "fd500bc1-4e63-465e-8b25-7578c82bf937",
+            "name": "update databarang",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

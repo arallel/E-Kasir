@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\databarangApi;
+use App\Http\Controllers\Api\DatabarangApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +18,8 @@ use App\Http\Controllers\Api\databarangApi;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-// Route::resource('Databarang', databarangApi::class);
-Route::controller(databarangApi::class)->group(function () {
-    Route::get('/databarang', 'index');
-    Route::post('/simpan/databarang', 'store');
-});
+Route::resource('databarang', DatabarangApi::class);
+// Route::controller(DatabarangApi::class)->group(function () {
+//     Route::get('/databarang', 'index');
+//     Route::post('/test', 'store');
+// });

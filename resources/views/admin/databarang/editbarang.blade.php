@@ -108,14 +108,18 @@
                                             <label class="form-label" for="customMultipleFiles">Foto Barang</label>
                                             <div class="form-file">
                                                 <input type="file" multiple class="form-file-input" name="foto_barang"
-                                                    id="customMultipleFiles">
+                                                    id="customMultipleFiles" accept="image/jpeg,image/png,image/jpg,image/bmp, image/webp,image/svg+xml">
                                                 <label class="form-file-label" for="customMultipleFiles">Pilih
                                                     Foto</label>
                                             </div>
                                         </div>
-                                        <div class="col-4 mt-3">
-                                            <a href="{{ route('databarang.index') }}" class="btn btn-secondary">Kembali</a>
-                                            <button class="btn btn-success" type="submit">Submit</button>
+                                        <div class="row">
+                                            <div class="col-4 mt-3">
+                                                <a href="{{ route('databarang.index') }}" class="btn btn-secondary">Kembali</a> 
+                                            </div>
+                                            <div class="col-4 mt-3">
+                                                <button class="btn btn-success" >Submit</button>   
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
