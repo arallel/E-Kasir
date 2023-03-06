@@ -15,10 +15,8 @@ class TransaksiBarangController extends Controller
      */
     public function index()
     {
-
         $databarang = databarang::with('kategory')->get();
         return view('admin.transaksi.indextransaksi',compact('databarang'));
-
     }
 
     /**

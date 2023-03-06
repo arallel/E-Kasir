@@ -48,6 +48,7 @@ class DatabarangController extends Controller
         } else {
              $validate = $request->validated();
              $data = databarang::create([
+            'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,
             'foto_barang' => $request->file('foto_barang')->store('images'),
             'stok' => $request->stok,
@@ -62,19 +63,19 @@ class DatabarangController extends Controller
                  return redirect()
                 ->back()
                 ->withErrors($validate)
-                ->with('error', 'Gagal Menyimpan Data')
+                ->with('danger', 'Gagal Menyimpan Data')
                 ->withInput();
             }
         }
         
     }
-    public function update(Request $request, $databarang)
+    public function update(ProductRequest $request, $databarang)
     {
         if ($request->foto_barang == null) {
-            $validate = $request->except(['foto_barang']);
+            $validate = $request->safe()->except(['barcode','foto_barang']);
+            $validatedData = $request->validate($request->rules($databarang));
             $data = databarang::findOrFail($databarang);
             $data->update([
-            'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'id_kategory' => $request->id_kategory,
@@ -91,8 +92,10 @@ class DatabarangController extends Controller
                 ->with('error', 'Gagal Menyimpan Data')
                 ->withInput();
             }
-        } else {
-            //  $validate = $request->validated();
+        } 
+            else {
+                 $validate = $request->safe()->except(['barcode']);
+                 $validatedData = $request->validate($request->rules($databarang));
              $data = databarang::findOrFail($databarang);
             Storage::delete($data->foto_barang);
             $data->update([
@@ -130,11 +133,7 @@ class DatabarangController extends Controller
     }
     public function destroy($databarang)
     {
-        // dd($databarang);
         $data = databarang::findOrFail($databarang);
-        // $photoPath = $data->foto_barang;
-        // dd($data);
-        // dd($databarang);
         if ($data->foto_barang != null) {
         Storage::delete($data->foto_barang);
         $data->delete();

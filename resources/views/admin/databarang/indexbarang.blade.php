@@ -289,7 +289,7 @@
                                                     <option value="default_option" selected disabled>Pilih Kategory
                                                     </option>
                                                     @foreach ($kategory as $kate)
-                                                        <option value="{{ $kate->id_kategory }}">
+                                                        <option {{ (old('id_kategory') == $kate->id_kategory) ? 'selected' : '';  }} value="{{ $kate->id_kategory }}">
                                                             {{ $kate->nama_kategory }}
                                                         </option>
                                                     @endforeach
@@ -302,7 +302,7 @@
                                     <label class="form-label" for="customMultipleFiles">Foto Barang</label>
                                     <div class="form-file">
                                         <input type="file" multiple class="form-file-input" name="foto_barang"
-                                            id="customMultipleFiles">
+                                            id="customMultipleFiles" accept="image/jpeg,image/png,image/jpg,image/bmp, image/webp,image/svg+xml">
                                         <label class="form-file-label" for="customMultipleFiles">Choose files</label>
                                     </div>
                                 </div>
@@ -340,8 +340,7 @@
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).on('click', '.btn-delete', function() {
             var id = $(this).data('id');
@@ -351,5 +350,21 @@
             $('#delete').modal('show');
         });
     </script>
-    <script></script>
+    <script>
+    const select = document.getElementById("filter-select");
+    const form = document.getElementById("filter");
+
+   select.addEventListener("change", function() {
+    form.filter.value = select.value;
+    form.submit(); 
+    });
+    </script>
+    <script>
+    const select_category = document.getElementById("filter-select-kategory");
+    const form_category = document.getElementById("filter-kategory");
+   select_category.addEventListener("change", function() {
+    form_category.filter.value = select_category.value; // set value input filter
+    form_category.submit(); 
+    });
+    </script>
 @endsection

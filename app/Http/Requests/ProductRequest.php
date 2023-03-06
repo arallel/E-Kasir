@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class ProductRequest extends FormRequest
 {
@@ -22,14 +24,17 @@ class ProductRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules($id = null)
     {
         return [
              'nama_barang' => 'required|string|max:255',
-            'foto_barang' => 'image|max:10240',
+            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
             'stok' => 'required|min:1',
             'id_kategory' => 'required',
-            'barcode' => 'required|string|max:255|unique:databarang,barcode',
+             'barcode' => [
+            'required',
+            Rule::unique('databarang')->ignore($id),
+        ],
         ];
     }
     
@@ -42,10 +47,9 @@ class ProductRequest extends FormRequest
         'stok.min' => 'Stok Minimal 1',
         'id_kategory.required' => 'Kategori barang harus dipilih',
         'id_kategory.required' => 'Kategori barang tidak valid',
-        'id_kategory.exists' => 'Kategori barang tidak valid',
         'status_barang.required' => 'Status barang harus dipilih',
-        // 'barcode.required' => 'Barcode harus diisi',
-        // 'barcode.unique' => 'Barcode sudah digunakan',
+        'barcode.required' => 'Barcode harus diisi',
+        'barcode.unique' => 'Barcode sudah digunakan',
     ];
      }
 }
