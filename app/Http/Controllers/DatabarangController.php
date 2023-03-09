@@ -164,7 +164,11 @@ class DatabarangController extends Controller
     }
     public function search(Request $request)
     {
-        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('nama_barang','like','%'.$request->search.'%')->limit(100)->paginate(10);
+        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')
+            ->where('nama_barang','like','%'.$request->search.'%')
+            ->Orwhere('stok',$request->search)
+            ->limit(100)
+            ->paginate(10);
             $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     }
