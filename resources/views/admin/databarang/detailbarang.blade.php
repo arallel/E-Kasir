@@ -101,7 +101,13 @@
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label" for="customMultipleFiles">Foto Barang</label>
-                                                <img src="{{ url('storage/'.$data->foto_barang) }}" alt="" class="img-fluid">
+                                                 @if ($data->foto_barang == null)
+                                                        <img src="{{ asset('assets/images/no-image.png') }}" alt=""
+                                                            class="img-fluid">
+                                                    @else
+                                                        <img src="{{ url('storage/'.$data->foto_barang) }}" alt=""
+                                                            class="img-fluid">
+                                                    @endif
                                             </div>
                                         </div>
                                         <div class="text-start">

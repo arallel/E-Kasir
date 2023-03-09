@@ -172,6 +172,8 @@
         </div><!-- .modla-dialog -->
     </div><!-- .modal -->
     <!-- JavaScript -->
+     <!-- FontAwesome Icons --> 
+    <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
     <script src="{{ asset('./assets/js/bundle.js?ver=3.1.1') }}"></script>
     <script src="{{ asset('./assets/js/scripts.js?ver=3.1.1') }}"></script>
     <script src="{{ asset('./assets/js/charts/chart-ecommerce.js?ver=3.1.1') }}"></script>

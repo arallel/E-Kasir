@@ -22,7 +22,7 @@
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="html/index.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-dashboard-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
                                         <span class="nk-menu-text">Default</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
@@ -39,9 +39,19 @@
                                             <a href="{{ route('databarang.index') }}" class="nk-menu-link"><span class="nk-menu-text">Table Barang</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="#" class="nk-menu-link"><span class="nk-menu-text">Data Kategory</span></a>
+                                            <a href="{{ route('Kategory.index') }}" class="nk-menu-link"><span class="nk-menu-text">Table Kategory</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
+                                </li><!-- .nk-menu-item -->
+
+                                 <li class="nk-menu-heading">
+                                    <h6 class="overline-title text-primary-alt">Diskon</h6>
+                                </li><!-- .nk-menu-heading -->
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('Transaksi.barang') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-percent"></em></span>
+                                        <span class="nk-menu-text">Diskon</span>
+                                    </a>
                                 </li><!-- .nk-menu-item -->
 
                                 <li class="nk-menu-heading">
@@ -50,7 +60,7 @@
 
                                 <li class="nk-menu-item">
                                     <a href="{{ route('Transaksi.barang') }}" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-cart-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
                                         <span class="nk-menu-text">Transaksi</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
@@ -60,7 +70,7 @@
                                 
                                 <li class="nk-menu-item">
                                     <a href="html/components/misc/icons.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-setting-fill"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
                                         <span class="nk-menu-text">Setting</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->

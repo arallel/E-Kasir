@@ -22,7 +22,7 @@
                                             <form action="{{ route('search.barang') }}" method="post">
                                                 @csrf
                                                 <input type="text" class="form-control" name="search" id="default-04"
-                                                    placeholder="Search By Name">
+                                                    placeholder="Cari Barang">
                                             </form>
                                         </div>
                                     </li>
@@ -62,7 +62,7 @@
                                                 class="icon ni ni-plus"></em></a>
                                         <a href="#" data-target="addProduct"
                                             class="toggle btn btn-primary d-none d-md-inline-flex"><em
-                                                class="icon ni ni-plus"></em><span>Add Product</span></a>
+                                                class="icon ni ni-plus"></em><span>Tambah Barang</span></a>
                                     </li>
                                 </ul>
                             </div>

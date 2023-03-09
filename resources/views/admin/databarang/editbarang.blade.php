@@ -63,7 +63,7 @@
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" 
                                                         value="{{ $data->barcode }}" name="barcode" id="barcode"
-                                                        placeholder="Barcode Barang">
+                                                        placeholder="Barcode Barang" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                                 <a href="{{ route('databarang.index') }}" class="btn btn-secondary">Kembali</a> 
                                             </div>
                                             <div class="col-4 mt-3">
-                                                <button class="btn btn-success" >Submit</button>   
+                                                <button class="btn btn-success" >Perbarui Data</button>   
                                             </div>
                                         </div>
                                     </div>
