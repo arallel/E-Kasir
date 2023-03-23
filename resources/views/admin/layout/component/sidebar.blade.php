@@ -21,9 +21,9 @@
                                     <h6 class="overline-title text-primary-alt">Dashboard</h6>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
-                                    <a href="html/index.html" class="nk-menu-link">
+                                    <a href="{{ route('dashboard') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
-                                        <span class="nk-menu-text">Default</span>
+                                        <span class="nk-menu-text">Dashboard</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-heading">
@@ -48,7 +48,7 @@
                                     <h6 class="overline-title text-primary-alt">Diskon</h6>
                                 </li><!-- .nk-menu-heading -->
                                 <li class="nk-menu-item">
-                                    <a href="{{ route('Transaksi.barang') }}" class="nk-menu-link">
+                                    <a href="{{ route('Diskon.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-percent"></em></span>
                                         <span class="nk-menu-text">Diskon</span>
                                     </a>

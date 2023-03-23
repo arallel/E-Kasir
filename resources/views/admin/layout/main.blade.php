@@ -18,7 +18,7 @@
     <link id="skin-default" rel="stylesheet" href="{{ asset('./assets/css/theme.css?ver=3.1.1') }}">
 </head>
 
-<body class="nk-body bg-lighter npc-default has-sidebar ">
+<body class="nk-body bg-lighter npc-default has-sidebar ui-clean">
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">

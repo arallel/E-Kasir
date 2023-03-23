@@ -98,7 +98,6 @@
                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li><a href="{{ route('Kategory.edit', $kategory->id_kategory) }}"><em class="icon ni ni-edit"></em><span>Edit kategory</span></a></li>
-                                                                    <li><a href="{{ route('Kategory.show', $kategory->id_kategory) }}"><em class="icon ni ni-eye"></em><span>Tampilkan</span></a></li>
                                                                     <li><a type="button" class="btn-delete" data-id="{{ $kategory->id_kategory }}"><em class="icon ni ni-trash btn-delete"></em><span>Hapus Barang</span></a>
                                                                     </li>
                                                                 </ul>
