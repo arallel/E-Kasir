@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi_barang', function (Blueprint $table) {
-            $table->uuid('id_transaksi')->primary();
+        Schema::create('diskon', function (Blueprint $table) {
+            $table->id('id_diskon');
+            $table->string('nama_diskon');
             $table->foreignUuid('id_barang');
-            $table->string('qty');
-            $table->date('tgl_transaksi');
-            $table->time('waktu_transaksi');
-            $table->decimal('harga_item');
-            $table->integer('no_transaksi');
+            $table->integer('harga_potongan');
+            $table->integer('harga_setelah_potongan');
+            $table->date('tgl_awal_diskon');
+            $table->date('tgl_akhir_diskon');
+            $table->enum('status_diskon',['aktif','tidak_aktif'])->default('aktif');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_barangs');
+        Schema::dropIfExists('diskons');
     }
 };
