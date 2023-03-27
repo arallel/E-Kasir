@@ -6,6 +6,13 @@ fitur transaksi
 -apabila memiliki fitur diskon maka sebelum transaksi akan mengecek apakah 
 sebuah item akan memiliki diskon yang sedang aktif apa tidak
 
+//transaksi
+<div class="col-6 mb-3">
+<input type="text" autofocus class="form-control" name="nama" id="name" placeholder="Scan Barcode" >
+</div>
+pencarian nama dan barcode apabila menggunakan barcode maka akan langsung terinput
+apabila mencari dengan nama maka akan muncul modal untuk memilih barang yang sama atau persis
+
 membuat history login
 -ketika login mencatat masuk dan keluar nya semua kariawan
 -dan menghitung berapa lama mereka login

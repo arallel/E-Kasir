@@ -59,7 +59,7 @@
                                 </li><!-- .nk-menu-heading -->
 
                                 <li class="nk-menu-item">
-                                    <a href="{{ route('Transaksi.barang') }}" class="nk-menu-link">
+                                    <a href="{{ route('Transaksi.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
                                         <span class="nk-menu-text">Transaksi</span>
                                     </a>

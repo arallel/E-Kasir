@@ -16,9 +16,14 @@ class TransaksiBarangController extends Controller
     public function index()
     {
         $databarang = databarang::with('kategory')->get();
-        return view('admin.transaksi.indextransaksi',compact('databarang'));
+        $datasementara = collect(session('databarang'))->groupBy('barcode');
+        return view('admin.transaksi.indextransaksi',compact('databarang','datasementara'));
     }
-
+    public function coba(Request $request)
+    {
+        $request->session()->forget('databarang');
+         // return view('admin.transaksi.test');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -35,9 +40,13 @@ class TransaksiBarangController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function storesesion(Request $request)
+    {
+        $data = databarang::where('barcode',$request->barcode)->first();
+         $request->session()->push('databarang', $data);
+    }
     public function store(Request $request)
     {
-        //
     }
 
     /**
