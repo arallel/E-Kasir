@@ -44,7 +44,9 @@ Route::controller(DiskonController::class)->group(function(){
 });
 
 //transaksi
+Route::resource('Transaksi',TransaksiBarangController::class)->except(['delete']);
 Route::controller(TransaksiBarangController::class)->group(function(){
-   Route::get('Transaksi','index')->name('Transaksi.barang');
+   Route::get('coba','coba')->name('Transaksi.test');
+   Route::post('Transaksi/Input/Barang','storesesion')->name('Transaksi.store.session');
 });
 

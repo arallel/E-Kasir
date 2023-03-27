@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->uuid('id_total_transaksi')->primary();
-            $table->ForeignId('no_transaksi');
+            $table->integer('no_transaksi');
+            $table->ForeignUuid('id_transaksi');
             $table->decimal('total_pembayaran');
             $table->ForeignId('id_user');
             $table->decimal('total_kembalian');
