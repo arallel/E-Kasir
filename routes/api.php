@@ -19,7 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('databarang', DatabarangApi::class);
-// Route::controller(DatabarangApi::class)->group(function () {
-//     Route::get('/databarang', 'index');
-//     Route::post('/test', 'store');
-// });
+Route::controller(DatabarangApi::class)->group(function () {
+    Route::get('filter/databarang', 'filterstatus');
+    Route::get('search/databarang', 'search')->name('api.databarang.search');
+    Route::get('filter/databarang/kategory', 'filterkategory');
+});

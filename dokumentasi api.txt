@@ -1,0 +1,24 @@
+dokumentasi databarang
+
+index databaran method get
+http://127.0.0.1:8000/api/databarang
+
+store databarang method post
+http://127.0.0.1:8000/api/databarang?nama_barang=test&stok=12&id_kategory=2&barcode=22221&harga_barang=12000
+
+update databarang method patch
+http://127.0.0.1:8000/api/databarang/{databarang_id}?nama_barang=test-update-2&stok=12&id_kategory=2&barcode=22221&harga_barang=12000
+
+delete databarang method delete
+http://127.0.0.1:8000/api/databarang/{databarang_id}
+
+search method get
+http://127.0.0.1:8000/api/search/databarang?search=oreo
+
+filter kategory method get
+http://127.0.0.1:8000/api/filter/databarang/kategory?filter={id_kategory}
+
+filter status method get 
+
+http://127.0.0.1:8000/api/filter/databarang?status=tidak_aktif
+

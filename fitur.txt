@@ -6,6 +6,38 @@ fitur transaksi
 -apabila memiliki fitur diskon maka sebelum transaksi akan mengecek apakah 
 sebuah item akan memiliki diskon yang sedang aktif apa tidak
 
+//transaksi field
+no transaksi: INV-000001 
+tgl_transaksi : tgl now
+waktu: waktu now
+id_user: user login;
+total_pembayaran: menghitung setiap item kemudian di collect dan di jumlahkan.dilakukan sebelum store transaksi dan detail transaksi
+'id_user' : get data user yg login
+total kembalian: menghitung hasil dari collect yang di jumlahkan kemudiaan dikurangi uang yang dibayarkan
+maka akan muncul hasil dari kembalian apabila kurang dari jumlah yg dibayarkan maka akan return back dengan muncul eror uang kurang;
+
+
+bentuk invoice : INV-000001 | 27.04.2022 / 17.00 pm | kasir:vito 
+
+transaksi
+protected $fillable = [
+        'no_transaksi',
+        'tgl_transaksi',
+        'waktu_transaksi',
+        'total_pembayaran',
+        'id_user',
+        'total_kembalian',
+    ];
+
+//detail transaksi
+ protected $fillable = [
+        'id_barang',
+        'id_transaksi'
+        'qty',
+        'harga_item',
+    ];
+
+    
 //transaksi
 <div class="col-6 mb-3">
 <input type="text" autofocus class="form-control" name="nama" id="name" placeholder="Scan Barcode" >
@@ -25,6 +57,7 @@ membuat setting
 -fitur pajak total item dikosongin 
  apabila tidak ada isinya atau null maka tidak akan menghitung pajak
 -input nama toko
+
 
 
 

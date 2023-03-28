@@ -23,9 +23,9 @@ Route::view('dashboard','admin.dashboard')->name('dashboard');
 //databarang
 Route::resource('databarang',DatabarangController::class)->except(['delete']);
 Route::controller(DatabarangController::class)->group(function () {
+    Route::delete('databarang/delete/{id}', 'destroy')->name('destroy.barang');
     Route::post('databarang/filter', 'filter')->name('filter.barang');
     Route::post('databarang/search', 'search')->name('search.barang');
-    Route::delete('databarang/delete/{id}', 'destroy')->name('destroy.barang');
     Route::post('databarang/filter/kategory', 'filterkategory')->name('filter.kategory.barang');
 });
 //kategory
