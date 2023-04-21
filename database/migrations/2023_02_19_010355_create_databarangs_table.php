@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('foto_barang')->nullable();
             $table->string('stok');
             $table->string('harga_barang');
+            $table->string('harga_pembelian');
             $table->ForeignId('id_kategory');
             $table->enum('status_barang',['aktif','tidak_aktif'])->default('aktif');
             $table->string('barcode');
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('databarangs');
+        Schema::dropIfExists('databarang');
     }
 };

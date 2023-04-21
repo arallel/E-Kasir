@@ -33,7 +33,7 @@ class ProductRequest extends FormRequest
             'id_kategory' => 'required',
              'barcode' => [
             'required',
-            Rule::unique('databarang')->ignore($id),
+            Rule::unique('databarang')->ignore($this->request->get('id_barang')),
         ],
         ];
     }

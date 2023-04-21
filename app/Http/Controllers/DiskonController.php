@@ -11,7 +11,7 @@ class DiskonController extends Controller
 {
     public function index()
     {
-        $datadiskon = diskon::with('databarang')->select('id_diskon','id_barang','harga_potongan','tgl_awal_diskon','tgl_akhir_diskon','status_diskon','nama_diskon','harga_setelah_potongan')->limit(100)->paginate(10);
+        $datadiskon = diskon::with('databarang')->select('id_diskon','id_barang','harga_potongan','tgl_awal_diskon','tgl_akhir_diskon','status_diskon','nama_diskon','harga_setelah_potongan')->paginate(10);
         return view('admin.diskon.indexdiskon',compact('datadiskon'));
     }
      public function search(Request $request)
@@ -19,7 +19,7 @@ class DiskonController extends Controller
         $datadiskon = diskon::with('databarang')->select('id_diskon','id_barang','harga_potongan','tgl_awal_diskon','tgl_akhir_diskon','status_diskon','nama_diskon','harga_setelah_potongan')
             ->where('nama_diskon','like','%'.$request->search.'%')
             ->Orwhere('harga_potongan',$request->search)
-            ->limit(100)
+            
             ->paginate(10);
          return view('admin.diskon.indexdiskon',compact('datadiskon'));
     }

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('transaksi_barang', function (Blueprint $table) {
             $table->uuid('id_transaksi')->primary();
-            $table->integer('no_transaksi');
+            $table->string('no_transaksi');
             $table->decimal('total_pembayaran');
-            $table->ForeignId('id_user');
+            $table->foreignUuid('id_user');
             $table->date('tgl_transaksi');
             $table->time('waktu_transaksi');
             $table->decimal('total_kembalian');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_barangs');
+        Schema::dropIfExists('transaksi_barang');
     }
 };

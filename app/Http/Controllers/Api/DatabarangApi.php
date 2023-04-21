@@ -14,7 +14,8 @@ class DatabarangApi extends Controller
 {
     public function index()
     {
-      $databarang = Databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->get();
+      $databarang = Databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang',
+      'status_barang','barcode','id_kategory','id_barang')->paginate(10);
         return DatabarangResource::collection($databarang);
     }
     public function show($databarang)
@@ -107,19 +108,19 @@ class DatabarangApi extends Controller
     public function filterstatus(Request $request)
     {
         if ($request->status == 'aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','aktif')->limit(100)->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','aktif')->paginate(10);
             return response()->json(compact('databarang'));
 
         } elseif($request->status == 'tidak_aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','tidak_aktif')->limit(100)->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','tidak_aktif')->paginate(10);
             return response()->json(compact('databarang'));
 
         }elseif($request->status == 'stok_kosong'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('stok','0')->limit(100)->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('stok','0')->paginate(10);
             return response()->json(compact('databarang'));
 
         }elseif($request->status == 'semua'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->limit(100)->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->paginate(10);
             return response()->json(compact('databarang'));
         }else
         {
@@ -132,7 +133,7 @@ class DatabarangApi extends Controller
         $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')
             ->where('nama_barang','like','%'.$request->search.'%')
             ->Orwhere('stok',$request->search)
-            ->limit(100)
+            
             ->paginate(10);
         return response()->json(compact('databarang'));
     }
@@ -141,7 +142,7 @@ class DatabarangApi extends Controller
     $databarang = databarang::with('kategory')
                     ->select('nama_barang', 'foto_barang', 'stok', 'harga_barang', 'status_barang', 'barcode', 'id_kategory', 'id_barang')
                     ->where('id_kategory', $request->filter)
-                    ->limit(100)
+                    
                     ->paginate(10);
     return response()->json([
         'databarang' => $databarang,

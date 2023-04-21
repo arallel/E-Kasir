@@ -27,7 +27,7 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Data Barang</h6>
+                                    <h6 class="overline-title text-primary-alt">Menu</h6>
                                 </li><!-- .nk-menu-heading -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
@@ -43,27 +43,53 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
-
-                                 <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Diskon</h6>
-                                </li><!-- .nk-menu-heading -->
                                 <li class="nk-menu-item">
                                     <a href="{{ route('Diskon.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-percent"></em></span>
                                         <span class="nk-menu-text">Diskon</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
-
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Transaksi</h6>
-                                </li><!-- .nk-menu-heading -->
-
                                 <li class="nk-menu-item">
                                     <a href="{{ route('Transaksi.index') }}" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
                                         <span class="nk-menu-text">Transaksi</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-user"></em></span>
+                                        <span class="nk-menu-text">User</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('UserData.index') }}" class="nk-menu-link"><span class="nk-menu-text">Data Pengguna</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('log.user') }}" class="nk-menu-link"><span class="nk-menu-text">Riwayat Login Pengguna</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="#" class="nk-menu-link"><span class="nk-menu-text">Profile Pengguna</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
+                                </li><!-- .nk-menu-item -->
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span>
+                                        <span class="nk-menu-text">Generate Laporan</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="#" class="nk-menu-link"><span class="nk-menu-text">Laporan Penjualan</span></a>
+                                        </li>
+                                        {{-- <li class="nk-menu-item">
+                                            <a href="{{ route('Kategory.index') }}" class="nk-menu-link"><span class="nk-menu-text">Riwayat Login Pengguna</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('Kategory.index') }}" class="nk-menu-link"><span class="nk-menu-text">Profile Pengguna</span></a>
+                                        </li> --}}
+                                    </ul><!-- .nk-menu-sub -->
+                                </li><!-- .nk-menu-item -->
+
                                 <li class="nk-menu-heading">
                                     <h6 class="overline-title text-primary-alt">Setting</h6>
                                 </li><!-- .nk-menu-heading -->

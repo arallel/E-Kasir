@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pengguna', function (Blueprint $table) {
-            $table->id();
+        Schema::create('users', function (Blueprint $table) {
+            $table->uuid('id_user')->primary();
+            $table->string('email');
             $table->string('nama_pengguna');
-            $table->string('password');
-            $table->enum('level',['admin','petugas']);
+            $table->string('password')->nullable();
+            $table->enum('status',['online','offline'])->default('offline');
+            $table->enum('status_akun',['aktif','diblokir','pending'])->default('pending');
+            $table->enum('level',['admin','kasir','owner']);
             $table->timestamps();
         });
     }

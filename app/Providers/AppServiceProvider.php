@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -25,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-         Paginator::defaultView('vendor.pagination.default');
- 
+         Paginator::defaultView('vendor.pagination.default'); 
         Paginator::defaultSimpleView('vendor.pagination.default');
+        // JsonResource::withoutWrapping();
     }
 }

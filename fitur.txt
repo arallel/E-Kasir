@@ -1,6 +1,7 @@
 -crud data barang 
 sudah
 
+
 fitur transaksi
 -melakukan transaksi item 
 -apabila memiliki fitur diskon maka sebelum transaksi akan mengecek apakah 
@@ -37,6 +38,8 @@ protected $fillable = [
         'harga_item',
     ];
 
+
+validasi transaksi:apabila stok 0 maka tidak dapat memilih dan ada tulisan stok habis kemudian ketika melakukan transaksi maka stok di databarang akan di update dan akan habis
     
 //transaksi
 <div class="col-6 mb-3">
