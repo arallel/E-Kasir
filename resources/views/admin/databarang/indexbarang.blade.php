@@ -60,7 +60,7 @@
                                         <a href="#" data-target="addProduct"
                                             class="toggle btn btn-icon btn-primary d-md-none"><em
                                                 class="icon ni ni-plus"></em></a>
-                                        <a href="#" data-target="addProduct"
+                                        <a href="#" data-target="addProduct" onclick="storebarang()" 
                                             class="toggle btn btn-primary d-none d-md-inline-flex"><em
                                                 class="icon ni ni-plus"></em><span>Tambah Barang</span></a>
                                     </li>
@@ -77,9 +77,10 @@
                             <div class="nk-tb-list">
                                 <div class="nk-tb-item nk-tb-head">
                                     <div class="nk-tb-col tb-col-sm"><span>No</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span>Nama Barang</span></div>
+                                    <div class="nk-tb-col text-center"><span>Nama Barang</span></div>
                                     <div class="nk-tb-col"><span>Barcode</span></div>
-                                    <div class="nk-tb-col"><span>Harga</span></div>
+                                    <div class="nk-tb-col"><span>Harga Barang</span></div>
+                                    <div class="nk-tb-col"><span>Harga Pembelian</span></div>
                                     <div class="nk-tb-col"><span>Stok</span></div>
                                     <div class="nk-tb-col tb-col-md"><span>kategory</span></div>
                                     <div class="nk-tb-col tb-col-md"><span>Status Barang</span></div>
@@ -110,7 +111,11 @@
                                             <span class="tb-lead text-center"></span>
                                         </div>
                                         <div class="nk-tb-col">
-                                            <span class="tb-lead text-center">Tidak Ada Data</span>
+                                            <span class="tb-lead text-center"></span>
+                                        </div>
+
+                                        <div class="nk-tb-col">
+                                            <span class="tb-lead ">Tidak Ada Data</span>
                                         </div>
                                     </div>
                                 @else
@@ -125,22 +130,20 @@
                                                         <img src="{{ asset('assets/images/no-image.png') }}" alt=""
                                                             class="thumb">
                                                     @else
-                                                        <img src="storage/{{ $barang->foto_barang }}" alt=""
-                                                            class="thumb">
+                                                        <img src="storage/{{ $barang->foto_barang }}" alt=""class="thumb" style="height:3rem;">
+                                                            {{-- <img src="{{ $barang->foto_barang }}"class="thumb" style="height:3rem;"> --}}
                                                     @endif
-                                                    <span class="title">{{ $barang->nama_barang }}</span>
+                                                    <span class="title text-start">{{ Str::limit($barang->nama_barang,50) }}</span>
                                                 </span>
                                             </div>
                                             <div class="nk-tb-col">
                                                 <span class="tb-sub"> {!! DNS1D::getBarcodeSVG($barang->barcode, 'C128', 1.5, 50, true) !!}</span>
                                             </div>
-                                            @php
-                                                $number = $barang->harga_barang;
-                                                $formatted = 'Rp ' . number_format($number, 1, ',', '.');
-                                                
-                                            @endphp
                                             <div class="nk-tb-col">
-                                                <span class="tb-lead">{{ $formatted }}</span>
+                                                <span class="tb-lead">Rp.{{ number_format($barang->harga_barang, 0, ',', '.'); }}</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead">Rp.{{ number_format($barang->harga_pembelian, 0, ',', '.') }}</span>
                                             </div>
                                             <div class="nk-tb-col">
                                                 <span class="tb-sub">{{ $barang->stok }}</span>
@@ -221,7 +224,7 @@
                     </div>
                 </div><!-- .nk-block -->
                 <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct"
-                    data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+                    data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar id="storebarang">
                     <div class="nk-block-head">
                         <div class="nk-block-head-content">
                             <h5 class="nk-block-title">Produk Baru</h5>
@@ -243,6 +246,16 @@
                             class="form-validate">
                             @csrf
                             <div class="row g-3">
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="barcode">Barcode Barang</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control" required
+                                                value="{{ old('barcode') }}" name="barcode" id="barcode"
+                                                placeholder="Barcode Barang">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="nama_barang">Nama Barang</label>
@@ -254,10 +267,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="stok">Stok</label>
+                                        <label class="form-label" for="harga_pembelian">Harga Pembelian</label>
                                         <div class="form-control-wrap">
-                                            <input type="number" min="1" name="stok" class="form-control"
-                                                value="{{ old('stok') }}" id="stok" placeholder="Stok Barang"
+                                            <div class="form-text-hint">
+                                                <span class="overline-title">Rp</span>
+                                            </div>
+                                            <input type="number" min="1" name="harga_pembelian" class="form-control"
+                                                value="{{ old('harga_pembelian') }}" id="harga_pembelian" placeholder="Harga Pembelian"
                                                 required>
                                         </div>
                                     </div>
@@ -277,12 +293,12 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="barcode">Barcode Barang</label>
+                                     <div class="form-group">
+                                        <label class="form-label" for="stok">Stok</label>
                                         <div class="form-control-wrap">
-                                            <input type="text" class="form-control" required
-                                                value="{{ old('barcode') }}" name="barcode" id="barcode"
-                                                placeholder="Barcode Barang">
+                                            <input type="number" min="1" name="stok" class="form-control"
+                                                value="{{ old('stok') }}" id="stok" placeholder="Stok Barang"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -378,6 +394,11 @@
    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        function storebarang()
+        {
+            const barcode = document.getElementById('barcode');
+            barcode.focus();
+        }
         $(document).ready(function() {
             const formEdit = $('#form-edit');
             const formjumlah = $('#form-jumlah');

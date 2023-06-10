@@ -14,7 +14,7 @@ class DatabarangController extends Controller
     public function index()
     {
         $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang'
-        ,'barcode','id_kategory','id_barang')->paginate(10);
+        ,'barcode','id_kategory','id_barang','harga_pembelian')->paginate(10);
         $kategory = kategory::all();
        return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     }
@@ -48,6 +48,7 @@ class DatabarangController extends Controller
             'status_barang' => 'aktif',
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
+            'harga_pembelian' => $request->harga_pembelian,
             ]);
             if ($data) {
                 return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
@@ -59,7 +60,7 @@ class DatabarangController extends Controller
                 ->withInput();
             }
         } else {
-             $validate = $request->validated();
+             $validate = $request->validate();
              $data = databarang::create([
             'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,
@@ -69,6 +70,7 @@ class DatabarangController extends Controller
             'status_barang' => 'aktif',
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
+            'harga_pembelian' => $request->harga_pembelian,
            ]);
             if ($data) {
                 return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
@@ -100,6 +102,7 @@ class DatabarangController extends Controller
             'status_barang' => 'aktif',
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
+            'harga_pembelian' => $request->harga_pembelian,
             ]);
             if ($data) {
                 return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
@@ -129,6 +132,7 @@ class DatabarangController extends Controller
             'status_barang' => 'aktif',
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
+            'harga_pembelian' => $request->harga_pembelian,
            ]);
             if ($data) {
                 return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
@@ -168,26 +172,26 @@ class DatabarangController extends Controller
     public function filter(Request $request)
     {
         if ($request->filter == 'aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','aktif')->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('status_barang','aktif')->paginate(10);
             $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
         } elseif($request->filter == 'tidak_aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','tidak_aktif')->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('status_barang','tidak_aktif')->paginate(10);
             $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
         }elseif($request->filter == 'stok_kosong'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('stok','0')->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('stok','0')->paginate(10);
             $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
         }elseif($request->filter == 'semua'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->paginate(10);
+            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->paginate(10);
             $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
         }
     }
     public function search(Request $request)
     {
-        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')
+        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')
             ->where('nama_barang','like','%'.$request->search.'%')
             ->Orwhere('stok',$request->search)
             
@@ -197,7 +201,7 @@ class DatabarangController extends Controller
     }
     public function filterkategory(Request $request)
     {
-        $kategory = $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('id_kategory',$request->filter)->paginate(10);
+        $kategory = $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('id_kategory',$request->filter)->paginate(10);
        $kategory = kategory::all();
             return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     }

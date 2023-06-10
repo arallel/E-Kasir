@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\login_log;
 use Carbon\Carbon;
+use Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,24 +27,35 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
-        // dd($request);
-        $user = User::where('email',$request->email);
-        $user->update([
-            'status' => 'online',
-        ]);
-        $request->authenticate();
-        $request->session()->regenerate();
-        $log = login_log::create([
-             'user_id' => Auth::user()->id_user,
-            'user_agent' => $request->header('User-Agent'),
-            'ip_address' => $request->ip(),
-            'login_at' => Carbon::now(),
-        ]);    
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = User::where('email',$request->email)->first();
+        if($user){
+            if(Hash::check($request->password, $user->password)){
+                Auth::login($user);
+            $user->update([
+                'status' => 'online',
+            ]);
+            $log = login_log::create([
+                 'user_id' => Auth::user()->id_user,
+                'user_agent' => $request->header('User-Agent'),
+                'ip_address' => $request->ip(),
+                'login_at' => Carbon::now(),
+            ]);    
+            return redirect()->intended(RouteServiceProvider::HOME);
+          }else{
+            return redirect()
+            ->back()
+            ->with('salah', 'Maaf, Sepertinya Password Salah')
+            ->withInput();
+         }
+        }else{
+            return redirect()
+            ->back()
+            ->with('salah', 'Maaf, Sepertinya Email Tidak Ditemukan Atau Salah')
+            ->withInput();
+        }
     }
-
     /**
      * Destroy an authenticated session.
      */

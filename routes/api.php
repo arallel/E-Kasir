@@ -20,7 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::apiResource('databarang', DatabarangApi::class);
-
 Route::controller(DatabarangApi::class)->group(function () {
     Route::get('filter/databarang', 'filterstatus');
     Route::get('search/databarang', 'search')->name('api.databarang.search');
@@ -31,5 +30,5 @@ Route::controller(DatabarangApi::class)->group(function () {
 
 Route::apiResource('Kategory',KategoryApi::class);
 Route::controller(KategoryApi::class)->group(function () {
-    Route::post('Kategory/search', 'search');
+    Route::get('Search/Kategory', 'search');
 });

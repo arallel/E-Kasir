@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('diskon', function (Blueprint $table) {
             $table->id('id_diskon');
-            $table->string('nama_diskon');
-            $table->foreignUuid('id_barang');
-            $table->integer('harga_potongan');
-            $table->integer('harga_setelah_potongan');
-            $table->date('tgl_awal_diskon');
-            $table->date('tgl_akhir_diskon');
+            $table->string('kode_promo');
+            $table->integer('persen_diskon');
+            $table->date('tgl_mulai_promo');
+            $table->date('tgl_selesai_promo');
             $table->enum('status_diskon',['aktif','tidak_aktif'])->default('aktif');
             $table->timestamps();
         });

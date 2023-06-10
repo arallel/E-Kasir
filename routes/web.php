@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DatabarangController;
 use App\Http\Controllers\KategoryController;
 use App\Http\Controllers\TransaksiBarangController;
-use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\potonganController;
 use App\Http\Controllers\UserDataController;
-use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\diskonController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,22 +40,24 @@ Route::controller(KategoryController::class)->group(function () {
     Route::post('Kategory/search', 'search')->name('search.kategory');
 });
 //diskon
-Route::resource('Diskon',DiskonController::class)->except(['delete']);
+Route::resource('diskon',diskonController::class)->except(['delete']);
+Route::controller(diskonController::class)->group(function(){
+Route::delete('diskon/delete/{id}','destroy');
+});
 
-Route::controller(DiskonController::class)->group(function(){
-   Route::post('Diskon/searchbarang','searchbarang')->name('Diskon.searchbarang');
-   Route::delete('Diskon/delete/{id}','destroy')->name('Diskon.destroy');
-   Route::post('Diskon/Search','search')->name('Diskon.search');
+//potongan
+Route::resource('potongan',potonganController::class)->except(['delete']);
+Route::controller(potonganController::class)->group(function(){
+   Route::post('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
+   Route::delete('potongan/delete/{id}','destroy')->name('potongan.destroy');
+   Route::post('potongan/Search','search')->name('potongan.search');
 });
 
 //transaksi
 Route::resource('Transaksi',TransaksiBarangController::class)->except(['delete']);
 Route::controller(TransaksiBarangController::class)->group(function(){
    Route::get('coba','coba')->name('Transaksi.test');
-   Route::post('Transaksi/Input/Barang','storesesion')->name('Transaksi.store.session');
-   Route::post('update/cart','updatecart')->name('update.cart');
-   Route::post('/remove-from-cart', 'removeFromCart')->name('remove-from-cart');
-   Route::post('/get-session-data','getdatasession');
+   Route::post('Transaksi/Simpan/Barang','store')->name('Transaksi.store');
    Route::get('Cetak/Struk/{id}','cetakstruk')->name('cetak.struk');
 });
 
@@ -67,14 +69,6 @@ Route::controller(UserDataController::class)->group(function(){
     Route::get('Riwayat/Login/User','loguser')->name('log.user');
 
 });
-});
-
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

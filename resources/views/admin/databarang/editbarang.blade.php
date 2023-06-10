@@ -7,7 +7,7 @@
                     <div class="nk-block-head-content mb-3">
                         <h3 class="nk-block-title page-title ">Edit Barang</h3>
                     </div><!-- .nk-block-head-content -->
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                         <div class="card">
                             <div class="card-inner">
                                 @if ($errors->any())
@@ -39,7 +39,7 @@
                                                 <div class="form-control-wrap">
                                                     <input type="number" min="1" name="stok" class="form-control"
                                                         value="{{ $data->stok }}" id="stok" placeholder="Stok Barang"
-                                                        required>
+                                                        min="0">
                                                 </div>
                                             </div>
                                         </div>
@@ -114,13 +114,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4 mt-3">
-                                                <a href="{{ route('databarang.index') }}" class="btn btn-secondary">Kembali</a> 
-                                            </div>
-                                            <div class="col-4 mt-3">
-                                                <button class="btn btn-success" >Perbarui Data</button>   
-                                            </div>
-                                        </div>
+                                    <div class="col col-md-2 col-lg-3 mt-3">
+                                        <a href="{{ route('diskon.index') }}" class="btn btn-secondary">Kembali</a> 
+                                    </div>
+                                    <div class="col-6 col-md-6 col-lg-5 mt-3">
+                                        <button class="btn btn-success" >Simpan  Data</button>   
+                                    </div>
+                                </div>
                                     </div>
                                 </form>
                             </div>

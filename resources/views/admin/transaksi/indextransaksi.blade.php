@@ -1,360 +1,470 @@
-@extends('admin.layout.main')
-@section('title', 'Transaksi')
-@section('content')
-<style>
-.imgbarang{
-    cursor: pointer;
-}
-</style>   
-<div class="nk-content-inner">
-    <div class="nk-content-body">
-        <div class="nk-block-head nk-block-head-sm">
-            <div class="nk-block-between">
-                <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title">Transaksi</h3>
-                </div><!-- .nk-block-head-content -->
-                <div class="nk-block-head-content">
-                    <div class="toggle-wrap nk-block-tools-toggle">
-                        <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
-                            class="icon ni ni-more-v"></em></a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3">
-                                </ul>
+    @extends('admin.layout.main')
+    @section('title', 'Transaksi')
+    @section('content')
+    <style>
+        .imgbarang {
+            cursor: pointer;
+        }
+        /*.imgbarang .disabled-card{
+            border-radius: 100%;
+            border-color: black;
+            height: 30px;
+            width: 30px;
+            background-color: black;
+            position: absolute;
+            left: 40%;
+        }*/
+        .disabled-card{
+             cursor: no-drop;
+        }
+        .overflow-y-scroll{
+            overflow-y:scroll;
+            scroll-behavior: smooth;
+            height: calc(130vh - 200px);
+        }
+        .overflow-y-scroll-transaksi{
+            scroll-behavior: smooth;
+        }
+    </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <div class="nk-content-inner">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">Transaksi</h3>
+                    </div><!-- .nk-block-head-content -->
+                    <div class="nk-block-head-content">
+                        <div class="toggle-wrap nk-block-tools-toggle">
+                            <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
+                                class="icon ni ni-more-v"></em></a>
+                                <div class="toggle-expand-content" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block">
+                    <div class="card">
+                        <div class="card-inner">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="card-inner">
+                                        <form id="barcode_form">
+                                            <div class="row">
+                                                <div class="col-6 mb-3">
+                                                    <input type="text" autofocus class="form-control" name="barcode"
+                                                    id="barcode" placeholder="Scan Barcode">
+                                                </div>
+                                            </form>
+                                            <div class="col-6 mb-3">
+                                                <input type="text" autofocus class="form-control" name="nama_barang"
+                                                id="nama_barang" placeholder="Search By Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-inner overflow-y-scroll">
+                                        <div class="row ">
+                                            @foreach ($databarang as $data)
+                                            <div class="col-12 col-md-4 mt-2">
+                                                <div class="card {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow" data-barcode="{{ $data->barcode }}"
+                                                    data-stok="{{ $data->stok }}" data-nama="{{ $data->nama_barang }}"
+                                                    data-foto="{{ $data->foto_barang }}" data-id="{{ $data->id_barang }}"
+                                                    data-harga="{{ $data->harga_barang }}"
+                                                    style="height: 15rem;">
+                                                    <div class="card-inner text-center">
+                                                        @if ($data->foto_barang == null)
+                                                        <img src="{{ asset('assets/images/no-image.png') }}" alt=""
+                                                        class="">
+                                                        @else
+                                                        {{-- <img src="storage/{{ $data->foto_barang }}" class=""
+                                                        alt=""> --}}
+                                                        <img width="80" height="80" src="{{ $data->foto_barang }}" class=""
+                                                        alt="">
+                                                        @endif
+                                                        <h6 class="fw-medium">{{ Str::limit($data->nama_barang,30) }}</h6>
+                                                        <p class="text-muted mb-0">Stok : {{ $data->stok }}</p>
+                                                        <p class="text-muted mt-0">Harga : {{ $data->harga_barang }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card shadow">
+                                        <div class="card-inner">
+                                            <h4 class="text-center">Transaksi</h4>
+                                            <hr class="m-2">
+                                            <div class="row"  style="">
+                                                <div class="overflow-y-scroll-transaksi" id="show-cart"></div>
+                                            </div>
+                                            <div class="mt-4" id="show-count">
+                                                <h5 class="total-cart"></h5>
+                                                <h5 class="total-count"></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mt-3 shadow">
+                                        <div class="card-inner" id="show-btn">
+                                            <button type="button" class="btn btn-warning clear-cart">Bersihkan Cart</button>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDefault">Bayar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="nk-block">
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="card-inner shadow">
-                                    <form id="barcode_form">
-                                        <div class="row">
-                                            @csrf
-                                            <div class="col-6 mb-3">
-                                                <input type="text" autofocus class="form-control" name="barcode"
-                                                id="barcode" placeholder="Scan Barcode">
-                                            </div>
-                                        </form>
-                                        <div class="col-6 mb-3">
-                                            <input type="text" autofocus class="form-control" name="nama_barang"
-                                            id="nama_barang" placeholder="Search By Name">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @foreach ($databarang as $data)
-                                        <div class="col-12 col-md-4 mt-2">
-                                            <div class="card imgbarang shadow" data-barcode="{{ $data->barcode }}" >
-                                                <div class="card-inner text-center">
-                                                    @if ($data->foto_barang == null)
-                                                    <img src="{{ asset('assets/images/no-image.png') }}" alt=""
-                                                    class="">
-                                                    @else
-                                                    <img src="storage/{{ $data->foto_barang }}"
-                                                    class="" alt="">
-                                                    @endif
-                                                    <h6 class="fw-medium">{{ $data->nama_barang }}</h6>
-                                                    <p class="text-muted">Stok : {{ $data->stok }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-inner">
-                                        <h4 class="text-center">Transaksi</h4>
-                                        <hr class="m-2">
-                                        @if($datasementara != null)
-                                        @foreach ($datasementara as $dataitem)
-                                        @if ($dataitem != null)
-                                        <div class="row mt-3">
-                                            <div class="col-3 ">
-                                                @if ($dataitem['foto_barang'] == null)
-                                                <div class="col-12">
-                                                    <img src="{{ asset('assets/images/no-image.png') }}"
-                                                    alt="" class="user-avatar md sq bg-white">
-                                                </div>
-                                                @else
-                                                <div class="col-8">
-                                                    <img src="storage/{{ $dataitem['foto_barang'] }}"
-                                                    class="user-avatar md sq bg-white" alt="">
-                                                </div>
-                                                @endif
-                                            </div>
+        </div>{{-- nk-body-end --}}
+    </div> {{-- nk-content-end --}}
+    <!-- Modal Trigger Code -->
 
-                                            <div class="col-5 ">
-                                                <h5 class="fw-medium  text-capitalize">
-                                                    {{ $loop->iteration }}.
-
-                                                    {{ $dataitem['nama_barang'] }}
-                                                </h5>
-                                                <div class="row mt-3">
-                                                    <h5 class="text-primary fw-bold">
-                                                        Rp.{{ $dataitem['harga_barang'] * $dataitem['qty']  }}
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="ms-auto  form-group col-12 col-md-9 m-auto ">
-                                                <form id="ubah_qty">
-                                                    @csrf
-                                                    <div class="form-control-wrap number-spinner-wrap">
-                                                        <button class="btn btn-icon btn-outline-light number-spinner-btn number-minus btn-primary"
-                                                        data-number="kurang">
-                                                        <em class="icon ni ni-minus text-white"></em>
-                                                    </button>
-                                                    <input type="number" disabled  name="qty[]" class="form-control disabled number-spinner test"
-                                                    value="{{ $dataitem['qty'] }}" data-id="{{ $dataitem['id_barang'] }}"
-                                                    data-harga="{{ $dataitem['harga_barang'] }}" data-qty="{{ $dataitem['qty'] }}">
-                                                    <button class="btn btn-icon btn-outline-light number-spinner-btn number-plus btn-primary"
-                                                    data-number="tambah">
-                                                    <em class="icon ni ni-plus text-white"></em>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            @endif
-                            @endforeach
-                            @endif
-                            <form action="{{ route('Transaksi.store') }}" method="post">
-                                @csrf
-                            <div class="form-control-wrap mt-4">
-                                <label class="form-label">Uang Dibayarkan</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="jumlah_uang" placeholder="Jumlah Uang Dibayarkan">
-                                </div>
-                            </div>
-
-
-                            <div class="card mt-3 bg-light">
-                                <div class="card-inner mb-2">
-                                    <h4 class="fw-bold">Harga</h4>
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <p><strong>SubTotal</strong></p>
-                                        </div>
-                                        <div class="text-end col-4">
-                                            <p id="SubTotal">Rp.0</p>
-                                        </div>
-                                        {{-- <div class="col-8">
-                                            <p><strong>Diskon</strong></p>
-                                        </div>
-                                        <div class="text-end col-4">
-                                            <p>5$</p>
-                                        </div>
-                                        <div class="col-8">
-                                            <p><strong>Pajak</strong></p>
-                                        </div>
-                                        <div class="text-end col-4">
-                                            <p>5%</p>
-                                        </div> --}}
-                                        <br>
-                                        <hr class="m-2">
-                                        <div class="col-8">
-                                            <h5><strong>Total Belanja</strong></h5>
-                                        </div>
-                                        <div class="text-end col-4">
-                                            <h5 id="total">Rp.0</h5>
-                                        </div>
-                                        <div class="col-8">
-                                            <h6><strong>Total Kembalian</strong></h6>
-                                        </div>
-                                        <div class="text-end col-4">
-                                            <h6 id="kembalian">Rp.0</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- <button class="btn  btn-secondary col-12 justify-content-center mt-2">Bersihkan Items</button> --}}
-                            
-                                <button class="btn btn-success col-12 justify-content-center mt-2 ">Bayar</button>
-                            </form>
+    <!-- Modal Content Code -->
+    <div class="modal fade" tabindex="-1" id="modalDefault">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal Title</h5>
+                    <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <em class="icon ni ni-cross"></em>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('Transaksi.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" id="datastorageweb" name="datastorageweb">
+                        <input type="hidden" id="total-harga" name="total_harga">
+                        <div class="form-group">
+                            <label>Jumlah Uang Dibayarkan</label>
+                            <input type="number" id="uang_dibayar" class="form-control" name="uang_dibayarkan">
+                            <p class="text-danger ml-1" id="alert-text"></p>
                         </div>
+                        <div class="form-group" style="display: none;" id="display-kembalian">
+                            <label>Kembalian</label>
+                            <input type="text" class="form-control" id="kembalian_disabled" disabled>
+                            <input  type="hidden" class="form-control" id="kembalian"   name="kembalian">
+                        </div>
+
                     </div>
-                </div>  
+                    <div class="modal-footer bg-light">
+                        <button class="btn btn-secondary " id="dismis-modal" type="button" data-bs-dismiss="modal">Kembali</button>
+                        <button class="btn btn-success">Bayar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>{{-- nk-body-end --}}
-</div> {{-- nk-content-end --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    getdata();
-    $(document).ready(function () {
-        $('#barcode').on('input', function () {
-            var barcode = $('#barcode').val().trim();
-            if (barcode == '') {
-                return;
-            }
-            var formData = $('#barcode_form').serialize();
-            $.ajax({
-                type: "POST",
-                url: "{{ route('Transaksi.store.session') }}",
-                data: formData,
-                success: function (data) {
-                    var pesan = 'data berhasil Ditambahkan';
-                    location.reload(true);
-                      $('#barcode').val('');
-                    toaster(pesan);
-                },
-                error: function (xhr, status, error) {
-                     var pesan = 'barang tidak ditemukan';
-                    toastergagal(pesan);
-                      $('#barcode').val('');
-                }
-            });        
-        });
-        $('.number-spinner-btn').click(function(event) {
-            event.preventDefault();
-            var input = $(this).parent().find('input');
-            var id_barang = input.data('id');
-            var harga_barang = input.data('harga');
-            var qty = parseInt(input.val());
-            var action = $(this).data('number');
-            if (action == 'tambah') {
-                qty++;
-            } else if (action == 'kurang') {
-                qty--;
-            }
-            if (qty > 0) {
-                updateCartItem(id_barang, qty, '{{ route('update.cart') }}');
-                getdata();
-            } else {
-                removeFromCart(id_barang, '{{ route('remove-from-cart') }}');
-                getdata();
-            }
-            input.val(qty);
-        });
-        $('input[name="jumlah_uang"]').on('blur', function() {
-            getdata();
-        });
-         $('.imgbarang').click(function (barcode) {
-            var barcode = $(this).data('barcode');
-            $.ajax({
-                type: "POST",
-                url: "{{ route('Transaksi.store.session') }}",
-                data: {
-                    barcode:barcode,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (data) {
-                    var pesan = 'data berhasil Ditambahkan';
-                    location.reload(true);
-                    toaster(pesan);
-                },
-                error: function (xhr, status, error) {
-                    alert('error');
-                }
-            });     
-         });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById('datastorageweb').value = sessionStorage.getItem('shoppingCart');
+        document.getElementById('uang_dibayar').addEventListener('input',function(){
+            const totaluang = shoppingCart.totalCart();
+            const text = document.getElementById('alert-text');
+            const displaykembalian = document.getElementById('display-kembalian');
+            const kembalian = document.getElementById("kembalian");
+            const kembaliandisabled = document.getElementById("kembalian_disabled");
+            let hitung = totaluang - parseInt(this.value);
+            const format = hitung.toLocaleString('id-ID', {style: 'currency',currency: 'IDR',}).replace(/,00/g, "");
+            console.log(hitung);
+            if(hitung == 0){
+                //uang pas
+                text.innerHTML = 'Jumlah Uang Yang Dibayarkan Pas';
+                text.classList.remove('text-danger');
+                text.classList.add('text-success');
+            }else if(hitung < 0){
+                //kembalian
+               text.classList.remove('text-danger');
+               text.classList.add('text-success');
+               text.innerHTML = ' Mendapat Kembalian '+ format.replace(/-/g, "");
+               displaykembalian.style.display = 'block';
+               kembalian.value = hitung.toString().replace(/-/g, "");
+               kembaliandisabled.value = hitung.toString().replace(/-/g, "");
+           } else if (!isNaN(hitung)) {
+            text.innerHTML = "Jumlah Uang Yang Dibayarkan Kurang: " + format;
+            text.classList.remove('text-success');
+            text.classList.add('text-danger');
+            kembalian.value = '';
+             kembaliandisabled.value = '';
+            displaykembalian.style.display = 'none';
+        } else {
+            text.innerHTML = '';
+             kembalian.value = '';
+             kembaliandisabled.value = '';
+            displaykembalian.style.display = 'none';
+        }
+
     });
-
-
-    function kembalian(total_barang){    
-        var jumlah_uang = $('input[name="jumlah_uang"]').val();
-        if(jumlah_uang){
-            var hitungkembalian = jumlah_uang - total_barang;
-            $('#kembalian').text('Rp.' + hitungkembalian.toLocaleString('id-ID'));
+        function checkscroll(){
+            const cart = document.querySelector('.overflow-y-scroll-transaksi');
+            const btn = document.getElementById('show-btn');
+            const showcount = document.getElementById('show-count');
+            const data = JSON.parse(sessionStorage.getItem("shoppingCart"));
+            if(sessionStorage.getItem('shoppingCart') != null){
+               if(data.length >= 1){
+                cart.style.overflowY = 'scroll';
+                btn.style.display = 'block';
+                showcount.style.display = 'block';
+                cart.style.maxHeight = 'calc(100vh - 200px)';
+            }else{
+                cart.style.overflowY = 'hidden';
+                btn.style.display = 'none';
+                showcount.style.display = 'none';
+                cart.style.height = 'auto';
+            }
         }
     }
-    function toaster(pesan)
-    {
-        var mes = pesan;
-        toastr.clear();
-        NioApp.Toast(pesan, 'success', {
-          position: 'top-right',
-          showDuration: "100",
-          preventDuplicates: true,
-          progressBar: true,
-          showMethod: "fadeIn",
-          hideMethod: "fadeOut"
-      });
-    }
-    function toastergagal(pesan)
-    {
-        var mes = pesan;
-        toastr.clear();
-        NioApp.Toast(pesan, 'error', {
-          position: 'top-right',
-          showDuration: "100",
-          preventDuplicates: true,
-          progressBar: true,
-          showMethod: "fadeIn",
-          hideMethod: "fadeOut"
-      });
+    checkscroll();
+
+    $('#barcode').on("input", function(event) {
+        $.ajax({
+            url:'Transaksi/Input/Barang',
+            type:'POST',
+            headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         data:{
+            barcode:$(this).val()
+        },
+        success: function(response) {
+                // console.log(response);
+          event.preventDefault();
+          var name = response.nama_barang;
+          var price = Number(response.harga_barang);
+          if(typeof name === 'undefined' || price === null){
+             alert('tidak ada');
+         }else{
+          shoppingCart.addItemToCart(name, price, 1);
+          displayCart();
+          checkscroll();
+      }
+  },
+  error: function(xhr, status, error) {
+  }
+});
+
+    });
+
+    var shoppingCart = (function() {
+
+      cart = [];
+
+      // Constructor
+      function Item(name, price, id,count) {
+        this.name = name;
+        this.price = price;
+        this.count = count;
+        this.id = id;
     }
 
-    function getdata()
-    {
-        $.ajax({
-            type: 'POST',
-            url: '/get-session-data',
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                var databarang = response;
-                var total_barang = 0;
-                $.each(databarang, function (index, barang) {
-                    var hitung = barang.harga_barang * barang.qty;
-                    total_barang += hitung;
-                });
-                $('#SubTotal').text('Rp.' + total_barang.toLocaleString('id-ID'));
-                $('#total').text('Rp.' + total_barang.toLocaleString('id-ID'));
-                kembalian(total_barang);
-
-            },
-            error: function(xhr) {
-                console.log('Error retrieving session data');
-            }
-        });
-    }
-    function updateCartItem(id_barang, qty, url) {
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id_barang: id_barang,
-                qty: qty,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                var pesan = 'data berhasil diubah';
-                toaster(pesan);
-                getdata();
-            },
-            error: function(xhr) {
-             alert('gagal update data');
-         }
-     });
+      // Save cart
+    function saveCart() {
+        sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
     }
 
-    function removeFromCart(id_barang, url) {
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id_barang: id_barang,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-               location.reload(true);
-               var pesan = 'data berhasil di hapus';
-               toaster(pesan);
-               getdata();
-           },
-           error: function(xhr) {
-           }
-       });
+        // Load cart
+    function loadCart() {
+        cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
     }
+    if (sessionStorage.getItem("shoppingCart") != null) {
+        loadCart();
+    }
+
+
+      // =============================
+      // Public methods and propeties
+      // =============================
+    var obj = {};
+
+      // Add to cart
+    obj.addItemToCart = function(name, price, id,count) {
+     for(var item in cart) {
+      if(cart[item].name === name) {
+        cart[item].count ++;
+        saveCart();
+        return;
+    }
+}
+var item = new Item(name, price,id, count);
+cart.push(item);
+saveCart();
+}
+      // Set count from item
+obj.setCountForItem = function(name, count) {
+    for(var i in cart) {
+      if (cart[i].name === name) {
+        cart[i].count = count;
+        break;
+    }
+}
+};
+      // Remove item from cart
+obj.removeItemFromCart = function(name) {
+  for(var item in cart) {
+    if(cart[item].name === name) {
+      cart[item].count --;
+      if(cart[item].count === 0) {
+        cart.splice(item, 1);
+    }
+    break;
+}
+}
+saveCart();
+}
+
+      // Remove all items from cart
+obj.removeItemFromCartAll = function(name) {
+    for(var item in cart) {
+      if(cart[item].name === name) {
+        cart.splice(item, 1);
+        break;
+    }
+}
+saveCart();
+}
+
+      // Clear cart
+obj.clearCart = function() {
+    cart = [];
+    saveCart();
+}
+
+      // Count cart 
+obj.totalCount = function() {
+    var totalCount = 0;
+    for(var item in cart) {
+      totalCount += cart[item].count;
+  }
+  return totalCount;
+}
+
+      // Total cart
+obj.totalCart = function() {
+    var totalCart = 0;
+    for(var item in cart) {
+      totalCart += cart[item].price * cart[item].count;
+  }
+//   const formattedNumber = totalCart.toLocaleString('id-ID', {
+//   style: 'currency',
+//   currency: 'IDR',
+// }).replace(/,00/g, "");
+  return totalCart;
+}
+
+      // List cart
+obj.listCart = function() {
+    var cartCopy = [];
+    for(i in cart) {
+      item = cart[i];
+      itemCopy = {};
+      for(p in item) {
+        itemCopy[p] = item[p];
+
+    }
+    itemCopy.total = Number(item.price * item.count).toFixed(2);
+    cartCopy.push(itemCopy)
+}
+return cartCopy;
+}
+
+      // cart : Array
+      // Item : Object/Class
+      // addItemToCart : Function
+      // removeItemFromCart : Function
+      // removeItemFromCartAll : Function
+      // clearCart : Function
+      // countCart : Function
+      // totalCart : Function
+      // listCart : Function
+      // saveCart : Function
+      // loadCart : Function
+return obj;
+})();
+
+function rupiahformat(num){
+    var formattedNumber = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(num);
+    formattedNumber = formattedNumber.replace(/\,00$/, '');
+    return formattedNumber;
+}
+
+function displayCart() {
+  var cartArray = shoppingCart.listCart();
+  var output = "";
+  for(var i in cartArray) {
+    output += '<div class="col-12 col-lg-12 mt-3">' +
+    '<p class="fs-16px">'+ (parseInt(i)+ 1)+ '.' + cartArray[i].name +'</p>'+
+    '</div><div class="col-12 col-lg-5 mt-3 pt-0">'+
+    '<p class="fs-16px">'+rupiahformat(cartArray[i].total)+'</p>'+
+    '</div><div class="col-12 col-lg-7"><div class="form-group mt-3"><div class="form-control-wrap number-spinner-wrap">'+            
+    "<button class='minus-item btn btn-icon btn-primary number-spinner-btn number-minus' data-nama='"+ cartArray[i].name + "'><em class='icon ni ni-minus'></em></button>"+
+    '<input type="number" class="form-control border-primary number-spinner" disabled value="'+cartArray[i].count  + '">' +
+    "<button class='plus-item btn btn-icon btn-primary number-spinner-btn number-plus' data-nama='"+cartArray[i].name+"'><em class='icon ni ni-plus'></em></button>" +
+    '</div></div></div>';
+
+}
+$('#show-cart').html(output);
+$('.total-cart').html('Total Harga:'+ shoppingCart.totalCart().toLocaleString('id-ID', {style: 'currency',currency: 'IDR',}).replace(/,00/g, ""));
+$('.total-count').html('Jumlah Barang: ' + shoppingCart.totalCount() + ' pcs');
+$('#total-harga').val(shoppingCart.totalCart());
+// console.log();
+}
+
+    // *****************************************
+    // Triggers / Events
+    // ***************************************** 
+    // Add item
+$('.imgbarang').click(function(event) {
+  event.preventDefault();
+  var name = $(this).data('nama').replace("'"," ");
+  var price = Number($(this).data('harga'));
+  var id = $(this).data('id');
+  shoppingCart.addItemToCart(name, price,id, 1);
+  displayCart();
+  checkscroll();
+});
+
+    // Clear items
+$('.clear-cart').click(function() {
+  shoppingCart.clearCart();
+  displayCart();
+  checkscroll();
+});
+
+    // Delete item button
+
+$('#show-cart').on("click", ".delete-item", function(event) {
+  var name = $(this).data('nama')
+  shoppingCart.removeItemFromCartAll(name);
+  displayCart();
+})
+
+
+    // -1
+$('#show-cart').on("click", ".minus-item", function(event) {
+  var name = $(this).data('nama')
+  shoppingCart.removeItemFromCart(name);
+  displayCart();
+  checkscroll();
+})
+    // +1
+$('#show-cart').on("click", ".plus-item", function(event) {
+  var name = $(this).data('nama')
+  shoppingCart.addItemToCart(name);
+  displayCart();
+})
+
+    // Item count input
+$('#show-cart').on("change", ".item-count", function(event) {
+ var name = $(this).data('nama');
+ var count = Number($(this).val());
+ shoppingCart.setCountForItem(name, count);
+ displayCart();
+});
+
+displayCart();
 </script>
 @endsection

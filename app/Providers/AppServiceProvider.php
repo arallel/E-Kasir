@@ -28,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
          Paginator::defaultView('vendor.pagination.default'); 
         Paginator::defaultSimpleView('vendor.pagination.default');
-        // JsonResource::withoutWrapping();
+        JsonResource::withoutWrapping();
     }
 }

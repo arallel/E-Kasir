@@ -27,10 +27,15 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'password' => ['required'],
         ];
     }
+    public function messages()
+    {
+    return [
+        // 'password.min' => 'Password Harus Minimal 6',
+    ];
+     }
 
     /**
      * Attempt to authenticate the request's credentials.

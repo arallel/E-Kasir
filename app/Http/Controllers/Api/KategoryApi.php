@@ -13,10 +13,12 @@ class KategoryApi extends Controller
      public function index()
     {
         $datakategory = kategory::select('nama_kategory','id_kategory')->paginate(10);
-        return KategoryResource::collection($datakategory);
-        // return response()->json(['data' => $datakategory], 200);
-    }
-
+         if(count($datakategory) == 0){
+          return response()->json(['message' => 'Tidak Ada Data'],401);
+         }else{
+          return response()->json(KategoryResource::collection($datakategory));
+         }
+     }
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +32,7 @@ class KategoryApi extends Controller
         ]);
 
         if ($data) {
-            return response()->json(['message' => 'Data Berhasil Disimpan'], 201);
+            return response()->json(['message' => 'Data Berhasil Ditambahkan','data' =>new KategoryResource($data)], 200);
         } else {
             return response()->json(['message' => 'Gagal Menyimpan Data'], 400);
         }        
@@ -39,7 +41,7 @@ class KategoryApi extends Controller
     public function show($id)
     {
         $data = kategory::findOrFail($id);
-        return response()->json(['data' => $data], 200);
+        return response()->json(new KategoryResource($data), 200);
     }
 
     public function update(Request $request,$id)
@@ -57,7 +59,7 @@ class KategoryApi extends Controller
         ]);
 
         if ($data) {
-            return response()->json(['message' => 'Data Berhasil Disimpan'], 200);
+            return response()->json(['message' => 'Data Berhasil Diubah','data' =>new KategoryResource($data)], 200);
         } else {
             return response()->json(['message' => 'Gagal Menyimpan Data'], 400);
         }  
@@ -75,6 +77,10 @@ class KategoryApi extends Controller
         $datakategory = kategory::select('nama_kategory','id_kategory')
             ->where('nama_kategory','like','%'.$request->search.'%')
             ->paginate(10);
-        return response()->json(['data' => $datakategory], 200);
+        if(count($datakategory) == 0){
+          return response()->json(['message' => 'Tidak Ada Data'],401);
+         }else{
+          return response()->json(KategoryResource::collection($datakategory));
+         }
     }
 }

@@ -14,20 +14,22 @@ class DatabarangApi extends Controller
 {
     public function index()
     {
-      $databarang = Databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang',
-      'status_barang','barcode','id_kategory','id_barang')->paginate(10);
-        return DatabarangResource::collection($databarang);
-    }
-    public function show($databarang)
-    {
-        $databarang = databarang::with('kategory')->findOrFail($databarang);
-        return new DatabarangResource($databarang);
-    }
-    public function store(Request $request)
-    {
-        if ($request->foto_barang == null) {
-            $validate = $request->safe()->except(['foto_barang']);
-            $data = databarang::create([
+      $databarang = Databarang::with('kategory')->get();
+       if(count($databarang) == 0){
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+       }else{
+        return response()->json(DatabarangResource::collection($databarang));
+       }
+  }
+  public function show($databarang)
+  {
+    $databarang = databarang::with('kategory')->findOrFail($databarang);
+    return new DatabarangResource($databarang);
+}
+public function store(Request $request)
+{
+    if ($request->foto_barang == null) {
+        $data = databarang::create([
             'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
@@ -35,117 +37,127 @@ class DatabarangApi extends Controller
             'status_barang' => 'aktif',
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
-            ]);
-        } else {
-             $validate = $request->validated();
-             $data = databarang::create([
-            'nama_barang' => $request->nama_barang,
-            'foto_barang' => $request->file('foto_barang')->store('images'),
-            'stok' => $request->stok,
-            'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
-            'barcode' => $request->barcode,
-            'harga_barang' => $request->harga_barang,
-           ]);
-        }
-         if ($data) {
-           return new DatabarangResource($data);
-        } else {
-            return response()->json(['message' => 'Gagal Menambahkan Barang'], 500);
-        }
-        
-    }
-    public function update(ProductRequest $request, $databarang)
-    {
-        if ($request->foto_barang == null) {
-            $validate = $request->safe()->except(['barcode','foto_barang']);
-            $validatedData = $request->validate($request->rules($databarang));
-            $data = databarang::findOrFail($databarang);
-            $data->update([
-            'nama_barang' => $request->nama_barang,
-            'stok' => $request->stok,
-            'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
-            'barcode' => $request->barcode,
-            'harga_barang' => $request->harga_barang,
-            ]);
-        } else {
-                 $validate = $request->safe()->except(['barcode']);
-                 $validatedData = $request->validate($request->rules($databarang));
-             $data = databarang::findOrFail($databarang);
-            Storage::delete($data->foto_barang);
-            $data->update([
-            'nama_barang' => $request->nama_barang,
-            'foto_barang' => $request->file('foto_barang')->store('images'),
-            'stok' => $request->stok,
-            'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
-            'barcode' => $request->barcode,
-            'harga_barang' => $request->harga_barang,
-           ]);
-        }
-          if ($data) {
-           return new DatabarangResource($data);
-        } else {
-            return response()->json(['message' => 'Gagal Update Data Barang'], 500);
-        }
-    }
-    public function destroy($databarang)
-    {
+            'harga_pembelian' => $request->harga_pembelian,
+        ]);
+    } else {
+       $data = databarang::create([
+        'id_barang' => Str::uuid()->toString(),
+        'nama_barang' => $request->nama_barang,
+        'foto_barang' => $request->file('foto_barang')->store('images'),
+        'stok' => $request->stok,
+        'id_kategory' => $request->id_kategory,
+        'status_barang' => 'aktif',
+        'barcode' => $request->barcode,
+        'harga_barang' => $request->harga_barang,
+        'harga_pembelian' => $request->harga_pembelian,
+    ]);
+   }
+   if ($data) {
+     return new DatabarangResource($data);
+ } else {
+    return response()->json(['message' => 'Gagal Menambahkan Barang'], 401);
+}
+
+}
+public function update(Request $request, $databarang)
+{
+    if ($request->foto_barang == null) {
         $data = databarang::findOrFail($databarang);
-        if ($data->foto_barang != null) {
+        $data->update([
+            'nama_barang' => $request->nama_barang,
+            'stok' => $request->stok,
+            'id_kategory' => $request->id_kategory,
+            'status_barang' => $request->status_barang,
+            'barcode' => $request->barcode,
+            'harga_barang' => $request->harga_barang,
+            'harga_pembelian' => $request->harga_pembelian,
+        ]);
+    } else {
+       $data = databarang::findOrFail($databarang);
+       Storage::delete($data->foto_barang);
+       $data->update([
+        'nama_barang' => $request->nama_barang,
+        'foto_barang' => $request->file('foto_barang')->store('images'),
+        'stok' => $request->stok,
+        'id_kategory' => $request->id_kategory,
+        'status_barang' => $request->status_barang,
+        'barcode' => $request->barcode,
+        'harga_barang' => $request->harga_barang,
+        'harga_pembelian' => $request->harga_pembelian,
+    ]);
+   }
+   if ($data) {
+     return new DatabarangResource($data);
+ } else {
+    return response()->json(['message' => 'Gagal Update Data Barang'], 401);
+}
+}
+public function destroy($databarang)
+{
+    $data = databarang::findOrFail($databarang);
+    if ($data->foto_barang != null) {
         Storage::delete($data->foto_barang);
         $data->delete();
-        }else{
-            $data->delete();
-        }
-        if ($data) {
-            return response()->json(['message' => 'Barang Telah Dihapus'], 200);
-        } else {
-            return response()->json(['message' => 'Gagal Hapus Data Barang'], 500);
-        }
+    }else{
+        $data->delete();
     }
-    public function filterstatus(Request $request)
-    {
-        if ($request->status == 'aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','aktif')->paginate(10);
-            return response()->json(compact('databarang'));
+    if ($data) {
+        return response()->json(['message' => 'Barang Telah Dihapus'], 200);
+    } else {
+        return response()->json(['message' => 'Gagal Hapus Data Barang'], 401);
+    }
+}
+public function filterstatus(Request $request)
+{
 
-        } elseif($request->status == 'tidak_aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('status_barang','tidak_aktif')->paginate(10);
-            return response()->json(compact('databarang'));
-
-        }elseif($request->status == 'stok_kosong'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->where('stok','0')->paginate(10);
-            return response()->json(compact('databarang'));
-
-        }elseif($request->status == 'semua'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')->paginate(10);
-            return response()->json(compact('databarang'));
-        }else
-        {
-            return response()->json(['message'=>'gagal melakukan query']);
-        }
+    if ($request->status == 'aktif') {
+        $databarang = databarang::with('kategory')
+                    ->where('status_barang','aktif')
+                    ->get();
+                    // dd($databarang);
+    } 
+    if($request->status == 'tidak_aktif') {
+        $databarang = databarang::with('kategory')
+               ->where('status_barang','tidak_aktif')
+               ->get();
     }
 
-    public function search(Request $request)
-    {
-        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang')
-            ->where('nama_barang','like','%'.$request->search.'%')
-            ->Orwhere('stok',$request->search)
-            
-            ->paginate(10);
-        return response()->json(compact('databarang'));
+    if($request->status == 'stok_kosong'){
+        $databarang = databarang::with('kategory')
+               ->where('stok','0')
+               ->get();
     }
-    public function filterkategory(Request $request)
+    if($request->status == 'semua'){
+        $databarang = databarang::with('kategory')->get();    
+    }
+    if(is_array($databarang) && empty($databarang) || count($databarang) == 0){
+        return response()->json(['message'=> 'Tidak Ada Data'],401);
+    }else{
+        return response()->json(DatabarangResource::collection($databarang));
+    }
+}
+
+public function search(Request $request)
 {
     $databarang = databarang::with('kategory')
-                    ->select('nama_barang', 'foto_barang', 'stok', 'harga_barang', 'status_barang', 'barcode', 'id_kategory', 'id_barang')
-                    ->where('id_kategory', $request->filter)
-                    
-                    ->paginate(10);
-    return response()->json([
-        'databarang' => $databarang,
-    ]);
+    ->where('nama_barang','like','%'.$request->search.'%')
+    ->Orwhere('stok',$request->search)
+    ->get();
+      if(count($databarang) == 0){
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+    }else{
+     return response()->json(DatabarangResource::collection($databarang));
+    }
+}
+public function filterkategory(Request $request)
+{
+    $databarang = databarang::with('kategory')
+    ->where('id_kategory', $request->filter)
+    ->get();
+    if(count($databarang) == 0){
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+    }else{
+     return response()->json(DatabarangResource::collection($databarang));
+    }
 }
 }

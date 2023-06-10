@@ -6,8 +6,10 @@ fitur transaksi
 -melakukan transaksi item 
 -apabila memiliki fitur diskon maka sebelum transaksi akan mengecek apakah 
 sebuah item akan memiliki diskon yang sedang aktif apa tidak
+ketika input jumlah uang apabila angka dari total - jumlah uang belum mencapai 0 maka button tidak dapat di reset
 
 //transaksi field
+
 no transaksi: INV-000001 
 tgl_transaksi : tgl now
 waktu: waktu now
@@ -61,6 +63,178 @@ membuat setting
  apabila tidak ada isinya atau null maka tidak akan menghitung pajak
 -input nama toko
 
+
+
+{{-- <script>
+    getdata();
+    $(document).ready(function () {
+        $('#harga').on('input', function () {
+            var barcode = $('#barcode').val().trim();
+            if (barcode == '') {
+                return;
+            }
+            var formData = $('#barcode_form').serialize();
+            $.ajax({
+                type: "POST",
+                url: "{{ route('Transaksi.store.session') }}",
+                data: formData,
+                success: function (data) {
+                    var pesan = 'data berhasil Ditambahkan';
+                    location.reload(true);
+                      $('#barcode').val('');
+                    toaster(pesan);
+                },
+                error: function (xhr, status, error) {
+                     var pesan = 'barang tidak ditemukan';
+                    toastergagal(pesan);
+                      $('#barcode').val('');
+                }
+            });        
+        });
+        $('.number-spinner-btn').click(function(event) {
+            event.preventDefault();
+            var input = $(this).parent().find('input');
+            var id_barang = input.data('id');
+            var harga_barang = input.data('harga');
+            var qty = parseInt(input.val());
+            var action = $(this).data('number');
+            if (action == 'tambah') {
+                qty++;
+            } else if (action == 'kurang') {
+                qty--;
+            }
+            if (qty > 0) {
+                updateCartItem(id_barang, qty, '{{ route('update.cart') }}');
+                getdata();
+            } else {
+                removeFromCart(id_barang, '{{ route('remove-from-cart') }}');
+                getdata();
+            }
+            input.val(qty);
+        });
+        $('input[name="jumlah_uang"]').on('blur', function() {
+            getdata();
+        });
+         $('.imgbarang').click(function (barcode) {
+            var barcode = $(this).data('barcode');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('Transaksi.store.session') }}",
+                data: {
+                    barcode:barcode,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (data) {
+                    var pesan = 'data berhasil Ditambahkan';
+                    location.reload(true);
+                    toaster(pesan);
+                },
+                error: function (xhr, status, error) {
+                    alert('error');
+                }
+            });     
+         });
+    });
+
+
+    function kembalian(total_barang){    
+        var jumlah_uang = $('input[name="jumlah_uang"]').val();
+        if(jumlah_uang){
+            var hitungkembalian = jumlah_uang - total_barang;
+            $('#kembalian').text('Rp.' + hitungkembalian.toLocaleString('id-ID'));
+        }
+    }
+    function toaster(pesan)
+    {
+        var mes = pesan;
+        toastr.clear();
+        NioApp.Toast(pesan, 'success', {
+          position: 'top-right',
+          showDuration: "100",
+          preventDuplicates: true,
+          progressBar: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut"
+      });
+    }
+    function toastergagal(pesan)
+    {
+        var mes = pesan;
+        toastr.clear();
+        NioApp.Toast(pesan, 'error', {
+          position: 'top-right',
+          showDuration: "100",
+          preventDuplicates: true,
+          progressBar: true,
+          showMethod: "fadeIn",
+          hideMethod: "fadeOut"
+      });
+    }
+
+    function getdata()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/get-session-data',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                var databarang = response;
+                var total_barang = 0;
+                $.each(databarang, function (index, barang) {
+                    var hitung = barang.harga_barang * barang.qty;
+                    total_barang += hitung;
+                });
+                $('#SubTotal').text('Rp.' + total_barang.toLocaleString('id-ID'));
+                $('#total').text('Rp.' + total_barang.toLocaleString('id-ID'));
+                kembalian(total_barang);
+
+            },
+            error: function(xhr) {
+                console.log('Error retrieving session data');
+            }
+        });
+    }
+    function updateCartItem(id_barang, qty, url) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id_barang: id_barang,
+                qty: qty,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                var pesan = 'data berhasil diubah';
+                toaster(pesan);
+                getdata();
+            },
+            error: function(xhr) {
+             alert('gagal update data');
+         }
+     });
+    }
+
+    function removeFromCart(id_barang, url) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id_barang: id_barang,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+               location.reload(true);
+               var pesan = 'data berhasil di hapus';
+               toaster(pesan);
+               getdata();
+           },
+           error: function(xhr) {
+           }
+       });
+    }
+</script> --}}
 
 
 

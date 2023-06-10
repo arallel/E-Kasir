@@ -43,11 +43,19 @@
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
-                                    <a href="{{ route('Diskon.index') }}" class="nk-menu-link">
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-percent"></em></span>
-                                        <span class="nk-menu-text">Diskon</span>
+                                        <span class="nk-menu-text">Diskon / Potongan</span>
                                     </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('potongan.index') }}" class="nk-menu-link"><span class="nk-menu-text">Potongan Harga</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('diskon.index') }}" class="nk-menu-link"><span class="nk-menu-text">Diskon Barang</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="{{ route('Transaksi.index') }}" class="nk-menu-link">

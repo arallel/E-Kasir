@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DiskonRequest extends FormRequest
+class potonganRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class DiskonRequest extends FormRequest
     {
         return [
             'id_barang' => 'required',
-            'nama_diskon' => 'required',
+            'nama_potongan' => 'required',
             'harga_potongan' => 'required|integer',
-            'tgl_awal_diskon' => 'required|date',
-            'tgl_akhir_diskon' => 'required|date',
+            'tgl_awal_potongan' => 'required|date',
+            'tgl_akhir_potongan' => 'required|date',
             'harga_setelah_potongan' => 'required|integer',
         ];
     }

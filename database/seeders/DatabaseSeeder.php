@@ -34,6 +34,6 @@ class DatabaseSeeder extends Seeder
             'level' => 'admin',
             'id_user' => Str::uuid()->toString(),
          ]);
-
+         $this->call(databarangseeder::class);
     }
 }
