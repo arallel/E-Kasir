@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
-            $table->uuid('id_total_transaksi')->primary();
-            $table->ForeignId('no_transaksi');
-            $table->decimal('total_pembayaran');
-            $table->ForeignId('id_user');
-            $table->decimal('total_kembalian');
+            $table->uuid('id_detail_transaksi')->primary();
+            $table->foreignUuid('id_barang');
+            $table->ForeignUuid('id_transaksi');
+            $table->string('qty');
+            $table->decimal('harga_item');
             $table->timestamps();
         });
     }

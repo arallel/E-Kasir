@@ -6,9 +6,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Softnio">
+    <meta name="author" content="Parallel">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <meta name="description" content="">
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="assets/images/favicon.png">
     <!-- Page Title  -->
@@ -176,7 +176,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
     <script src="{{ asset('./assets/js/bundle.js?ver=3.1.1') }}"></script>
     <script src="{{ asset('./assets/js/scripts.js?ver=3.1.1') }}"></script>
-    <script src="{{ asset('./assets/js/charts/chart-ecommerce.js?ver=3.1.1') }}"></script>
+    {{-- <script src="{{ asset('./assets/js/charts/chart-ecommerce.js?ver=3.1.1') }}"></script> --}}
+    <script src="{{ asset('assets/js/charts/chart-sales.js?ver=3.1.1') }}"></script>
+
 </body>
 
 </html>

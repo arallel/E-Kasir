@@ -21,6 +21,7 @@ class databarang extends Model
         'status_barang',
         'barcode',
         'harga_barang',
+        'harga_pembelian',
     ];
     public function kategory()
     {

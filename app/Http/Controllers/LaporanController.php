@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\total_transaksi;
 use Illuminate\Http\Request;
 
-class TotalTransaksiController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +40,10 @@ class TotalTransaksiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\total_transaksi  $total_transaksi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(total_transaksi $total_transaksi)
+    public function show($id)
     {
         //
     }
@@ -52,10 +51,10 @@ class TotalTransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\total_transaksi  $total_transaksi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(total_transaksi $total_transaksi)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +63,10 @@ class TotalTransaksiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\total_transaksi  $total_transaksi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, total_transaksi $total_transaksi)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +74,10 @@ class TotalTransaksiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\total_transaksi  $total_transaksi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(total_transaksi $total_transaksi)
+    public function destroy($id)
     {
         //
     }

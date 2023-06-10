@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Storage;
 
 class DatabarangResource extends JsonResource
 {
@@ -23,7 +24,8 @@ class DatabarangResource extends JsonResource
             'status_barang' => $this->status_barang,
             'barcode' => $this->barcode,
             'harga_barang' => $this->harga_barang,
-            'foto_barang' => $this->foto_barang,
+            'harga_pembelian' => $this->harga_pembelian,
+            'foto_barang' => ($this->foto_barang != null)? Storage::url($this->foto_barang) : 'assets/images/no-image.png',
         ];
 
     }

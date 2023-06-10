@@ -11,16 +11,14 @@ class diskon extends Model
     protected $table = 'diskon';
     protected $primaryKey = 'id_diskon';
     protected $fillable = [
-        'id_barang',
-        'nama_diskon',
-        'harga_potongan',
-        'tgl_awal_diskon',
-        'tgl_akhir_diskon',
+        'kode_promo',
+        'persen_diskon',
+        'tgl_mulai_promo',
+        'tgl_selesai_promo',
         'status_diskon',
-        'harga_setelah_potongan',
     ];
-    public function databarang()
-    {
-        return $this->belongsTo(databarang::class,'id_barang');
-    }
+    // public function databarang()
+    // {
+    //     return $this->belongsTo(databarang::class,'id_barang');
+    // }
 }
