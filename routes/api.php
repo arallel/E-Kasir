@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DatabarangApi;
 use App\Http\Controllers\Api\KategoryApi;
+use App\Http\Controllers\Api\AuthUserApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,4 +32,8 @@ Route::controller(DatabarangApi::class)->group(function () {
 Route::apiResource('Kategory',KategoryApi::class);
 Route::controller(KategoryApi::class)->group(function () {
     Route::get('Search/Kategory', 'search');
+});
+Route::controller(AuthUserApi::class)->group(function (){
+  Route::post('Login','Login');
+  Route::post('Logout','Logout');
 });

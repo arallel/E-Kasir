@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Hash;
+use Auth;   
+
+class AuthUserApi extends Controller
+{
+    public function Login(Request $request)
+    {
+      $request->validate([
+         'email' => 'required|email',
+         'password' => 'required',
+      ]);
+      $user = User::where('email', $request->email)->first();
+      if ($user && Hash::check($request->password, $user->password)) {
+         $token = $user->createToken('Kasirku-Token');
+         return response()->json([
+             'token' => $token->plainTextToken,
+         ]);
+      }
+      return response()->json(['error' => 'Email Atau Password Salah'], 401);
+    }
+    public function Logout(Request $request)
+    {
+       $user = Auth::guard('sanctum')->user();
+       $user->tokens()->delete();
+       return response()->json([
+         'message' => 'Berhasil Logout',
+       ],200);
+    }
+}
