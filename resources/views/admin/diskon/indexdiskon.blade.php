@@ -77,9 +77,6 @@
 											<span class="tb-lead text-center"></span>
 										</div>
 										<div class="nk-tb-col">
-											<span class="tb-lead text-center"></span>
-										</div>
-										<div class="nk-tb-col">
 											<span class="tb-lead text-center">Tidak Ada Data</span>
 										</div>
 									</div>
@@ -138,6 +135,19 @@
 									@endif  
 								</div>
 							</div>
+							<div class="card-inner">
+                            <div class="nk-block-between-md g-3">
+                                <div class="g">
+                                    {{ $data->links() }}
+                                </div>
+                                <div class="g">
+                                    @php
+                                        $total = DB::table('diskon')->count();
+                                    @endphp
+                                    <div>Total <strong>{{ $total }}</strong></div>
+                                </div><!-- .nk-block-between -->
+                            </div>
+                        </div>
 						</div>
 					</div>
 				</div>

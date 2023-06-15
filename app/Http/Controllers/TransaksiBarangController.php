@@ -11,21 +11,16 @@ use Illuminate\Support\Str;
 use DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use App\Http\Resources\databarangcollectionresource;
 
 
 class TransaksiBarangController extends Controller
     {
-            public function index()
-            {
-                $databarang = databarang::with('kategory')->get();
-                $datasementara = session('databarang');
-                return view('admin.transaksi.indextransaksi',compact('databarang','datasementara'));
-            }
-            public function coba(Request $request)
-            {
-              $test = Session::get('browserStorage', 'shoppingCart');
-              dd($test);
-          }
+        public function index()
+        {
+          $databarang = databarang::with('kategory','checkpotongan')->get();
+          return view('admin.transaksi.indextransaksi',compact('databarang'));
+        }
         public function store(Request $request)
         {
             $data = request()->all();
@@ -42,6 +37,7 @@ class TransaksiBarangController extends Controller
                 'tgl_transaksi' => Carbon::now()->format('Y-m-d') ,
                 'waktu_transaksi'=> Carbon::now()->format('H:i'), 
                 'total_pembayaran' => $data['total_harga'],
+                'uang_dibayarkan' => $data['uang_dibayarkan'],
                 'id_user' => Auth::user()->id_user,
                 'total_kembalian' => $data['kembalian'],
             ]); 
@@ -52,12 +48,11 @@ class TransaksiBarangController extends Controller
                     'id_detail_transaksi' => Str::uuid()->toString(),
                     'id_barang' => $datacart->id,
                     'id_transaksi' => $transaksi['id_transaksi'],
-                     // 'id_transaksi' => 'e8993a6b-329f-45d9-b333-54227f8f4daf',
                     'qty' => $datacart->count,
                     'harga_item' => $datacart->price,
                 ]);
 
-                //update stok barang
+                // //update stok barang
                 $updatestokbarang = databarang::where('id_barang',$datacart->id)->first();
                     $hitung = $updatestokbarang->stok - $datacart->count;
                     $updatestokbarang->update([
@@ -72,41 +67,7 @@ class TransaksiBarangController extends Controller
         }
             public function cetakstruk($id)
             {
-                $data = transaksi_barang::with('detailtransaksi','detailtransaksi.databarang')->findOrfail($id);
+                $data = transaksi_barang::with('detailtransaksi','user','detailtransaksi.databarang')->findOrfail($id);
                 return view('admin.transaksi.struk',compact('data'));
-            }
-
-            /**
-             * Show the form for editing the specified resource.
-             *
-             * @param  \App\Models\transaksi_barang  $transaksi_barang
-             * @return \Illuminate\Http\Response
-             */
-            public function edit(transaksi_barang $transaksi_barang)
-            {
-                //
-            }
-
-            /**
-             * Update the specified resource in storage.
-             *
-             * @param  \Illuminate\Http\Request  $request
-             * @param  \App\Models\transaksi_barang  $transaksi_barang
-             * @return \Illuminate\Http\Response
-             */
-            public function update(Request $request, transaksi_barang $transaksi_barang)
-            {
-                //
-            }
-
-            /**
-             * Remove the specified resource from storage.
-             *
-             * @param  \App\Models\transaksi_barang  $transaksi_barang
-             * @return \Illuminate\Http\Response
-             */
-            public function destroy(transaksi_barang $transaksi_barang)
-            {
-                //
             }
         }

@@ -12,6 +12,16 @@
 				{
 					"name": "Get Databarang",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -30,6 +40,16 @@
 				{
 					"name": "Store Barang",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -70,6 +90,12 @@
 									"type": "file",
 									"src": "/D:/unduh all  data/WhatsApp Image 2023-05-13 at 12.27.11.png",
 									"disabled": true
+								},
+								{
+									"key": "status_barang",
+									"value": "aktif",
+									"description": "aktif / tidak_aktif",
+									"type": "text"
 								}
 							]
 						},
@@ -89,6 +115,16 @@
 				{
 					"name": "Update Data",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -155,6 +191,16 @@
 				{
 					"name": "Delete Barang",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -172,90 +218,41 @@
 					"response": []
 				},
 				{
-					"name": "Search Barang",
+					"name": "Filter By Name,status,kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/search/databarang?search={nama_barang}",
+							"raw": "{{Url-web}}/api/filter?search=test&status_barang=&id_kategory=2",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"search",
-								"databarang"
+								"filter"
 							],
 							"query": [
 								{
 									"key": "search",
-									"value": "{nama_barang}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Filter Berdasarkan status barang",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/filter/databarang?status=semua",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"filter",
-								"databarang"
-							],
-							"query": [
-								{
-									"key": "status",
-									"value": "tidak_aktif",
-									"disabled": true
+									"value": "test"
 								},
 								{
-									"key": "status",
-									"value": "aktif",
-									"disabled": true
+									"key": "status_barang",
+									"value": ""
 								},
 								{
-									"key": "status",
-									"value": "semua"
-								},
-								{
-									"key": "status",
-									"value": "stok_kosong",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Filter Berdasarkan Kategory",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/filter/databarang/kategory?filter=1",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"filter",
-								"databarang",
-								"kategory"
-							],
-							"query": [
-								{
-									"key": "filter",
-									"value": "1"
+									"key": "id_kategory",
+									"value": "2"
 								}
 							]
 						}
@@ -265,6 +262,16 @@
 				{
 					"name": "Show Barang",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -289,6 +296,16 @@
 				{
 					"name": "Get Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -307,6 +324,16 @@
 				{
 					"name": "Store Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -335,6 +362,16 @@
 				{
 					"name": "Update Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -364,6 +401,16 @@
 				{
 					"name": "Delete Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -383,6 +430,16 @@
 				{
 					"name": "Search Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -408,6 +465,16 @@
 				{
 					"name": "Show Kategory",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -419,6 +486,110 @@
 								"api",
 								"Kategory",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Url-web}}/api/Login",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{Url-web}}/api/Logout",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"Logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/user",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"user"
 							]
 						}
 					},

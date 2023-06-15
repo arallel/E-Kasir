@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('transaksi_barang', function (Blueprint $table) {
             $table->uuid('id_transaksi')->primary();
-            $table->string('no_transaksi');
-            $table->decimal('total_pembayaran');
+            $table->string('no_transaksi');//no transaksi
+            $table->decimal('total_pembayaran');//total harga semua barang
+            $table->decimal('uang_dibayarkan');//uang yang dibayarkan oleh user
             $table->foreignUuid('id_user');
             $table->date('tgl_transaksi');
             $table->time('waktu_transaksi');
-            $table->decimal('total_kembalian');
+            $table->decimal('total_kembalian');//kembalian apabila ada sisa
             $table->timestamps();
         });
     }
