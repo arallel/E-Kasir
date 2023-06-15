@@ -8,7 +8,7 @@ use App\Models\diskon;
 class diskonController extends Controller
 {
     public function index(){
-        $data = diskon::all();
+        $data = diskon::paginate(10);
         return view('admin.diskon.indexdiskon',compact('data'));
     }
     public function create(){

@@ -39,7 +39,6 @@ class DatabarangController extends Controller
     public function store(ProductRequest $request)
     {
         if ($request->foto_barang == null) {
-            $validate = $request->safe()->except(['foto_barang']);
             $data = databarang::create([
             'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,
@@ -60,7 +59,6 @@ class DatabarangController extends Controller
                 ->withInput();
             }
         } else {
-             $validate = $request->validate();
              $data = databarang::create([
             'id_barang' => Str::uuid()->toString(),
             'nama_barang' => $request->nama_barang,

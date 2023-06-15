@@ -5,15 +5,6 @@
         .imgbarang {
             cursor: pointer;
         }
-        /*.imgbarang .disabled-card{
-            border-radius: 100%;
-            border-color: black;
-            height: 30px;
-            width: 30px;
-            background-color: black;
-            position: absolute;
-            left: 40%;
-        }*/
         .disabled-card{
              cursor: no-drop;
         }
@@ -72,21 +63,24 @@
                                                 <div class="card {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow" data-barcode="{{ $data->barcode }}"
                                                     data-stok="{{ $data->stok }}" data-nama="{{ $data->nama_barang }}"
                                                     data-foto="{{ $data->foto_barang }}" data-id="{{ $data->id_barang }}"
-                                                    data-harga="{{ $data->harga_barang }}"
-                                                    style="height: 15rem;">
-                                                    <div class="card-inner text-center">
-                                                        @if ($data->foto_barang == null)
-                                                        <img src="{{ asset('assets/images/no-image.png') }}" alt=""
-                                                        class="">
+                                                    data-harga="{{ ($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif')?$data->checkpotongan->harga_setelah_potongan : $data->harga_barang }}"
+                                                    >
+                                                    <div class="card-inner ">
+                                                       @if ($data->foto_barang == null)
+                                                        <img src="{{ asset('assets/images/no-image.png') }}" alt="" height="109,44" width="109,44">
                                                         @else
-                                                        {{-- <img src="storage/{{ $data->foto_barang }}" class=""
-                                                        alt=""> --}}
-                                                        <img width="80" height="80" src="{{ $data->foto_barang }}" class=""
-                                                        alt="">
+                                                        <img src="storage/{{ $data->foto_barang }}" class=""
+                                                        height="109,44" width="109,44">
                                                         @endif
-                                                        <h6 class="fw-medium">{{ Str::limit($data->nama_barang,30) }}</h6>
-                                                        <p class="text-muted mb-0">Stok : {{ $data->stok }}</p>
-                                                        <p class="text-muted mt-0">Harga : {{ $data->harga_barang }}</p>
+                                                        <h6 class=" mt-3">{{ Str::limit($data->nama_barang,20) }}</h6>
+                                                        <p class="fw-medium m-0">Stok:{{ $data->stok }}</p>
+                                                        <p class="fw-medium m-0">Rp.
+                                                            @if($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif')
+                                                            {{ number_format($data->checkpotongan->harga_setelah_potongan) }}<br><span class="badge bg-primary">Diskon</span>
+                                                            @else
+                                                            {{ number_format($data->harga_barang) }}
+                                                            @endif
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,13 +131,17 @@
                 <div class="modal-body">
                     <form action="{{ route('Transaksi.store') }}" method="post">
                         @csrf
-                        <input type="hidden" id="datastorageweb" name="datastorageweb">
-                        <input type="hidden" id="total-harga" name="total_harga">
+                        <input type="text" id="datastorageweb" name="datastorageweb">
+                        <input type="text" id="total-harga" name="total_harga">
                         <div class="form-group">
                             <label>Jumlah Uang Dibayarkan</label>
                             <input type="number" id="uang_dibayar" class="form-control" name="uang_dibayarkan">
                             <p class="text-danger ml-1" id="alert-text"></p>
-                        </div>
+                        </div> 
+                        {{-- <div class="form-group">
+                            <label>Diskon</label>
+                            <input type="text" class="form-control" name="diskon">
+                        </div> --}}
                         <div class="form-group" style="display: none;" id="display-kembalian">
                             <label>Kembalian</label>
                             <input type="text" class="form-control" id="kembalian_disabled" disabled>
@@ -161,7 +159,67 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.getElementById('datastorageweb').value = sessionStorage.getItem('shoppingCart');
+        console.log(sessionStorage.getItem('shoppingCart'));
+        const inputbarcode = document.getElementById('barcode');
+        const inputname = document.getElementById('nama_barang');
+        inputname.addEventListener('change',function(){
+            const value = this.value;
+              getListItemByName(value);
+        });
+        inputbarcode.addEventListener('change',function(){
+            const value = this.value;
+            getListItemByBarcode(value);
+        });
+         function getListItemByName(nama_barang) {
+           $.ajax({
+            url: "api/getitembyname",
+            method: "GET",
+            data: {
+              nama_barang: nama_barang
+            },
+             success: function(data) {
+                event.preventDefault();
+                if(data.nama_barang != null && data.harga_barang != null && data.id_barang != null){
+                    const name = data.nama_barang;
+                    const id = data.id_barang;
+                    const price = Number(data.harga_barang);
+                    shoppingCart.addItemToCart(name, price,id, 1);
+                    displayCart();
+                    checkscroll();
+                    inputbarcode.value = '';
+                }else{
+                    console.log('data null');
+                }
+             },
+             error: function(error) {
+             }
+           });
+         }
+        function getListItemByBarcode(barcode) {
+           $.ajax({
+            url: "api/getitembybarcode",
+            method: "GET",
+            data: {
+              barcode: barcode
+            },
+             success: function(data) {
+                event.preventDefault();
+                if(data.nama_barang != null && data.harga_barang != null && data.id_barang != null){
+                    const name = data.nama_barang;
+                    const id = data.id_barang;
+                    const price = Number(data.harga_barang);
+                    shoppingCart.addItemToCart(name, price,id, 1);
+                    displayCart();
+                    checkscroll();
+                    inputbarcode.value = '';
+                }else{
+                    console.log('data null');
+                }
+             },
+             error: function(error) {
+             }
+           });
+         }
         document.getElementById('uang_dibayar').addEventListener('input',function(){
             const totaluang = shoppingCart.totalCart();
             const text = document.getElementById('alert-text');
@@ -170,7 +228,6 @@
             const kembaliandisabled = document.getElementById("kembalian_disabled");
             let hitung = totaluang - parseInt(this.value);
             const format = hitung.toLocaleString('id-ID', {style: 'currency',currency: 'IDR',}).replace(/,00/g, "");
-            console.log(hitung);
             if(hitung == 0){
                 //uang pas
                 text.innerHTML = 'Jumlah Uang Yang Dibayarkan Pas';
@@ -197,7 +254,6 @@
              kembaliandisabled.value = '';
             displaykembalian.style.display = 'none';
         }
-
     });
         function checkscroll(){
             const cart = document.querySelector('.overflow-y-scroll-transaksi');
@@ -205,50 +261,26 @@
             const showcount = document.getElementById('show-count');
             const data = JSON.parse(sessionStorage.getItem("shoppingCart"));
             if(sessionStorage.getItem('shoppingCart') != null){
+                console.log(data.length);
                if(data.length >= 1){
-                cart.style.overflowY = 'scroll';
-                btn.style.display = 'block';
-                showcount.style.display = 'block';
-                cart.style.maxHeight = 'calc(100vh - 200px)';
+                  cart.style.overflowY = 'scroll';
+                  btn.style.display = 'block';
+                  showcount.style.display = 'block';
+                  cart.style.maxHeight = 'calc(100vh - 200px)';
+                }else{
+                  cart.style.overflowY = 'hidden';
+                  btn.style.display = 'none';
+                  showcount.style.display = 'none';
+                  cart.style.height = 'auto';
+                }
             }else{
                 cart.style.overflowY = 'hidden';
                 btn.style.display = 'none';
                 showcount.style.display = 'none';
                 cart.style.height = 'auto';
             }
-        }
-    }
+         }
     checkscroll();
-
-    $('#barcode').on("input", function(event) {
-        $.ajax({
-            url:'Transaksi/Input/Barang',
-            type:'POST',
-            headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         },
-         data:{
-            barcode:$(this).val()
-        },
-        success: function(response) {
-                // console.log(response);
-          event.preventDefault();
-          var name = response.nama_barang;
-          var price = Number(response.harga_barang);
-          if(typeof name === 'undefined' || price === null){
-             alert('tidak ada');
-         }else{
-          shoppingCart.addItemToCart(name, price, 1);
-          displayCart();
-          checkscroll();
-      }
-  },
-  error: function(xhr, status, error) {
-  }
-});
-
-    });
-
     var shoppingCart = (function() {
 
       cart = [];
@@ -410,6 +442,7 @@ $('#show-cart').html(output);
 $('.total-cart').html('Total Harga:'+ shoppingCart.totalCart().toLocaleString('id-ID', {style: 'currency',currency: 'IDR',}).replace(/,00/g, ""));
 $('.total-count').html('Jumlah Barang: ' + shoppingCart.totalCount() + ' pcs');
 $('#total-harga').val(shoppingCart.totalCart());
+document.getElementById('datastorageweb').value = sessionStorage.getItem('shoppingCart');
 // console.log();
 }
 

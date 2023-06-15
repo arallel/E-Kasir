@@ -27,4 +27,7 @@ class databarang extends Model
     {
         return $this->belongsTo(kategory::class, 'id_kategory','id_kategory');
     }
+    public function checkpotongan(){
+        return $this->hasOne(potongan::class,'id_barang','id_barang');
+    }
 }

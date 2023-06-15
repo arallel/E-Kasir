@@ -18,11 +18,16 @@ class transaksi_barang extends Model
         'tgl_transaksi',
         'waktu_transaksi',
         'total_pembayaran',
+        'uang_dibayarkan',
         'id_user',
         'total_kembalian',
     ];
     public function detailtransaksi()
     {
          return $this->hasMany(detail_transaksi::class,'id_transaksi');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'id_user','id_user');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\TransaksiBarangController;
 use App\Http\Controllers\potonganController;
 use App\Http\Controllers\UserDataController;
 use App\Http\Controllers\diskonController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +22,11 @@ use App\Http\Controllers\diskonController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::middleware(['auth'])->group(function () {
-    Route::view('dashboard','admin.dashboard')->name('dashboard');
+Route::middleware(['auth'])->group(function () {  
+//dashboard
+    Route::controller(DashboardController::class)->group(function(){
+        Route::get('dashboard','index')->name('dashboard');
+    });
 //databarang
 Route::resource('databarang',DatabarangController::class)->except(['delete']);
 Route::controller(DatabarangController::class)->group(function () {
@@ -56,7 +60,6 @@ Route::controller(potonganController::class)->group(function(){
 //transaksi
 Route::resource('Transaksi',TransaksiBarangController::class)->except(['delete']);
 Route::controller(TransaksiBarangController::class)->group(function(){
-   Route::get('coba','coba')->name('Transaksi.test');
    Route::post('Transaksi/Simpan/Barang','store')->name('Transaksi.store');
    Route::get('Cetak/Struk/{id}','cetakstruk')->name('cetak.struk');
 });

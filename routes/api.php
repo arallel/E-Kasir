@@ -20,20 +20,25 @@ use App\Http\Controllers\Api\AuthUserApi;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('databarang', DatabarangApi::class);
-Route::controller(DatabarangApi::class)->group(function () {
-    Route::get('filter/databarang', 'filterstatus');
-    Route::get('search/databarang', 'search')->name('api.databarang.search');
-    Route::get('filter/databarang/kategory', 'filterkategory');
-    Route::get('urut/databarang/A-Z','urutAZ');
-    Route::get('urut/databarang/Z-A','urutZA');
-});
-
-Route::apiResource('Kategory',KategoryApi::class);
-Route::controller(KategoryApi::class)->group(function () {
-    Route::get('Search/Kategory', 'search');
+Route::controller(DatabarangApi::class)->group(function (){
+  Route::get('getitembybarcode','getitembybarcode');
+  Route::get('getitembyname','getitembyname');
 });
 Route::controller(AuthUserApi::class)->group(function (){
-  Route::post('Login','Login');
-  Route::post('Logout','Logout');
+    Route::post('Login','Login');
+    Route::post('Logout','Logout');
+  });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::apiResource('databarang', DatabarangApi::class);
+  Route::controller(DatabarangApi::class)->group(function () {
+    Route::get('filter','filtersearch');
+    Route::get('urut/databarang/A-Z','urutAZ');
+    Route::get('urut/databarang/Z-A','urutZA');
+  });
+  Route::apiResource('Kategory',KategoryApi::class);
+  Route::controller(KategoryApi::class)->group(function () {
+    Route::get('Search/Kategory', 'search');
+  });
 });
+

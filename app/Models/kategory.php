@@ -17,4 +17,8 @@ class kategory extends Model
     {
         return $this->hasOne(databarang::class,'id_kategory');
     }
+    public function databarang()
+    {
+        return $this->hasMany(databarang::class,'id_kategory','id_kategory');
+    }
 }

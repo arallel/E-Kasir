@@ -79,7 +79,7 @@
                                     <div class="nk-tb-col tb-col-sm"><span>No</span></div>
                                     <div class="nk-tb-col text-center"><span>Nama Barang</span></div>
                                     <div class="nk-tb-col"><span>Barcode</span></div>
-                                    <div class="nk-tb-col"><span>Harga Barang</span></div>
+                                    <div class="nk-tb-col"><span>Harga Jual Barang</span></div>
                                     <div class="nk-tb-col"><span>Harga Pembelian</span></div>
                                     <div class="nk-tb-col"><span>Stok</span></div>
                                     <div class="nk-tb-col tb-col-md"><span>kategory</span></div>
@@ -128,7 +128,7 @@
                                                 <span class="tb-product">
                                                     @if ($barang->foto_barang == null)
                                                         <img src="{{ asset('assets/images/no-image.png') }}" alt=""
-                                                            class="thumb">
+                                                            class="thumb" style="height:3rem;">
                                                     @else
                                                         <img src="storage/{{ $barang->foto_barang }}" alt=""class="thumb" style="height:3rem;">
                                                             {{-- <img src="{{ $barang->foto_barang }}"class="thumb" style="height:3rem;"> --}}
@@ -280,7 +280,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="harga_barang">Harga Barang</label>
+                                        <label class="form-label" for="harga_barang">Harga Jual</label>
                                         <div class="form-control-wrap">
                                             <div class="form-text-hint">
                                                 <span class="overline-title">Rp</span>

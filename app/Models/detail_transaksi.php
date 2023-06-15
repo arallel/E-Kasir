@@ -27,4 +27,7 @@ class detail_transaksi extends Model
     {
          return $this->belongsTo(databarang::class,'id_barang');
     }
+    public function checkpotongan(){
+        return $this->hasOne(potongan::class,'id_barang','id_barang');
+    }
 }
