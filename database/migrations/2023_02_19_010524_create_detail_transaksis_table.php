@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('id_barang');
             $table->ForeignUuid('id_transaksi');
             $table->string('qty');
-            $table->decimal('harga_item');
+            $table->integer('harga_item');
             $table->timestamps();
         });
     }

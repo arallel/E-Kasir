@@ -218,48 +218,6 @@
 					"response": []
 				},
 				{
-					"name": "Filter By Name,status,kategory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/filter?search=test&status_barang=&id_kategory=2",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"filter"
-							],
-							"query": [
-								{
-									"key": "search",
-									"value": "test"
-								},
-								{
-									"key": "status_barang",
-									"value": ""
-								},
-								{
-									"key": "id_kategory",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Show Barang",
 					"request": {
 						"auth": {
@@ -283,6 +241,150 @@
 								"api",
 								"databarang",
 								"5d96bdfb-5dec-472c-bba2-eb842595742c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter status databarang",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/filter/databarang?status=aktif",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"filter",
+								"databarang"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "aktif",
+									"description": "aktif,tidak_aktif,stok_kosong,semua"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Databarang",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/search/databarang?search=test",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"search",
+								"databarang"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter By Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/filter/databarang/kategory?filter=2",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"filter",
+								"databarang",
+								"kategory"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "2",
+									"description": "id_category"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Urutkan Data Barang",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/urutkan/databarang?urutkan=desc",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"urutkan",
+								"databarang"
+							],
+							"query": [
+								{
+									"key": "urutkan",
+									"value": "desc",
+									"description": "asc,desc"
+								}
 							]
 						}
 					},

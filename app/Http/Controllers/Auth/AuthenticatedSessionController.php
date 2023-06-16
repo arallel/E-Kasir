@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\login_log;
 use Carbon\Carbon;
 use Hash;
+use Jenssegers\Agent\Facades\Agent;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,6 +30,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $browser = Agent::browser();
         $user = User::where('email',$request->email)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
@@ -38,7 +40,7 @@ class AuthenticatedSessionController extends Controller
             ]);
             $log = login_log::create([
                  'user_id' => Auth::user()->id_user,
-                'user_agent' => $request->header('User-Agent'),
+                'user_agent' => $browser,
                 'ip_address' => $request->ip(),
                 'login_at' => Carbon::now(),
             ]);    

@@ -64,8 +64,8 @@
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
-                                    <a href="{{ route('Transaksi.index') }}" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
+                                    <a href="{{ route('Catatan-transaksi.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-book"></em></span>
                                         <span class="nk-menu-text">Catatan Transaksi</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->

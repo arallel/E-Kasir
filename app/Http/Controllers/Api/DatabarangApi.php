@@ -119,32 +119,71 @@ public function destroy($databarang)
         return response()->json(['message' => 'Gagal Hapus Data Barang'], 401);
     }
  }
- public function filtersearch(Request $request){
-        $search = $request->search;
-        $status = $request->status_barang;
-        $id_category = $request->id_kategory;
-        // dd($search);
+ public function filterstatus(Request $request)
+{
 
-        $query = databarang::with('kategory');
-        $emptyQueries = true; // Flag to check if all queries are empty
-
-        if (!empty($search)) {
-            $query->where('nama_barang', 'like', '%' . $search . '%');
-            $emptyQueries = false;
-        }
-        if (!empty($status)) {
-            $query->where('status_barang', $status);
-            $emptyQueries = false;
-        }
-        if (!empty($id_category)) {
-            $query->where('id_kategory', $id_category);
-            $emptyQueries = false;
-        }
-        if ($emptyQueries) {
-            $results = []; 
-        } else {
-            $results = $query->get();
-        }
-        return response()->json(DatabarangResource::collection($results));
+    if ($request->status == 'aktif') {
+        $databarang = databarang::with('kategory')
+                    ->where('status_barang','aktif')
+                    ->get();
+                    // dd($databarang);
+    } 
+    if($request->status == 'tidak_aktif') {
+        $databarang = databarang::with('kategory')
+               ->where('status_barang','tidak_aktif')
+               ->get();
     }
+
+    if($request->status == 'stok_kosong'){
+        $databarang = databarang::with('kategory')
+               ->where('stok','0')
+               ->get();
+    }
+    if($request->status == 'semua'){
+        $databarang = databarang::with('kategory')->get();    
+    }
+    if(is_array($databarang) && empty($databarang) || count($databarang) == 0){
+        return response()->json(['message'=> 'Tidak Ada Data'],401);
+    }else{
+        return response()->json(DatabarangResource::collection($databarang));
+    }
+  }
+  public function search(Request $request)
+  {
+    $databarang = databarang::with('kategory')
+    ->where('nama_barang','like','%'.$request->search.'%')
+    ->Orwhere('stok',$request->search)
+    ->get();
+      if($request->search === null){
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+    }else{
+     return response()->json(DatabarangResource::collection($databarang));
+    }
+  }
+  public function filterkategory(Request $request)
+  {
+    $databarang = databarang::with('kategory')
+    ->where('id_kategory', $request->filter)
+    ->get();
+    if(count($databarang) == 0){
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+    }else{
+     return response()->json(DatabarangResource::collection($databarang));
+    }
+  }
+  public function urutkan(Request $request)
+  {
+    if($request->urutkan == 'asc'){
+       $data = databarang::with('kategory')->orderBy('nama_barang','asc')->get();
+    }
+    if($request->urutkan == 'desc'){
+        $data = databarang::with('kategory')->orderBy('nama_barang','desc')->get();
+    }
+
+    if($data){
+        return response()->json(DatabarangResource::collection($data));
+    }else{
+        return response()->json(['message' => 'Tidak Ada Data'],401);
+    }
+  }
 }

@@ -60,7 +60,7 @@
                                         <div class="row ">
                                             @foreach ($databarang as $data)
                                             <div class="col-12 col-md-4 mt-2">
-                                                <div class="card {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow" data-barcode="{{ $data->barcode }}"
+                                                <div class="card {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow"    data-barcode="{{ $data->barcode }}"
                                                     data-stok="{{ $data->stok }}" data-nama="{{ $data->nama_barang }}"
                                                     data-foto="{{ $data->foto_barang }}" data-id="{{ $data->id_barang }}"
                                                     data-harga="{{ ($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif')?$data->checkpotongan->harga_setelah_potongan : $data->harga_barang }}"
@@ -159,7 +159,6 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        console.log(sessionStorage.getItem('shoppingCart'));
         const inputbarcode = document.getElementById('barcode');
         const inputname = document.getElementById('nama_barang');
         inputname.addEventListener('change',function(){
@@ -183,7 +182,9 @@
                     const name = data.nama_barang;
                     const id = data.id_barang;
                     const price = Number(data.harga_barang);
-                    shoppingCart.addItemToCart(name, price,id, 1);
+                      const qtymax = data.stok;
+
+                    shoppingCart.addItemToCart(name, price,id, 1,qtymax);
                     displayCart();
                     checkscroll();
                     inputbarcode.value = '';
@@ -208,7 +209,9 @@
                     const name = data.nama_barang;
                     const id = data.id_barang;
                     const price = Number(data.harga_barang);
-                    shoppingCart.addItemToCart(name, price,id, 1);
+                      const qtymax = data.stok;
+
+                    shoppingCart.addItemToCart(name, price,id, 1,qtymax);
                     displayCart();
                     checkscroll();
                     inputbarcode.value = '';
@@ -261,7 +264,6 @@
             const showcount = document.getElementById('show-count');
             const data = JSON.parse(sessionStorage.getItem("shoppingCart"));
             if(sessionStorage.getItem('shoppingCart') != null){
-                console.log(data.length);
                if(data.length >= 1){
                   cart.style.overflowY = 'scroll';
                   btn.style.display = 'block';
@@ -281,16 +283,18 @@
             }
          }
     checkscroll();
+
     var shoppingCart = (function() {
 
       cart = [];
 
       // Constructor
-      function Item(name, price, id,count) {
+      function Item(name, price, id,count,qtymax) {
         this.name = name;
         this.price = price;
         this.count = count;
         this.id = id;
+        this.qtymax = qtymax;
     }
 
       // Save cart
@@ -313,15 +317,22 @@
     var obj = {};
 
       // Add to cart
-    obj.addItemToCart = function(name, price, id,count) {
+    obj.addItemToCart = function(name, price, id,count,qtymax) {
+        const check = sessionStorage.getItem('shoppingCart');
      for(var item in cart) {
       if(cart[item].name === name) {
-        cart[item].count ++;
+        if (cart[item].qtymax <= check.qty) {
+        console.log('Item already reached maximum quantity.');
+        return; // Tidak menambahkan data jika sudah mencapai atau melebihi qtymax
+      } else {
+        cart[item].count++;
         saveCart();
         return;
-    }
+      }
+
+     }
 }
-var item = new Item(name, price,id, count);
+var item = new Item(name, price,id, count,qtymax);
 cart.push(item);
 saveCart();
 }
@@ -433,7 +444,7 @@ function displayCart() {
     '<p class="fs-16px">'+rupiahformat(cartArray[i].total)+'</p>'+
     '</div><div class="col-12 col-lg-7"><div class="form-group mt-3"><div class="form-control-wrap number-spinner-wrap">'+            
     "<button class='minus-item btn btn-icon btn-primary number-spinner-btn number-minus' data-nama='"+ cartArray[i].name + "'><em class='icon ni ni-minus'></em></button>"+
-    '<input type="number" class="form-control border-primary number-spinner" disabled value="'+cartArray[i].count  + '">' +
+    '<input type="number" max="1" min="1" class="form-control border-primary number-spinner" disabled value="'+cartArray[i].count  + '">' +
     "<button class='plus-item btn btn-icon btn-primary number-spinner-btn number-plus' data-nama='"+cartArray[i].name+"'><em class='icon ni ni-plus'></em></button>" +
     '</div></div></div>';
 
@@ -452,10 +463,12 @@ document.getElementById('datastorageweb').value = sessionStorage.getItem('shoppi
     // Add item
 $('.imgbarang').click(function(event) {
   event.preventDefault();
+  const checkqty = sessionStorage.getItem('shoppingCart');
   var name = $(this).data('nama').replace("'"," ");
   var price = Number($(this).data('harga'));
   var id = $(this).data('id');
-  shoppingCart.addItemToCart(name, price,id, 1);
+  var qtymax = $(this).data('stok');
+  shoppingCart.addItemToCart(name, price,id, 1,qtymax);
   displayCart();
   checkscroll();
 });
