@@ -25,8 +25,8 @@ Route::controller(DatabarangApi::class)->group(function (){
   Route::get('getitembyname','getitembyname');
 });
 Route::controller(AuthUserApi::class)->group(function (){
-    Route::post('Login','Login');
-    Route::post('Logout','Logout');
+    Route::post('login','Login');
+    Route::post('logout','Logout');
   });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -36,9 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('urut/databarang/A-Z','urutAZ');
     Route::get('urut/databarang/Z-A','urutZA');
   });
-  Route::apiResource('Kategory',KategoryApi::class);
+  Route::apiResource('kategory',KategoryApi::class);
   Route::controller(KategoryApi::class)->group(function () {
-    Route::get('Search/Kategory', 'search');
+    Route::get('search/kategory', 'search');
   });
 });
 

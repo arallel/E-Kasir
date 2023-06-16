@@ -63,6 +63,12 @@
                                         <span class="nk-menu-text">Transaksi</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('Transaksi.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
+                                        <span class="nk-menu-text">Catatan Transaksi</span>
+                                    </a>
+                                </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-user"></em></span>
