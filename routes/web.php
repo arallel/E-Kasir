@@ -8,6 +8,7 @@ use App\Http\Controllers\potonganController;
 use App\Http\Controllers\UserDataController;
 use App\Http\Controllers\diskonController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CatatanTransaksi;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +25,9 @@ Route::get('/', function () {
 });
 Route::middleware(['auth'])->group(function () {  
 //dashboard
-    Route::controller(DashboardController::class)->group(function(){
-        Route::get('dashboard','index')->name('dashboard');
-    });
+Route::controller(DashboardController::class)->group(function(){
+    Route::get('dashboard','index')->name('dashboard');
+});
 //databarang
 Route::resource('databarang',DatabarangController::class)->except(['delete']);
 Route::controller(DatabarangController::class)->group(function () {
@@ -58,11 +59,13 @@ Route::controller(potonganController::class)->group(function(){
 });
 
 //transaksi
-Route::resource('Transaksi',TransaksiBarangController::class)->except(['delete']);
+Route::resource('Transaksi',TransaksiBarangController::class)->only(['index','store']);
 Route::controller(TransaksiBarangController::class)->group(function(){
    Route::post('Transaksi/Simpan/Barang','store')->name('Transaksi.store');
    Route::get('Cetak/Struk/{id}','cetakstruk')->name('cetak.struk');
 });
+//catatan transaksi
+Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','show']);
 
 //user data
 Route::resource('UserData',UserDataController::class)->except(['delete']);

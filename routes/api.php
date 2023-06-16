@@ -32,9 +32,10 @@ Route::controller(AuthUserApi::class)->group(function (){
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::apiResource('databarang', DatabarangApi::class);
   Route::controller(DatabarangApi::class)->group(function () {
-    Route::get('filter','filtersearch');
-    Route::get('urut/databarang/A-Z','urutAZ');
-    Route::get('urut/databarang/Z-A','urutZA');
+    Route::get('filter/databarang', 'filterstatus');
+    Route::get('search/databarang', 'search')->name('api.databarang.search');
+    Route::get('filter/databarang/kategory', 'filterkategory');
+    Route::get('urutkan/databarang','urutkan');
   });
   Route::apiResource('kategory',KategoryApi::class);
   Route::controller(KategoryApi::class)->group(function () {
