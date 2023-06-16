@@ -309,13 +309,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/Kategory",
+							"raw": "{{Url-web}}/api/kategory",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Kategory"
+								"kategory"
 							]
 						}
 					},
@@ -347,13 +347,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/Kategory",
+							"raw": "{{Url-web}}/api/kategory",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Kategory"
+								"kategory"
 							]
 						}
 					},
@@ -385,13 +385,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/Kategory/5",
+							"raw": "{{Url-web}}/api/kategory/5",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Kategory",
+								"kategory",
 								"5"
 							]
 						}
@@ -414,13 +414,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/Kategory/4",
+							"raw": "{{Url-web}}/api/kategory/4",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Kategory",
+								"kategory",
 								"4"
 							]
 						}
@@ -443,19 +443,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/Search/Kategory?search=test",
+							"raw": "{{Url-web}}/api/search/kategory?search=makanan",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Search",
-								"Kategory"
+								"search",
+								"kategory"
 							],
 							"query": [
 								{
 									"key": "search",
-									"value": "test"
+									"value": "makanan"
 								}
 							]
 						}
@@ -478,13 +478,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/Kategory/1",
+							"raw": "{{Url-web}}/api/kategory/1",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Kategory",
+								"kategory",
 								"1"
 							]
 						}
@@ -517,13 +517,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/Login",
+							"raw": "{{Url-web}}/api/login",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Login"
+								"login"
 							]
 						}
 					},
@@ -555,13 +555,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/Logout",
+							"raw": "{{Url-web}}/api/logout",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
-								"Logout"
+								"logout"
 							]
 						}
 					},

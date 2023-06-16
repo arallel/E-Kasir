@@ -18,9 +18,11 @@ class AuthUserApi extends Controller
       ]);
       $user = User::where('email', $request->email)->first();
       if ($user && Hash::check($request->password, $user->password)) {
+        $user->update(['status'=>'online']);
          $token = $user->createToken('Kasirku-Token');
          return response()->json([
              'token' => $token->plainTextToken,
+             'User' => $user
          ]);
       }
       return response()->json(['error' => 'Email Atau Password Salah'], 401);
@@ -28,6 +30,9 @@ class AuthUserApi extends Controller
     public function Logout(Request $request)
     {
        $user = Auth::guard('sanctum')->user();
+       $user->update([
+        'status'=>'offline'
+       ]);
        $user->tokens()->delete();
        return response()->json([
          'message' => 'Berhasil Logout',

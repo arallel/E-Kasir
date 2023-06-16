@@ -21,7 +21,6 @@ return new class extends Migration
             $table->enum('status',['online','offline'])->default('offline');
             $table->enum('status_akun',['aktif','diblokir','pending'])->default('pending');
             $table->enum('level',['admin','kasir','owner']);
-            $table->string('login_token')->nullable();
             $table->timestamps();
         });
     }
