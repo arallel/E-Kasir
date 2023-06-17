@@ -321,9 +321,12 @@
         const check = sessionStorage.getItem('shoppingCart');
      for(var item in cart) {
       if(cart[item].name === name) {
-        if (cart[item].qtymax <= check.qty) {
-        console.log('Item already reached maximum quantity.');
-        return; // Tidak menambahkan data jika sudah mencapai atau melebihi qtymax
+        if (cart[item].count == qtymax) {
+         toastr.clear();
+         NioApp.Toast('Barang Di Input Melebihi Stok Tersedia', 'error', {
+         position: 'top-right'
+        });
+        return;
       } else {
         cart[item].count++;
         saveCart();

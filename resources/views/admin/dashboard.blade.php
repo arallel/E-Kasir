@@ -6,10 +6,10 @@
         <div class="nk-block-head nk-block-head-sm">
             <div class="nk-block-between">
                 <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title">Overview</h3>
+                    <h3 class="nk-block-title page-title">Dashboard </h3>
                 </div><!-- .nk-block-head-content -->
                 <div class="nk-block-head-content">
-                    <div class="toggle-wrap nk-block-tools-toggle">
+                    {{-- <div class="toggle-wrap nk-block-tools-toggle">
                         <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
@@ -28,7 +28,7 @@
                                 <li class="nk-block-tools-opt"><a href="#" class="btn btn-primary"><em class="icon ni ni-reports"></em><span>Reports</span></a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div><!-- .nk-block-head-content -->
             </div><!-- .nk-block-between -->
         </div><!-- .nk-block-head -->
@@ -41,8 +41,8 @@
                                 <div class="card-inner">
                                     <div class="card-title-group align-start mb-2">
                                         <div class="card-title">
-                                            <h6 class="title">Sales Revenue</h6>
-                                            <p>In last 30 days revenue from subscription.</p>
+                                            <h6 class="title">Penjualan Mingguan</h6>
+                                            <p>Penjualan Selama Seminggu</p>
                                         </div>
                                         <div class="card-tools">
                                             <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Revenue from subscription"></em>
@@ -70,75 +70,136 @@
                             <div class="row g-gs">
                                 <div class="col-sm-6 col-lg-12 col-xxl-6">
                                     <div class="card">
-                                        <div class="card-inner">
-                                            <div class="card-title-group align-start mb-2">
-                                                <div class="card-title">
-                                                    <h6 class="title">Active Subscriptions</h6>
+                                        <div class="nk-ecwg nk-ecwg6">
+                                            <div class="card-inner">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Pendapatan Keseluruhan</h6>
+                                                    </div>
                                                 </div>
-                                                <div class="card-tools">
-                                                    <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Total active subscription"></em>
+                                                <div class="data">
+                                                    <div class="data-group">
+                                                        <div class="amount">Rp.{{ number_format($transaksi_barang->sum('total_pembayaran')) }}</div>
+                                                        <div class="nk-ecwg6-ck">
+                                                            <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
                                                 </div>
-                                            </div>
-                                            <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                                                <div class="nk-sale-data">
-                                                    <span class="amount">9.69K</span>
-                                                    <span class="sub-title"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>1.93%</span>since last month</span>
-                                                </div>
-                                                <div class="nk-sales-ck">
-                                                    <canvas class="sales-bar-chart" id="activeSubscription"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </div><!-- .card-inner -->
+                                        </div><!-- .nk-ecwg -->
                                     </div><!-- .card -->
                                 </div><!-- .col -->
                                 <div class="col-sm-6 col-lg-12 col-xxl-6">
                                     <div class="card">
-                                        <div class="card-inner">
-                                            <div class="card-title-group align-start mb-2">
-                                                <div class="card-title">
-                                                    <h6 class="title">Avg Subscriptions</h6>
+                                        <div class="nk-ecwg nk-ecwg6">
+                                            <div class="card-inner">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Pendapatan Harian</h6>
+                                                    </div>
                                                 </div>
-                                                <div class="card-tools">
-                                                    <em class="card-hint icon ni ni-help-fill" data-bs-toggle="tooltip" data-bs-placement="left" title="Daily Avg. subscription"></em>
+                                                <div class="data">
+                                                    <div class="data-group">
+                                                        <div class="amount">Rp.{{ number_format($transaksi_harian->sum('total_pembayaran')) }}</div>
+                                                        <div class="nk-ecwg6-ck">
+                                                            <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
                                                 </div>
-                                            </div>
-                                            <div class="align-end flex-sm-wrap g-4 flex-md-nowrap">
-                                                <div class="nk-sale-data">
-                                                    <span class="amount">346.2</span>
-                                                    <span class="sub-title"><span class="change up text-success"><em class="icon ni ni-arrow-long-up"></em>2.45%</span>since last week</span>
-                                                </div>
-                                                <div class="nk-sales-ck">
-                                                    <canvas class="sales-bar-chart" id="totalSubscription"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </div><!-- .card-inner -->
+                                        </div><!-- .nk-ecwg -->
                                     </div><!-- .card -->
                                 </div><!-- .col -->
                             </div><!-- .row -->
                         </div><!-- .col -->
                     </div><!-- .row -->
                 </div><!-- .col -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card card-full overflow-hidden">
+                        <div class="nk-ecwg nk-ecwg7 h-100">
+                            <div class="card-inner flex-grow-1">
+                                <div class="card-title-group mb-4">
+                                    <div class="card-title">
+                                        <h6 class="title">Order Statistics</h6>
+                                    </div>
+                                </div>
+                                <div class="nk-ecwg7-ck">
+                                    <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
+                                </div>
+                                <ul class="nk-ecwg7-legends">
+                                    <li>
+                                        <div class="title">
+                                            <span class="dot dot-lg sq" data-bg="#816bff"></span>
+                                            <span>Completed</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">
+                                            <span class="dot dot-lg sq" data-bg="#13c9f2"></span>
+                                            <span>Processing</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">
+                                            <span class="dot dot-lg sq" data-bg="#ff82b7"></span>
+                                            <span>Cancelled</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div><!-- .card-inner -->
+                        </div>
+                    </div><!-- .card -->
+                </div><!-- .col -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-inner">
+                            <div class="card-title-group mb-2">
+                                <div class="card-title">
+                                    <h6 class="title">Statistik Toko</h6>
+                                </div>
+                            </div>
+                            <ul class="nk-store-statistics">
+                                <li class="item">
+                                    <div class="info">
+                                        <div class="title">Transaksi</div>
+                                        <div class="count">{{ count($transaksi_barang) }}</div>
+                                    </div>
+                                    <em class="icon bg-primary-dim ni ni-cart"></em>
+                                </li>
+                                <li class="item">
+                                    <div class="info">
+                                        <div class="title">Jumlah Pengguna</div>
+                                        <div class="count">{{ $user }}</div>
+                                    </div>
+                                    <em class="icon bg-info-dim ni ni-users"></em>
+                                </li>
+                                <li class="item">
+                                    <div class="info">
+                                        <div class="title">Produk</div>
+                                        <div class="count">{{ $databarang }}</div>
+                                    </div>
+                                    <em class="icon bg-pink-dim ni ni-box"></em>
+                                </li>
+                                <li class="item">
+                                    <div class="info">
+                                        <div class="title">Category</div>
+                                        <div class="count">{{ $kategory }}</div>
+                                    </div>
+                                    <em class="icon bg-purple-dim ni ni-server"></em>
+                                </li>
+                            </ul>
+                        </div><!-- .card-inner -->
+                    </div><!-- .card -->
+                </div><!-- .col -->
                 <div class="col-xxl-6">
                     <div class="card h-100">
                         <div class="card-inner">
                             <div class="card-title-group align-start gx-3 mb-3">
                                 <div class="card-title">
-                                    <h6 class="title">Sales Overview</h6>
-                                    <p>In 30 days sales of product subscription. <a href="#">See Details</a></p>
-                                </div>
-                                <div class="card-tools">
-                                    <div class="dropdown">
-                                        <a href="#" class="btn btn-primary btn-dim d-none d-sm-inline-flex" data-bs-toggle="dropdown"><em class="icon ni ni-download-cloud"></em><span><span class="d-none d-md-inline">Download</span> Report</span></a>
-                                        <a href="#" class="btn btn-icon btn-primary btn-dim d-sm-none" data-bs-toggle="dropdown"><em class="icon ni ni-download-cloud"></em></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="link-list-opt no-bdr">
-                                                <li><a href="#"><span>Download Mini Version</span></a></li>
-                                                <li><a href="#"><span>Download Full Version</span></a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#"><em class="icon ni ni-opt-alt"></em><span>More Options</span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <h6 class="title">Pendapatan Bulanan</h6>
+                                    <p>Penjualan Barang Pada Bulan {bulan}.</p>
                                 </div>
                             </div>
                             <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
@@ -157,493 +218,75 @@
                 </div><!-- .col -->
                 <div class="col-xxl-8">
                     <div class="card card-full">
-                        <div class="card-inner">
+                        <div class="card-inner container">
                             <div class="card-title-group">
-                                <div class="card-title">
-                                    <h6 class="title"><span class="me-2">Transaction</span> <a href="#" class="link d-none d-sm-inline">See History</a></h6>
-                                </div>
-                                <div class="card-tools">
-                                    <ul class="card-tools-nav">
-                                        <li><a href="#"><span>Paid</span></a></li>
-                                        <li><a href="#"><span>Pending</span></a></li>
-                                        <li class="active"><a href="#"><span>All</span></a></li>
-                                    </ul>
+                                <div class="card-title mb-4">
+                                    <h4 class="title"><span class="me-2">Transaksi</span></h4>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-inner p-0 border-top">
-                            <div class="nk-tb-list nk-tb-orders">
-                                <div class="nk-tb-item nk-tb-head">
-                                    <div class="nk-tb-col"><span>Order No.</span></div>
-                                    <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
-                                    <div class="nk-tb-col tb-col-md"><span>Date</span></div>
-                                    <div class="nk-tb-col tb-col-lg"><span>Ref</span></div>
-                                    <div class="nk-tb-col"><span>Amount</span></div>
-                                    <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
-                                    <div class="nk-tb-col"><span>&nbsp;</span></div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#95954</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-avatar user-avatar-sm bg-purple">
-                                                <span>AB</span>
-                                            </div>
-                                            <div class="user-name">
-                                                <span class="tb-lead">Abu Bin Ishtiyak</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">02/11/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="tb-sub text-primary">SUB-2309232</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">4,596.75 <span>USD</span></span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
-                                    </div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Invoice</a></li>
-                                                    <li><a href="#">Print</a></li>
+                            <table class="datatable-init table table-tranx">
+                                <thead>
+                                    <tr class="tb-tnx-head">
+                                        <th class="tb-tnx-id"><span class="">Kode Invoice</span></th>
+                                        <th class="tb-tnx-info">
+                                            <span class="tb-tnx-desc d-none d-sm-inline-block">
+                                                <span>Kasir Bertugas</span>
+                                            </span>
+                                            <span class="tb-tnx-date d-md-inline-block d-none">
+                                                <span class="d-md-none">Date</span>
+                                                <span class="d-none d-md-block">
+                                                    <span>Tanggal Transaksi</span>
+                                                    <span>Jam Transaksi</span>
+                                                </span>
+                                            </span>
+                                        </th>
+                                        <th class="tb-tnx-amount">
+                                            <span class="tb-tnx-total">Uang Masuk</span>
+                                            <span class="tb-tnx-status d-none d-md-inline-block text-end">Aksi</span>
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($transaksi_barang as $transaksi)
+                                        <tr class="tb-tnx-item">
+                                            <td class="tb-tnx-id">
+                                                <a href="#"><span>{{ $transaksi->no_transaksi }}</span></a>
+                                            </td>
+                                            <td class="tb-tnx-info">
+                                                <div class="tb-tnx-desc">
+                                                    <span class="title">{{ $transaksi->user->nama_pengguna }}</span>
+                                                </div>
+                                                <div class="tb-tnx-date">
+                                                    <span class="date">{{ \Carbon\Carbon::parse($transaksi->tgl_transaksi)->locale('id')->format('d-F-Y') }}</span>
+                                                    <span class="date">{{  str_replace(":00", "", $transaksi->waktu_transaksi); }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="tb-tnx-amount">
+                                                <div class="tb-tnx-total">
+                                                    <span class="amount text-success">+Rp. {{ number_format($transaksi->total_pembayaran) }}</span>
+                                                </div>
+                                                <div class="tb-tnx-status">
+                                                   <ul class="nk-tb-actions gx-1">
+                                                    <li>
+                                                        <div class="drodown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-end">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li><a href="{{ route('cetak.struk',$transaksi->id_transaksi) }}"><em class="icon ni ni-file-text"></em><span>Cetak Struk</span></a></li>
+                                                                    <li><a href="{{ route('Catatan-transaksi.show',$transaksi->id_transaksi) }}"><em class="icon ni ni-eye"></em><span>Tampilkan Transaksi</span></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                 </ul>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#95850</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-avatar user-avatar-sm bg-azure">
-                                                <span>DE</span>
-                                            </div>
-                                            <div class="user-name">
-                                                <span class="tb-lead">Desiree Edwards</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">02/02/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="tb-sub text-primary">SUB-2309154</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">596.75 <span>USD</span></span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs bg-danger">Canceled</span>
-                                    </div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Remove</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#95812</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-avatar user-avatar-sm bg-warning">
-                                                <img src="./images/avatar/b-sm.jpg" alt="">
-                                            </div>
-                                            <div class="user-name">
-                                                <span class="tb-lead">Blanca Schultz</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">02/01/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="tb-sub text-primary">SUB-2309143</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">199.99 <span>USD</span></span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
-                                    </div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Invoice</a></li>
-                                                    <li><a href="#">Print</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#95256</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-avatar user-avatar-sm bg-purple">
-                                                <span>NL</span>
-                                            </div>
-                                            <div class="user-name">
-                                                <span class="tb-lead">Naomi Lawrence</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">01/29/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="tb-sub text-primary">SUB-2305684</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">1099.99 <span>USD</span></span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
-                                    </div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Invoice</a></li>
-                                                    <li><a href="#">Print</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="nk-tb-item">
-                                    <div class="nk-tb-col">
-                                        <span class="tb-lead"><a href="#">#95135</a></span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-sm">
-                                        <div class="user-card">
-                                            <div class="user-avatar user-avatar-sm bg-success">
-                                                <span>CH</span>
-                                            </div>
-                                            <div class="user-name">
-                                                <span class="tb-lead">Cassandra Hogan</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-md">
-                                        <span class="tb-sub">01/29/2020</span>
-                                    </div>
-                                    <div class="nk-tb-col tb-col-lg">
-                                        <span class="tb-sub text-primary">SUB-2305564</span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="tb-sub tb-amount">1099.99 <span>USD</span></span>
-                                    </div>
-                                    <div class="nk-tb-col">
-                                        <span class="badge badge-dot badge-dot-xs bg-warning">Due</span>
-                                    </div>
-                                    <div class="nk-tb-col nk-tb-col-action">
-                                        <div class="dropdown">
-                                            <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                <ul class="link-list-plain">
-                                                    <li><a href="#">View</a></li>
-                                                    <li><a href="#">Invoice</a></li>
-                                                    <li><a href="#">Notify</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-inner-sm border-top text-center d-sm-none">
                             <a href="#" class="btn btn-link btn-block">See History</a>
-                        </div>
-                    </div><!-- .card -->
-                </div><!-- .col -->
-                <div class="col-md-6 col-xxl-4">
-                    <div class="card card-full">
-                        <div class="card-inner border-bottom">
-                            <div class="card-title-group">
-                                <div class="card-title">
-                                    <h6 class="title">Recent Activities</h6>
-                                </div>
-                                <div class="card-tools">
-                                    <ul class="card-tools-nav">
-                                        <li><a href="#"><span>Cancel</span></a></li>
-                                        <li class="active"><a href="#"><span>All</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="nk-activity">
-                            <li class="nk-activity-item">
-                                <div class="nk-activity-media user-avatar bg-success"><img src="./images/avatar/c-sm.jpg" alt=""></div>
-                                <div class="nk-activity-data">
-                                    <div class="label">Keith Jensen requested to Widthdrawl.</div>
-                                    <span class="time">2 hours ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-activity-item">
-                                <div class="nk-activity-media user-avatar bg-warning">HS</div>
-                                <div class="nk-activity-data">
-                                    <div class="label">Harry Simpson placed a Order.</div>
-                                    <span class="time">2 hours ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-activity-item">
-                                <div class="nk-activity-media user-avatar bg-azure">SM</div>
-                                <div class="nk-activity-data">
-                                    <div class="label">Stephanie Marshall got a huge bonus.</div>
-                                    <span class="time">2 hours ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-activity-item">
-                                <div class="nk-activity-media user-avatar bg-purple"><img src="./images/avatar/d-sm.jpg" alt=""></div>
-                                <div class="nk-activity-data">
-                                    <div class="label">Nicholas Carr deposited funds.</div>
-                                    <span class="time">2 hours ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-activity-item">
-                                <div class="nk-activity-media user-avatar bg-pink">TM</div>
-                                <div class="nk-activity-data">
-                                    <div class="label">Timothy Moreno placed a Order.</div>
-                                    <span class="time">2 hours ago</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div><!-- .card -->
-                </div><!-- .col -->
-                <div class="col-md-6 col-xxl-4">
-                    <div class="card card-full">
-                        <div class="card-inner-group">
-                            <div class="card-inner">
-                                <div class="card-title-group">
-                                    <div class="card-title">
-                                        <h6 class="title">New Users</h6>
-                                    </div>
-                                    <div class="card-tools">
-                                        <a href="html/user-list-regular.html" class="link">View All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner card-inner-md">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-primary-dim">
-                                        <span>AB</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="lead-text">Abu Bin Ishtiyak</span>
-                                        <span class="sub-text">info@softnio.com</span>
-                                    </div>
-                                    <div class="user-action">
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner card-inner-md">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-pink-dim">
-                                        <span>SW</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="lead-text">Sharon Walker</span>
-                                        <span class="sub-text">sharon-90@example.com</span>
-                                    </div>
-                                    <div class="user-action">
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner card-inner-md">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-warning-dim">
-                                        <span>GO</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="lead-text">Gloria Oliver</span>
-                                        <span class="sub-text">gloria_72@example.com</span>
-                                    </div>
-                                    <div class="user-action">
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-inner card-inner-md">
-                                <div class="user-card">
-                                    <div class="user-avatar bg-success-dim">
-                                        <span>PS</span>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="lead-text">Phillip Sullivan</span>
-                                        <span class="sub-text">phillip-85@example.com</span>
-                                    </div>
-                                    <div class="user-action">
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger me-n1" data-bs-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-setting"></em><span>Action Settings</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-notify"></em><span>Push Notification</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- .card -->
-                </div><!-- .col -->
-                <div class="col-lg-6 col-xxl-4">
-                    <div class="card h-100">
-                        <div class="card-inner border-bottom">
-                            <div class="card-title-group">
-                                <div class="card-title">
-                                    <h6 class="title">Support Requests</h6>
-                                </div>
-                                <div class="card-tools">
-                                    <a href="#" class="link">All Tickets</a>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="nk-support">
-                            <li class="nk-support-item">
-                                <div class="user-avatar">
-                                    <img src="./images/avatar/a-sm.jpg" alt="">
-                                </div>
-                                <div class="nk-support-content">
-                                    <div class="title">
-                                        <span>Vincent Lopez</span><span class="badge badge-dot badge-dot-xs bg-warning ms-1">Pending</span>
-                                    </div>
-                                    <p>Thanks for contact us with your issues...</p>
-                                    <span class="time">6 min ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-support-item">
-                                <div class="user-avatar bg-purple-dim">
-                                    <span>DM</span>
-                                </div>
-                                <div class="nk-support-content">
-                                    <div class="title">
-                                        <span>Daniel Moore</span><span class="badge badge-dot badge-dot-xs bg-info ms-1">Open</span>
-                                    </div>
-                                    <p>Thanks for contact us with your issues...</p>
-                                    <span class="time">2 Hours ago</span>
-                                </div>
-                            </li>
-                            <li class="nk-support-item">
-                                <div class="user-avatar">
-                                    <img src="./images/avatar/b-sm.jpg" alt="">
-                                </div>
-                                <div class="nk-support-content">
-                                    <div class="title">
-                                        <span>Larry Henry</span><span class="badge badge-dot badge-dot-xs bg-success ms-1">Solved</span>
-                                    </div>
-                                    <p>Thanks for contact us with your issues...</p>
-                                    <span class="time">3 Hours ago</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div><!-- .card -->
-                </div><!-- .col -->
-                <div class="col-lg-6 col-xxl-4">
-                    <div class="card h-100">
-                        <div class="card-inner border-bottom">
-                            <div class="card-title-group">
-                                <div class="card-title">
-                                    <h6 class="title">Notifications</h6>
-                                </div>
-                                <div class="card-tools">
-                                    <a href="#" class="link">View All</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-inner">
-                            <div class="timeline">
-                                <h6 class="timeline-head">November, 2019</h6>
-                                <ul class="timeline-list">
-                                    <li class="timeline-item">
-                                        <div class="timeline-status bg-primary is-outline"></div>
-                                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                                        <div class="timeline-data">
-                                            <h6 class="timeline-title">Submitted KYC Application</h6>
-                                            <div class="timeline-des">
-                                                <p>Re-submitted KYC Application form.</p>
-                                                <span class="time">09:30am</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="timeline-item">
-                                        <div class="timeline-status bg-primary"></div>
-                                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                                        <div class="timeline-data">
-                                            <h6 class="timeline-title">Submitted KYC Application</h6>
-                                            <div class="timeline-des">
-                                                <p>Re-submitted KYC Application form.</p>
-                                                <span class="time">09:30am</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="timeline-item">
-                                        <div class="timeline-status bg-pink"></div>
-                                        <div class="timeline-date">13 Nov <em class="icon ni ni-alarm-alt"></em></div>
-                                        <div class="timeline-data">
-                                            <h6 class="timeline-title">Submitted KYC Application</h6>
-                                            <div class="timeline-des">
-                                                <p>Re-submitted KYC Application form.</p>
-                                                <span class="time">09:30am</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div><!-- .card -->
                 </div><!-- .col -->
