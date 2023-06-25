@@ -1,6 +1,6 @@
-    @extends('admin.layout.main')
-    @section('title', 'Transaksi')
-    @section('content')
+@extends('admin.layout.main')
+@section('title', 'Transaksi')
+@section('content')
     <style>
         .imgbarang {
             cursor: pointer;
@@ -71,6 +71,7 @@
                                                         @else
                                                         <img src="storage/{{ $data->foto_barang }}" class=""
                                                         height="109,44" width="109,44">
+                                                         {{-- <img src="{{ $data->foto_barang }}" class="" height="109,44" width="109,44"> --}}
                                                         @endif
                                                         <h6 class=" mt-3">{{ Str::limit($data->nama_barang,20) }}</h6>
                                                         <p class="fw-medium m-0">Stok:{{ $data->stok }}</p>
@@ -131,8 +132,8 @@
                 <div class="modal-body">
                     <form action="{{ route('Transaksi.store') }}" method="post">
                         @csrf
-                        <input type="text" id="datastorageweb" name="datastorageweb">
-                        <input type="text" id="total-harga" name="total_harga">
+                        <input type="hidden" id="datastorageweb" name="datastorageweb">
+                        <input type="hidden" id="total-harga" name="total_harga">
                         <div class="form-group">
                             <label>Jumlah Uang Dibayarkan</label>
                             <input type="number" id="uang_dibayar" class="form-control" name="uang_dibayarkan">
@@ -216,7 +217,10 @@
                     checkscroll();
                     inputbarcode.value = '';
                 }else{
-                    console.log('data null');
+                     toastr.clear();
+                     NioApp.Toast('Barang Tidak Tersedia Atau Barcode Tidak Tersedia', 'error', {
+                     position: 'top-right'
+                  });
                 }
              },
              error: function(error) {

@@ -16,12 +16,15 @@ return new class extends Migration
         Schema::create('transaksi_barang', function (Blueprint $table) {
             $table->uuid('id_transaksi')->primary();
             $table->string('no_transaksi');//no transaksi
+            $table->string('no_pesanan')->nullable();//no transaksi
+            $table->string('no_resi')->nullable();//no transaksi
             $table->integer('total_pembayaran');//total harga semua barang
-            $table->integer('uang_dibayarkan');//uang yang dibayarkan oleh user
+            $table->integer('uang_dibayarkan')->nullable();//uang yang dibayarkan oleh user
             $table->foreignUuid('id_user');
             $table->date('tgl_transaksi');
-            $table->time('waktu_transaksi');
-            $table->integer('total_kembalian');//kembalian apabila ada sisa
+            $table->time('waktu_transaksi')->nullable();
+            $table->integer('total_kembalian')->nullable();//kembalian apabila ada sisa
+            $table->enum('pembelian',['offline','online'])->default('offline');
             $table->timestamps();
         });
     }

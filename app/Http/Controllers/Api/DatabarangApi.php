@@ -18,8 +18,11 @@ class DatabarangApi extends Controller
     public function getitembybarcode(Request $request){
         $barcode = $request->barcode;
         $databarang = Databarang::with('checkpotongan','kategory')->where('barcode',$request->barcode)->first();
-        // return response()->json(['data' => $databarang]);
-        return response()->json(new databarangcollectionresource($databarang));
+        if($databarang != null){
+          return response()->json(new databarangcollectionresource($databarang));
+        }else{
+            return response()->json(['message' => 'data Kosong']);
+        }
     }
     public function getitembyname(Request $request){
         $nama_barang = $request->nama_barang;
@@ -42,9 +45,13 @@ class DatabarangApi extends Controller
 }
 public function store(Request $request)
 {
+    $lastbarang = databarang::orderBy('id_transaksi','asc')->count();
+            $prefix = 'A';
+            $lastInvoiceNumber = $lastbarang + 1; 
+            $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
     if ($request->foto_barang == null) {
         $data = databarang::create([
-            'id_barang' => Str::uuid()->toString(),
+            'id_barang' => $kodebarang,
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'id_kategory' => $request->id_kategory,
@@ -55,7 +62,7 @@ public function store(Request $request)
         ]);
     } else {
        $data = databarang::create([
-        'id_barang' => Str::uuid()->toString(),
+        'id_barang' => $kodebarang,
         'nama_barang' => $request->nama_barang,
         'foto_barang' => $request->file('foto_barang')->store('images'),
         'stok' => $request->stok,
@@ -121,21 +128,6 @@ public function destroy($databarang)
         return response()->json(['message' => 'Gagal Hapus Data Barang'], 401);
     }
  }
-  public function urutkan(Request $request)
-  {
-    if($request->urutkan == 'asc'){
-       $data = databarang::with('kategory')->orderBy('nama_barang','asc')->get();
-    }
-    if($request->urutkan == 'desc'){
-        $data = databarang::with('kategory')->orderBy('nama_barang','desc')->get();
-    }
-
-    if($data){
-        return response()->json(DatabarangResource::collection($data));
-    }else{
-        return response()->json(['message' => 'Tidak Ada Data'],401);
-    }
-  }
   public function filtersearch(Request $request)
 {
     $search = $request->search;
@@ -176,20 +168,32 @@ public function destroy($databarang)
     }
 
     if ($emptyQueries) {
-        $results = [];
+        $results = $query->orderBy('nama_barang',$orderBy)->get();
+         return response()->json([
+         DatabarangResource::collection($results),
+    ],404);
     } else {
         $results = $query->orderBy('nama_barang',$orderBy)->get();
-    }
-    return response()->json([
+         return response()->json([
         DatabarangResource::collection($results),
-    ]);
+       ]);
+    }
+   
 }
-public function chartpenjualan()
+    public function chartpenjualan()
     {
-        $startDate = Carbon::now()->subDays(30)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+        $datenow = Carbon::now();
 
-        $salesData = transaksi_barang::whereBetween('tgl_transaksi', [$startDate, $endDate])
+        $databulanan = transaksi_barang::whereBetween('tgl_transaksi', [$startDate, $endDate])
+            ->groupBy('tgl_transaksi')
+            ->orderBy('tgl_transaksi')
+            ->get([
+                DB::raw('DATE(tgl_transaksi) as date'),
+                DB::raw('SUM(total_pembayaran) as total')
+            ]);
+        $datamingguan = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->groupBy('tgl_transaksi')
             ->orderBy('tgl_transaksi')
             ->get([
@@ -197,16 +201,17 @@ public function chartpenjualan()
                 DB::raw('SUM(total_pembayaran) as total')
             ]);
 
-        $monthlyTotal = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        $total_bulanan = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->sum('total_pembayaran');
 
-        $weeklyTotal = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+        $total_mingguan = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->sum('total_pembayaran');
 
         return response()->json([
-            'data' => $salesData,
-            'total_bulanan' => $monthlyTotal,
-            'total_mingguan' => $weeklyTotal
+            'databulanan' => $databulanan,
+            'datamingguan' => $datamingguan,
+            'total_bulanan' => $total_bulanan,
+            'total_mingguan' => $total_mingguan
         ]);
     }
 }

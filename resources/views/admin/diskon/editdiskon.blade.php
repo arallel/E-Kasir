@@ -7,7 +7,7 @@
                 <div class="nk-block-head-content mb-3">
                     <h3 class="nk-block-title page-title ">Tambah Potongan Harga</h3>
                 </div><!-- .nk-block-head-content -->
-                <div class="col-12 col-lg-6">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-inner">
                             @if ($errors->any())
@@ -19,13 +19,13 @@
                             </div>
                             @endif
                             <div id="alert-container"></div>
-                            <div class="row">
                                 
                                 <form action="{{ route('diskon.update',$diskon->id_diskon) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('patch')
-                                <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 mt-2 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="kode_promo">Kode Promo</label>
                                         <div class="form-control-wrap">
@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-1">
+                                <div class="col-12 mt-2 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="persen_diskon">Jumlah Diskon Dalam Bentuk %</label>
                                         <div class="form-control-wrap">
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-1">
+                                <div class="col-12 mt-2 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="tgl_mulai_promo">Tanggal Dimulai Promo</label>
                                         <div class="form-control-wrap">
@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-1">
+                                <div class="col-12 mt-2 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="tgl_selesai_promo">Tanggal Selesai Promo</label>
                                         <div class="form-control-wrap">
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-1">
+                                <div class="col-12 mt-2 ">
                                     <div class="form-group">
                                         <label class="form-label" for="status_diskon">Status Diskon</label>
                                         <div class="form-control-wrap">
@@ -79,14 +79,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col col-md-2 col-lg-3 mt-3">
+                                    <div class="col-12 text-end mt-3">
                                         <a href="{{ route('diskon.index') }}" class="btn btn-secondary">Kembali</a> 
+                                        <button class="btn btn-success" >Update  Data</button>   
                                     </div>
-                                    <div class="col-6 col-md-6 col-lg-5 mt-3">
-                                        <button class="btn btn-success" >Simpan  Data</button>   
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>

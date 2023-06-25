@@ -39,7 +39,8 @@ class TransaksiBarangController extends Controller
                 'total_pembayaran' => $data['total_harga'],
                 'uang_dibayarkan' => $data['uang_dibayarkan'],
                 'id_user' => Auth::user()->id_user,
-                'total_kembalian' => $data['kembalian'],
+                'total_kembalian' => ($data['kembalian'] != null)?$data['kembalian']:0,
+                'pembelian' => 'offline',
             ]); 
 
             foreach ($datacarts as $datacart) {

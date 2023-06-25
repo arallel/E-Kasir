@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->uuid('id_detail_transaksi')->primary();
-            $table->foreignUuid('id_barang');
+            $table->string('id_barang');
+            $table->foreign('id_barang')->references('id_barang')->on('databarang');
             $table->ForeignUuid('id_transaksi');
             $table->string('qty');
             $table->integer('harga_item');

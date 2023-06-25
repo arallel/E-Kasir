@@ -51,12 +51,10 @@
                                     <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
                                         <div class="nk-sale-data-group flex-md-nowrap g-4">
                                             <div class="nk-sale-data">
-                                                <span class="amount">14,299.59 <span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>16.93%</span></span>
-                                                <span class="sub-title">This Month</span>
+                                                <span class="amount">Rp.{{ number_format($total_bulanan) }}</span>
                                             </div>
                                             <div class="nk-sale-data">
-                                                <span class="amount">7,299.59 <span class="change up text-success"><em class="icon ni ni-arrow-long-up"></em>4.26%</span></span>
-                                                <span class="sub-title">This Week</span>
+                                                <span class="amount">Rp.{{ number_format($total_mingguan) }}</span>
                                             </div>
                                         </div>
                                         <div class="nk-sales-ck sales-revenue">
@@ -84,7 +82,6 @@
                                                             <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
                                                         </div>
                                                     </div>
-                                                    <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
                                                 </div>
                                             </div><!-- .card-inner -->
                                         </div><!-- .nk-ecwg -->
@@ -106,7 +103,6 @@
                                                             <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
                                                         </div>
                                                     </div>
-                                                    <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
                                                 </div>
                                             </div><!-- .card-inner -->
                                         </div><!-- .nk-ecwg -->
@@ -116,40 +112,38 @@
                         </div><!-- .col -->
                     </div><!-- .row -->
                 </div><!-- .col -->
-                <div class="col-xxl-3 col-md-6">
-                    <div class="card card-full overflow-hidden">
-                        <div class="nk-ecwg nk-ecwg7 h-100">
-                            <div class="card-inner flex-grow-1">
-                                <div class="card-title-group mb-4">
-                                    <div class="card-title">
-                                        <h6 class="title">Order Statistics</h6>
+                <div class="col-xxl-4 col-md-8 col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-inner">
+                            <div class="card-title-group mb-2">
+                                <div class="card-title">
+                                    <h6 class="title">Top Penjualan Produk</h6>
+                                </div>
+                                <div class="card-tools">
+                                </div>
+                            </div>
+                            <ul class="nk-top-products">
+                                @foreach($top5item as $topitem)
+                                <li class="item">
+                                    <div class="thumb">
+                                        @if ($data->foto_barang == null)
+                                        <img src="{{ asset('assets/images/no-image.png') }}" alt="" >
+                                        @else
+                                        <img src="storage/{{ $data->foto_barang }}" >
+                                        @endif
                                     </div>
-                                </div>
-                                <div class="nk-ecwg7-ck">
-                                    <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
-                                </div>
-                                <ul class="nk-ecwg7-legends">
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#816bff"></span>
-                                            <span>Completed</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#13c9f2"></span>
-                                            <span>Processing</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="title">
-                                            <span class="dot dot-lg sq" data-bg="#ff82b7"></span>
-                                            <span>Cancelled</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div><!-- .card-inner -->
-                        </div>
+                                    <div class="info">
+                                        <div class="title">{{ $topitem->databarang->nama_barang }}</div>
+                                        <div class="price">Rp.{{ number_format($topitem->databarang->harga_barang) }}</div>
+                                    </div>
+                                    <div class="total">
+                                        <div class="amount">Rp.{{ $topitem->databarang->harga_barang * $topitem->total_qty}}</div>
+                                        <div class="count">Terjual {{ $topitem->total_qty }}</div>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div><!-- .card-inner -->
                     </div><!-- .card -->
                 </div><!-- .col -->
                 <div class="col-xxl-3 col-md-6">
@@ -199,15 +193,12 @@
                             <div class="card-title-group align-start gx-3 mb-3">
                                 <div class="card-title">
                                     <h6 class="title">Pendapatan Bulanan</h6>
-                                    <p>Penjualan Barang Pada Bulan {bulan}.</p>
+                                    <p>Penjualan Barang Pada Bulan {{ \Carbon\Carbon::now()->isoFormat('MMMM') }}.</p>
                                 </div>
                             </div>
                             <div class="nk-sale-data-group align-center justify-between gy-3 gx-5">
                                 <div class="nk-sale-data">
-                                    <span class="amount">$82,944.60</span>
-                                </div>
-                                <div class="nk-sale-data">
-                                    <span class="amount sm">1,937 <small>Subscribers</small></span>
+                                    <span class="amount" id="jumlahbulanan"></span>
                                 </div>
                             </div>
                             <div class="nk-sales-ck large pt-4">
@@ -227,9 +218,9 @@
                             <table class="datatable-init table table-tranx">
                                 <thead>
                                     <tr class="tb-tnx-head">
-                                        <th class="tb-tnx-id"><span class="">Kode Invoice</span></th>
+                                        <th class="tb-tnx-id"><span class="">No</span></th> <th class="tb-tnx-id"><span class="">Kode Invoice</span></th>
                                         <th class="tb-tnx-info">
-                                            <span class="tb-tnx-desc d-none d-sm-inline-block">
+                                            <span class="tb-tnx-desc ">
                                                 <span>Kasir Bertugas</span>
                                             </span>
                                             <span class="tb-tnx-date d-md-inline-block d-none">
@@ -249,14 +240,16 @@
                                         @foreach($transaksi_barang as $transaksi)
                                         <tr class="tb-tnx-item">
                                             <td class="tb-tnx-id">
-                                                <a href="#"><span>{{ $transaksi->no_transaksi }}</span></a>
+                                                <span>{{ $loop->iteration }}</span>
+                                            </td><td class="tb-tnx-id">
+                                                <span>{{ $transaksi->no_transaksi }}</span>
                                             </td>
                                             <td class="tb-tnx-info">
                                                 <div class="tb-tnx-desc">
                                                     <span class="title">{{ $transaksi->user->nama_pengguna }}</span>
                                                 </div>
                                                 <div class="tb-tnx-date">
-                                                    <span class="date">{{ \Carbon\Carbon::parse($transaksi->tgl_transaksi)->locale('id')->format('d-F-Y') }}</span>
+                                                    <span class="date">{{  \Carbon\Carbon::parse($transaksi->tgl_transaksi)->isoFormat('D MMMM Y')  }}</span>
                                                     <span class="date">{{  str_replace(":00", "", $transaksi->waktu_transaksi); }}</span>
                                                 </div>
                                             </td>
@@ -265,7 +258,7 @@
                                                     <span class="amount text-success">+Rp. {{ number_format($transaksi->total_pembayaran) }}</span>
                                                 </div>
                                                 <div class="tb-tnx-status">
-                                                   <ul class="nk-tb-actions gx-1">
+                                                 <ul class="nk-tb-actions gx-1">
                                                     <li>
                                                         <div class="drodown">
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -294,4 +287,6 @@
         </div><!-- .nk-block -->
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 @endsection

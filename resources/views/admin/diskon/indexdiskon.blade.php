@@ -5,7 +5,7 @@
 		<div class="nk-block-head nk-block-head-sm">
 			<div class="nk-block-between">
 				<div class="nk-block-head-content">
-					<h3 class="nk-block-title page-title">Data Kategory</h3>
+					<h3 class="nk-block-title page-title">Data Diskon</h3>
 				</div><!-- .nk-block-head-content -->
 				<div class="nk-block-head-content">
 					<div class="toggle-wrap nk-block-tools-toggle">
@@ -42,82 +42,54 @@
 			<div class="nk-block">
 				<div class="card">
 					<div class="card-inner-group">
-						<div class="card-inner p-0">
-							<div class="nk-tb-list">
-								<div class="nk-tb-item nk-tb-head">
-									<div class="nk-tb-col tb-col-sm"><span>No</span></div>
-									<div class="nk-tb-col tb-col-sm"><span>Kode Promo</span></div>
-									<div class="nk-tb-col"><span>Jumlah Diskon</span></div>
-									<div class="nk-tb-col "><span>Tgl Mulai Promo</span></div>
-									<div class="nk-tb-col "><span>Tgl Selesai Promo</span></div>
-									<div class="nk-tb-col "><span>Status potongan</span></div>
-									<div class="nk-tb-col nk-tb-col-tools">
-										<ul class="nk-tb-actions gx-1 my-n1">
-											<li class="me-n1">
-												<div class="dropdown">
-													<a href="#" class="dropdown-toggle btn btn-icon btn-trigger"><em
-														class="icon ni ni-more-h"></em></a>
-														<div class="dropdown-menu dropdown-menu-end">
-
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
-									</div>
-									@if (count($data) == 0)
-									<div class="nk-tb-item">
-										<div class="nk-tb-col">
-											<span class="tb-lead text-center"></span>
-										</div>
-										<div class="nk-tb-col">
-											<span class="tb-lead text-center"></span>
-										</div>
-										<div class="nk-tb-col">
-											<span class="tb-lead text-center"></span>
-										</div>
-										<div class="nk-tb-col">
-											<span class="tb-lead text-center">Tidak Ada Data</span>
-										</div>
-									</div>
-									@else
+						<div class="card-inner ">
+							<table class="datatable-init nk-tb-list nk-tb-ulist" data-auto-responsive="false">
+								<thead>
+									<tr class="nk-tb-item nk-tb-head">
+										<th class="nk-tb-col ">
+											No
+										</th>
+										<th class="nk-tb-col"><span class="sub-text">Kode Promo</span></th>
+										<th class="nk-tb-col tb-col-mb"><span class="sub-text">Jumlah Diskon</span></th>
+										<th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Mulai Promo</span></th>
+										<th class="nk-tb-col tb-col-lg"><span class="sub-text">Tgl Selesai Promo</span></th>
+										<th class="nk-tb-col tb-col-md"><span class="sub-text">Status potongan</span></th>
+										<th class="nk-tb-col nk-tb-col-tools text-end">
+										</th>
+									</tr>
+								</thead>
+								<tbody>
 									@foreach ($data as $diskon)
-									<div class="nk-tb-item">
-										<div class="nk-tb-col">
-											<span class="">{{ $loop->iteration }}</span>
-										</div>
-										<div class="nk-tb-col tb-col-sm">
-											<span class="tb-product">
-												<span class="title">{{ $diskon->kode_promo }}</span>
-											</span>
-										</div>
-										<div class="nk-tb-col tb-col-sm">
-											<span class="tb-product ">
-												<span class="title text-center">{{ $diskon->persen_diskon }}%</span>
-											</span>
-										</div>
-										<div class="nk-tb-col">
-											<span class="tb-sub">{{ $diskon->tgl_mulai_promo }}</span>
-										</div>
-										<div class="nk-tb-col">
-											<span class="tb-sub">{{ $diskon->tgl_selesai_promo }}</span>
-										</div>
-										<div class="nk-tb-col">
+									<tr class="nk-tb-item">
+										<td class="nk-tb-col ">
+											<span>{{ $loop->iteration }}</span>
+										</td>
+										<td class="nk-tb-col">
+											<span class="title text-center">{{ $diskon->kode_promo }}</span>
+										</td>
+										<td class="nk-tb-col" >
+											<span class="title text-center">{{ $diskon->persen_diskon }}%</span>
+										</td>
+										<td class="nk-tb-col tb-col-md">
+											
+											<span class="tb-sub">{{ \Carbon\Carbon::parse($diskon->tgl_mulai_promo)->isoFormat('D MMMM Y') }}</span>
+										</td>
+										<td class="nk-tb-col tb-col-lg">
+											<span class="tb-sub">{{ \Carbon\Carbon::parse($diskon->tgl_selesai_promo)->isoFormat('D MMMM Y') }}</span>
+										</td>
+										<td class="nk-tb-col tb-col-md">
 											@if ($diskon->status_diskon == 'aktif')
 											<span class="badge rounded-pill bg-success badge-md">Aktif</span>
 											@else
 											<span class="badge rounded-pill bg-secondary badge-md">Tidak
 											Aktif</span>
 											@endif
-										</div>
-										<div class="nk-tb-col nk-tb-col-tools">
-											<ul class="nk-tb-actions gx-1 my-n1">
-												<li class="me-n1">
-													<div class="dropdown">
-														<a href="#"
-														class="dropdown-toggle btn btn-icon btn-trigger"
-														data-bs-toggle="dropdown"><em
-														class="icon ni ni-more-h"></em></a>
+										</td>
+										<td class="nk-tb-col nk-tb-col-tools">
+											<ul class="nk-tb-actions gx-1">
+												<li>
+													<div class="drodown">
+														<a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
 														<div class="dropdown-menu dropdown-menu-end">
 															<ul class="link-list-opt no-bdr">
 																<li><a href="{{ route('diskon.edit', $diskon->id_diskon) }}"><em class="icon ni ni-edit"></em><span>Edit diskon</span></a></li>
@@ -129,57 +101,44 @@
 													</div>
 												</li>
 											</ul>
-										</div>
-									</div>
+										</td>
+									</tr><!-- .nk-tb-item  -->
 									@endforeach
-									@endif  
-								</div>
-							</div>
-							<div class="card-inner">
-                            <div class="nk-block-between-md g-3">
-                                <div class="g">
-                                    {{ $data->links() }}
-                                </div>
-                                <div class="g">
-                                    @php
-                                        $total = DB::table('diskon')->count();
-                                    @endphp
-                                    <div>Total <strong>{{ $total }}</strong></div>
-                                </div><!-- .nk-block-between -->
-                            </div>
-                        </div>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script>
-			$(document).on('click', '.btn-delete', function() {
-				var id = $(this).data('id');
-				$('#form-edit').attr('action', '/diskon/delete/' + id);
-				$('#form-edit').append('<input type="hidden" name="_method" value="DELETE">');
-				$('#delete').modal('show');
-			});
-		</script>
-		<div class="modal fade" tabindex="-1" id="delete">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-body modal-body-lg text-center">
-						<div class="nk-modal">
-							<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-							<h4 class="nk-modal-title">Apakah Kamu Yakin Untuk Hapus</h4>
-							<form action="#" method="POST" id="form-edit">
-								@csrf
-								{{-- @method('delete') --}}
-								<div class="nk-modal-action mt-5">
-									<a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Return</a>
-									<button class="btn btn-danger btn-lg">Delete</button>
-								</div>                       
-							</form>
-						</div>
-					</div><!-- .modal-body -->
-				</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).on('click', '.btn-delete', function() {
+			var id = $(this).data('id');
+			$('#form-edit').attr('action', '/diskon/delete/' + id);
+			$('#form-edit').append('<input type="hidden" name="_method" value="DELETE">');
+			$('#delete').modal('show');
+		});
+	</script>
+	<div class="modal fade" tabindex="-1" id="delete">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body modal-body-lg text-center">
+					<div class="nk-modal">
+						<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+						<h4 class="nk-modal-title">Apakah Kamu Yakin Untuk Hapus</h4>
+						<form action="#" method="POST" id="form-edit">
+							@csrf
+							{{-- @method('delete') --}}
+							<div class="nk-modal-action mt-5">
+								<a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Kembali</a>
+								<button class="btn btn-danger btn-lg">Hapus</button>
+							</div>                       
+						</form>
+					</div>
+				</div><!-- .modal-body -->
 			</div>
 		</div>
-		@endsection
+	</div>
+	@endsection

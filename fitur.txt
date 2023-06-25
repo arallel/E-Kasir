@@ -64,7 +64,7 @@ membuat setting
 -input nama toko
 
 
-
+no,kodebarang,nama barang, qty satuan,harga,jumlah,no pesanan,no resi,pembelian(keterangan)
 {{-- <script>
     getdata();
     $(document).ready(function () {

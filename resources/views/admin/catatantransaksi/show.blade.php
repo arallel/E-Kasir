@@ -35,7 +35,8 @@
                                              value="{{ $data->no_transaksi }}" disabled>
                                         </div>
                                       </div>
-                        			</div><div class="col-4 mt-2">
+                        			</div>
+                                    <div class="col-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Kasir Yang Bertugas</label>
                                         <div class="form-control-wrap">
@@ -43,7 +44,29 @@
                                              value="{{ $data->user->nama_pengguna }}" disabled>
                                         </div>
                                       </div>
-                        			</div><div class="col-4 mt-2">
+                        			</div>
+                                    @if($data->no_pesanan && $data->no_resi)
+                                    <div class="col-4 mt-2">
+                                      <div class="form-group">
+                                        <label class="form-label" for="kode_promo">No Pesanan</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control"
+                                             value="{{ $data->no_pesanan }}" disabled>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-4 mt-2">
+                                      <div class="form-group">
+                                        <label class="form-label" for="kode_promo">No Resi</label>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control"
+                                             value="{{ $data->no_resi }}" disabled>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    @endif
+                                    @if($data->uang_dibayarkan)
+                                    <div class="col-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Uang Dibayarkan Oleh Pembeli</label>
                                         <div class="form-control-wrap">
@@ -51,7 +74,9 @@
                                              value="{{ $data->uang_dibayarkan }}" disabled>
                                         </div>
                                       </div>
-                        			</div><div class="col-4 mt-2">
+                        			</div>
+                                    @endif
+                                    <div class="col-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Total Harga Semua Barang</label>
                                         <div class="form-control-wrap">
@@ -59,7 +84,9 @@
                                              value="{{ $data->total_pembayaran }}" disabled>
                                         </div>
                                       </div>
-                        			</div><div class="col-4 mt-2">
+                        			</div>
+                                    @if($data->total_kembalian)
+                                    <div class="col-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Kembalian Yang Diterima Pengguna</label>
                                         <div class="form-control-wrap">
@@ -68,6 +95,7 @@
                                         </div>
                                       </div>
                         			</div>
+                                    @endif
                                     <div class="col-2 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Tanggal Transaksi</label>
@@ -105,7 +133,7 @@
                                                <span class="sub-text">{{ $loop->iteration }}</span>
                                             </td>
                                             <td class="nk-tb-col">
-                                                <span class="sub-text">{{ $item->databarang->nama_barang }}</span>
+                                                <span class="sub-text">{{ ($item->databarang != null)?$item->databarang->nama_barang:'Barang DI Hapus ' }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-mb">
                                                 <span class="sub-text">{{ $item->qty }}</span>

@@ -78,7 +78,8 @@
                 <ul>
                     <li>{{ $data->no_transaksi }}</li>
                     <li>{{ $data->user->nama_pengguna }}</li>
-                    <li>{{ $data->tgl_transaksi }}</li>
+                    <li>{{ \Carbon\Carbon::parse($data->tgl_transaksi)->isoFormat('D MMMM Y') }}</li>
+
                 </ul>
             </div>
         </div>
@@ -90,7 +91,7 @@
         </div>
         @foreach ($data->detailtransaksi as $item)
             <div class="flex-container" style="text-align: right;">
-                <div style="text-align: left;">{{ $item->databarang->nama_barang }}</div>
+                <div style="text-align: left;">{{ ($item->databarang != null)?Str::limit($item->databarang->nama_barang,12):'Barang Di hapus Oleh Kasir' }}</div>
                 <div>{{ $item->qty }} <span></span>Rp {{ number_format($item->databarang->harga_barang) }} 
                     {{ ($item->checkpotongan)?"Diskon:":'' }}
                 </div>
@@ -121,5 +122,18 @@
             <p>Terima Kasih,Selamat Belanja Kembali</p>
         </div>
     </div>
+     <script>     
+        const url = document.referrer;
+        const baseUrl = new URL(url).origin +'/';
+        const modifiedUrl = url.replace(baseUrl, "");
+         sessionStorage.clear("shoppingCart");
+        function printPage() {
+        window.print();
+         window.location.href = "../../" + modifiedUrl;
+       }
+       setTimeout(()=>{
+       printPage();
+       },2000);
+    </script>
 </body>
 </html>

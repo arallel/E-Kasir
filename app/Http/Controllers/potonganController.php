@@ -11,7 +11,7 @@ class potonganController extends Controller
 {
     public function index()
     {
-        $datapotongan = potongan::with('databarang')->select('id_potongan','id_barang','harga_potongan','tgl_awal_potongan','tgl_akhir_potongan','status_potongan','nama_potongan','harga_setelah_potongan')->paginate(10);
+        $datapotongan = potongan::with('databarang')->get();
         return view('admin.potongan.indexpotongan',compact('datapotongan'));
     }
      public function search(Request $request)
@@ -19,8 +19,7 @@ class potonganController extends Controller
         $datapotongan = potongan::with('databarang')->select('id_potongan','id_barang','harga_potongan','tgl_awal_potongan','tgl_akhir_potongan','status_potongan','nama_potongan','harga_setelah_potongan')
             ->where('nama_potongan','like','%'.$request->search.'%')
             ->Orwhere('harga_potongan',$request->search)
-            
-            ->paginate(10);
+            ->get();
          return view('admin.potongan.indexpotongan',compact('datapotongan'));
     }
     public function create()
@@ -31,17 +30,14 @@ class potonganController extends Controller
     }
     public function searchbarang(Request $request)
     {
-        $searchbarang = databarang::select('nama_barang','id_barang','harga_barang')
+        $searchbarang = databarang::select('nama_barang','id_barang','harga_barang','stok')
         ->where('nama_barang','like','%'.$request->cari_barang.'%')
-        ->Orwhere('barcode','like','%'.$request->cari_barang.'%')
         ->get();
-        // dd($searchbarang);
-        if (count($searchbarang) > 0) {
-           $show_modal = true;
-       }
-
-       return view('admin.potongan.createpotongan',compact('searchbarang','show_modal'));
-
+        if(count($searchbarang) == 0 ){
+            return response()->json(['message' => 'no data' ]);
+        }else{
+        return response()->json(['data' => $searchbarang]);
+        }
    }
    public function searchedit(Request $request,$id)
    {
@@ -58,6 +54,13 @@ class potonganController extends Controller
    }
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'id_barang' => 'required',
+            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
+            'stok' => 'required|min:1',
+            'id_kategory' => 'required',
+            'barcode' => 'required',
+        ]);
       $data = potongan::create([
         'id_barang' => $request->id_barang,
         'nama_potongan' => $request->nama_potongan,

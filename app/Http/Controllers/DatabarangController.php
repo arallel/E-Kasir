@@ -11,12 +11,62 @@ use Illuminate\Support\Str;
 
 class DatabarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang'
-        ,'barcode','id_kategory','id_barang','harga_pembelian')->paginate(10);
-        $kategory = kategory::all();
-       return view('admin.databarang.indexbarang',compact('databarang','kategory'));
+        $search = $request->search;
+    $status = $request->status;
+    $id_category = $request->kategory;
+    $urutkan = $request->urutkan;
+
+    $query = databarang::with('kategory');
+    $kategory = kategory::get();
+
+    $emptyQueries = true; // Flag to check if all queries are empty
+
+    $orderBy = '';
+    switch ($urutkan) {
+        case 'asc':
+            $orderBy = 'asc';
+            break;
+        case 'desc':
+            $orderBy = 'desc';
+            break;
+        default:
+            $orderBy = 'desc';
+            break;
+    }
+
+    if (!empty($search)) {
+        $query->where('nama_barang', 'like', '%' . $search . '%');
+        $emptyQueries = false;
+    }
+
+    if (!empty($status)) {
+        if($status == 'semua'){}
+        if($status == 'tidak_tersedia'){
+            $query->where('status_barang', 'tidak_aktif');
+        }
+        if($status == 'tersedia'){
+            $query->where('status_barang', 'aktif');
+        }
+        if($status == 'stok_kosong'){
+            $query->where('stok', 0);
+        }
+        $emptyQueries = false;
+    }
+
+    if (!empty($id_category)) {
+        $query->where('id_kategory', $id_category);
+        $emptyQueries = false;
+    }
+
+    if ($emptyQueries) {
+        $databarang = $query->orderBy('nama_barang',$orderBy)->get();
+          return view('admin.databarang.indexbarang',compact('databarang','kategory'));
+    } else {
+       $databarang = $query->orderBy('nama_barang',$orderBy)->get();
+          return view('admin.databarang.indexbarang',compact('databarang','kategory'));
+    }   
     }
     public function create()
     {
@@ -38,9 +88,13 @@ class DatabarangController extends Controller
     }
     public function store(ProductRequest $request)
     {
-        if ($request->foto_barang == null) {
-            $data = databarang::create([
-            'id_barang' => Str::uuid()->toString(),
+        $lastbarang = databarang::orderBy('id_transaksi','asc')->count();
+        $prefix = 'A';
+        $lastInvoiceNumber = $lastbarang + 1; 
+        $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
+        $data = databarang::create([
+            'id_barang' => $kodebarang,
+            'foto_barang' => ($request->foto_barang)?$request->file('foto_barang')->store('images'):null,
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'id_kategory' => $request->id_kategory,
@@ -48,99 +102,44 @@ class DatabarangController extends Controller
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
             'harga_pembelian' => $request->harga_pembelian,
-            ]);
-            if ($data) {
-                return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
-            } else {
-                 return redirect()
-                ->back()
-                ->withErrors($validate)
-                ->with('error', 'Gagal Menyimpan Data')
-                ->withInput();
-            }
+        ]);
+        if ($data) {
+          return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
         } else {
-             $data = databarang::create([
-            'id_barang' => Str::uuid()->toString(),
-            'nama_barang' => $request->nama_barang,
-            'foto_barang' => $request->file('foto_barang')->store('images'),
-            'stok' => $request->stok,
-            'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
-            'barcode' => $request->barcode,
-            'harga_barang' => $request->harga_barang,
-            'harga_pembelian' => $request->harga_pembelian,
-           ]);
-            if ($data) {
-                return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
-            } else {
-                 return redirect()
-                ->back()
-                ->withErrors($validate)
-                ->with('danger', 'Gagal Menyimpan Data')
-                ->withInput();
-            }
+          return redirect()
+             ->back()
+             ->withErrors($validate)
+             ->withInput();
         }
-        
     }
     public function update(Request $request, $databarang)
     {
-       
-        if ($request->foto_barang == null) {
-            $validate = $request->validate([
-                'nama_barang' => 'required|string|max:255',
-                'stok' => 'required|min:1',
-                'id_kategory' => 'required',
-                 'barcode' => 'required',
-            ]);
-            $data = databarang::findOrFail($databarang);
-            $data->update([
+        $validate = $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
+            'stok' => 'required|min:1',
+            'id_kategory' => 'required',
+            'barcode' => 'required',
+        ]);
+        $data = databarang::findOrFail($databarang);
+        $data->update([
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
+            'foto_barang' => ($request->foto_barang)?$request->file('foto_barang')->store('images'):null,
             'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
+            'status_barang' => $request->status_barang,
             'barcode' => $request->barcode,
             'harga_barang' => $request->harga_barang,
             'harga_pembelian' => $request->harga_pembelian,
-            ]);
-            if ($data) {
-                return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
-            } else {
-                 return redirect()
+        ]);
+        if ($data) {
+          return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
+        } else {
+          return redirect()
                 ->back()
                 ->withErrors($validate)
                 ->with('error', 'Gagal Menyimpan Data')
                 ->withInput();
-            }
-        } 
-            else {
-                $validate = $request->validate([
-                    'nama_barang' => 'required|string|max:255',
-                    'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
-                    'stok' => 'required|min:1',
-                    'id_kategory' => 'required',
-                     'barcode' => 'required',
-                ]);
-             $data = databarang::findOrFail($databarang);
-            Storage::delete($data->foto_barang);
-            $data->update([
-            'nama_barang' => $request->nama_barang,
-            'foto_barang' => $request->file('foto_barang')->store('images'),
-            'stok' => $request->stok,
-            'id_kategory' => $request->id_kategory,
-            'status_barang' => 'aktif',
-            'barcode' => $request->barcode,
-            'harga_barang' => $request->harga_barang,
-            'harga_pembelian' => $request->harga_pembelian,
-           ]);
-            if ($data) {
-                return redirect()->route('databarang.index')->with('success', 'Data Berhasil Disimpan');
-            } else {
-                 return redirect()
-                ->back()
-                ->withErrors($validate)
-                ->with('error', 'Gagal Menyimpan Data')
-                ->withInput();
-            }
         }
     }
     public function show($databarang)
@@ -167,42 +166,17 @@ class DatabarangController extends Controller
         }
         return redirect()->route('databarang.index')->with('success', 'Data Berhasil Di Hapus');
     }
-    public function filter(Request $request)
+    public function addstok(Request $request,$id)
     {
-        if ($request->filter == 'aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('status_barang','aktif')->paginate(10);
-            $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
-        } elseif($request->filter == 'tidak_aktif') {
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('status_barang','tidak_aktif')->paginate(10);
-            $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
-        }elseif($request->filter == 'stok_kosong'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('stok','0')->paginate(10);
-            $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
-        }elseif($request->filter == 'semua'){
-            $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->paginate(10);
-            $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
+        $data = databarang::findOrFail($id);
+        if($data){
+            $data->update([
+                'stok' => $data->stok + $request->jumlah
+            ]);
+            return redirect()->route('databarang.index')->with('success', 'Stok Berhasil Ditambahkan');
+        }else{
+            return redirect()->route('databarang.index')->with('danger', 'Data Tidak Ditemukan Atau Hilang');
         }
     }
-    public function search(Request $request)
-    {
-        $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')
-            ->where('nama_barang','like','%'.$request->search.'%')
-            ->Orwhere('stok',$request->search)
-            
-            ->paginate(10);
-            $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
-    }
-    public function filterkategory(Request $request)
-    {
-        $kategory = $databarang = databarang::with('kategory')->select('nama_barang','foto_barang','stok','harga_barang','status_barang','barcode','id_kategory','id_barang','harga_pembelian')->where('id_kategory',$request->filter)->paginate(10);
-       $kategory = kategory::all();
-            return view('admin.databarang.indexbarang',compact('databarang','kategory'));
-    }
-
 }
 

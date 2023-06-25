@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('potongan', function (Blueprint $table) {
             $table->id('id_potongan');
             $table->string('nama_potongan');
-            $table->foreignUuid('id_barang');
+            $table->string('id_barang');
             $table->integer('harga_potongan');
             $table->integer('harga_setelah_potongan');
             $table->date('tgl_awal_potongan');
             $table->date('tgl_akhir_potongan');
             $table->enum('status_potongan',['aktif','tidak_aktif'])->default('aktif');
             $table->timestamps();
+            $table->foreign('id_barang')->references('id_barang')->on('databarang');
         });
     }
 
