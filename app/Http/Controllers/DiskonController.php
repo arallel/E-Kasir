@@ -15,7 +15,6 @@ class diskonController extends Controller
         return view('admin.diskon.creatediskon');
     }
     public function store(Request $request){
-        // dd($request);
         $data = diskon::create([
              'kode_promo' => $request->kode_promo,
              'persen_diskon' => $request->persen_diskon,

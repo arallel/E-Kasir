@@ -31,10 +31,8 @@ Route::controller(DashboardController::class)->group(function(){
 //databarang
 Route::resource('databarang',DatabarangController::class)->except(['delete']);
 Route::controller(DatabarangController::class)->group(function () {
-    Route::post('databarang/filter', 'filter')->name('filter.barang');
-    Route::post('databarang/search', 'search')->name('search.barang');
     Route::delete('databarang/delete/{id}', 'destroy')->name('destroy.barang');
-    Route::post('databarang/filter/kategory', 'filterkategory')->name('filter.kategory.barang');
+    Route::patch('databarang/update-stok/{id}', 'addstok');
     Route::post('databarang/print-label-harga/{id}','printlabel')->name('print.label.barang');
     Route::post('databarang/print-barcode/{id}','printbarcode')->name('print.barcode.barang');
 });
@@ -42,7 +40,6 @@ Route::controller(DatabarangController::class)->group(function () {
 Route::resource('Kategory',KategoryController::class)->except(['delete']);
 Route::controller(KategoryController::class)->group(function () {
     Route::delete('Kategory/delete/{id}', 'destroy')->name('destroy.kategory');
-    Route::post('Kategory/search', 'search')->name('search.kategory');
 });
 //diskon
 Route::resource('diskon',diskonController::class)->except(['delete']);
@@ -53,7 +50,7 @@ Route::delete('diskon/delete/{id}','destroy');
 //potongan
 Route::resource('potongan',potonganController::class)->except(['delete']);
 Route::controller(potonganController::class)->group(function(){
-   Route::post('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
+   // Route::post('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
    Route::delete('potongan/delete/{id}','destroy')->name('potongan.destroy');
    Route::post('potongan/Search','search')->name('potongan.search');
 });
@@ -65,7 +62,7 @@ Route::controller(TransaksiBarangController::class)->group(function(){
    Route::get('Cetak/Struk/{id}','cetakstruk')->name('cetak.struk');
 });
 //catatan transaksi
-Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','show']);
+Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','show','create','store']);
 
 //user data
 Route::resource('UserData',UserDataController::class)->except(['delete']);

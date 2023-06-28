@@ -21,6 +21,9 @@ class transaksi_barang extends Model
         'uang_dibayarkan',
         'id_user',
         'total_kembalian',
+        'pembelian',
+        'no_pesanan',
+        'no_resi',
     ];
     public function detailtransaksi()
     {

@@ -13,7 +13,11 @@
                         <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
                             class="icon ni ni-more-v"></em></a>
                             <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3"> 
+                                <ul class="nk-block-tools g-3">
+                                  <li class="nk-block-tools-opt">
+                                     <a href="{{ route('Catatan-transaksi.create') }}" class=" btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                    <a href="{{ route('Catatan-transaksi.create') }}"class=" btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Tambah Catatan Transaksi</span></a>
+                                  </li> 
                                 </ul>
                             </div>
                         </div>
@@ -35,6 +39,7 @@
                                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Uang Masuk</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">tanggal Transaksi</span></th>
                                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Jam Transaksi</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Jenis Transaksi</span></th>
                                             <th class="nk-tb-col nk-tb-col-tools text-end">
                                             </th>
                                         </tr>
@@ -59,11 +64,18 @@
                                                 <span class="currency text-success">+Rp. {{ number_format($data->total_pembayaran) }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                                <span>{{ \Carbon\Carbon::parse($data->tgl_transaksi)->locale('id')->format('d-F-Y') }}</span>
+                                                <span>{{ \Carbon\Carbon::parse($data->tgl_transaksi)->isoFormat('D MMMM Y') }}</span>
                                             </td>
                                             
                                             <td class="nk-tb-col tb-col-lg">
                                                 <span>{{  str_replace(":00", "", $data->waktu_transaksi); }}</span>
+                                            </td>
+                                            <td class="nk-tb-col tb-col-lg">
+                                                @if($data->pembelian == 'online')
+                                               <span class="badge rounded-pill bg-warning badge-md">Online</span>
+                                               @else
+                                                 <span class="badge rounded-pill bg-primary badge-md">Offline</span>
+                                               @endif
                                             </td>
                                             <td class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1">

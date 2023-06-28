@@ -7,7 +7,7 @@
                 <div class="nk-block-head-content mb-3">
                     <h3 class="nk-block-title page-title">Edit Potongan</h3>
                 </div><!-- .nk-block-head-content -->
-                <div class="col-6">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-inner">
                             @if ($errors->any())
@@ -19,32 +19,15 @@
                             </div>
                             @endif
                             <div id="alert-container"></div>
-                            <div class="row g-3">
-                                {{-- <div class="col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="nama_barang">Nama Barang</label>
-                                        <form action="{{ route('potongan.search.edit',$data->id_potongan) }}" method="post" autocomplete="off">
-                                            @csrf
-                                            <div class="form-control-wrap">   
-                                                <div class="input-group">        
-                                                    <input type="text" name="cari_barang" class="form-control" value="{{ $data->databarang->nama_barang }}" id="cari_barang" placeholder="Cari Barang" required>
-                                                    <div class="input-group-append">  
-                                                        <button class="btn btn-primary"> <em class="icon ni ni-search"></em></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div> --}}
-                                
                                 <form action="{{ route('potongan.update',$data->id_potongan) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('patch')
                                 <input type="hidden" value="{{ $data->id_barang }}" id="id_barang"  name="id_barang">
-                                  <input type="hidden" id="harga_setelah_potongan"  name="harga_setelah_potongan">
+                                <input type="hidden" id="harga_setelah_potongan"  name="harga_setelah_potongan">
 
-                                <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="nama_potongan">Nama potongan</label>
                                         <div class="form-control-wrap">
@@ -54,7 +37,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="harga_potongan">Harga Potongan</label>
                                         <div class="form-control-wrap">    
@@ -67,7 +50,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="tgl_awal_potongan">
                                             Mulai potongan
@@ -79,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="tgl_akhir_potongan">
                                             Tanggal Berakhir potongan
@@ -91,7 +74,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 col-md-4">
                                     <div class="form-group">
                                         <label class="form-label" for="tgl_akhir_potongan">
                                             Status potongan
@@ -106,20 +89,17 @@
                                      </div>
                                  </div>
                              </div>
-                             <div class="mt-2">
-                                <h6 id="harga_normal"></h6>
-                                <h6 id="harga_baru"></h6>
-                            </div>
-                            <div class="row">
-                                <div class="col-4 mt-3">
+                             <div class="col-6 mt-3">
+                                     <h6 id="harga_normal"></h6>
+                                     <h6 id="harga_baru"></h6>
+                                 </div>
+                                 <div class="col-6 text-end mt-3">
                                     <a href="{{ route('potongan.index') }}" class="btn btn-secondary">Kembali</a> 
+                                     <button class="btn btn-success" >Update  Data</button> 
                                 </div>
-                                <div class="col-4 mt-3">
-                                    <button class="btn btn-success" >Simpan  Data</button>   
-                                </div>
-                            </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -204,7 +184,7 @@
       }else{
         alert('Harga Potongan Melebihi Harga Normal');
     }
-});A
+});
 
 // function pilihBarang(rowIndex) {
 //    var namaBarang = $('table tbody tr:eq(' + rowIndex + ') td:eq(1)').html();

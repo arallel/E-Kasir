@@ -33,14 +33,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-4 mt-3">
+                                            <div class="col-12 mt-3">
                                                 <a href="{{ route('Kategory.index') }}" class="btn btn-secondary">Kembali</a> 
+                                                <button class="btn btn-success">Perbarui Data</button>
                                             </div>
-                                            <div class="col-4 mt-3">
-                                                <button class="btn btn-success">Perbarui Data</button>   
-                                            </div>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
