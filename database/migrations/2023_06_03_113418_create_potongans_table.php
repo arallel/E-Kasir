@@ -15,15 +15,18 @@ return new class extends Migration
     {
         Schema::create('potongan', function (Blueprint $table) {
             $table->id('id_potongan');
-            $table->string('nama_potongan');
             $table->string('id_barang');
-            $table->integer('harga_potongan');
+            $table->integer('harga_awal');
             $table->integer('harga_setelah_potongan');
+            $table->integer('harga_potongan_rp')->nullable();
+            $table->integer('harga_potongan_persen')->nullable();
             $table->date('tgl_awal_potongan');
             $table->date('tgl_akhir_potongan');
+            $table->string('kode_promo')->nullable();
+            $table->enum('diskon_by_code',['true','false']);
             $table->enum('status_potongan',['aktif','tidak_aktif'])->default('aktif');
-            $table->timestamps();
             $table->foreign('id_barang')->references('id_barang')->on('databarang');
+            $table->timestamps();
         });
     }
 

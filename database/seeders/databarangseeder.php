@@ -23,7 +23,7 @@ class databarangseeder extends Seeder
                    $groceryItems = json_decode($response, true);
                   foreach ($groceryItems as $groceryItem) {
                    // dd($groceryItem);
-                               databarang::create([
+                databarang::create([
                 'id_barang' => $faker->uuid(),
                 'nama_barang' => $groceryItem['title'],
                 'foto_barang' =>  $groceryItem['image'], 

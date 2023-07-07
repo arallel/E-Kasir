@@ -83,4 +83,14 @@ class CatatanTransaksi extends Controller
        }
         return view('admin.catatantransaksi.show',compact('data'));
     }
+    public function destroy($id)
+    {
+        $data = transaksi_barang::findOrFail($id);
+        $data->delete();
+        if($data){
+            return to_route('Catatan-transaksi.index')->with(['success' => 'data Berhasil Di Hapus']);
+        }else{
+            return redirect()->back()->with(['error' => 'gagal Menghapus Data']);
+        }
+    }
 }

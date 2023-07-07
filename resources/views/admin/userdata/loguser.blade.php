@@ -32,18 +32,44 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th class="tb-col-os"><span class="overline-title">No</span></th>
+                                        <th class="tb-col-os"><span class="overline-title">Nama Pengguna</span></th>
                                         <th class="tb-col-os"><span class="overline-title">Browser</span></th>
                                         <th class="tb-col-ip"><span class="overline-title">IP</span></th>
-                                        <th class="tb-col-time"><span class="overline-title">Time</span></th>
+                                        <th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Login</span></th>
+                                        <th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Logout</span></th>
+                                        <th class="tb-col-time"><span class="overline-title">Total Jam Login Harian</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($datauser as $data)
+                                    @if($data->time_logout_at && $data->date_logout_at)
+                                    @php
+                                    $start = \Carbon\Carbon::createFromTimeString($data->time_login_at);
+                                    $end = \Carbon\Carbon::createFromTimeString($data->time_logout_at);
+                                    $diff = $end->diff($start);
+                                    $hours = $diff->h;
+                                    $minutes = $diff->i;
+                                    $seconds = $diff->s;
+                                    $timeString = '';
+                                    if ($hours > 0) {
+                                        $timeString .= $hours . " jam ";
+                                    }
+                                    if ($minutes > 0) {
+                                        $timeString .= $minutes . " menit ";
+                                    }
+                                    if ($seconds > 0) {
+                                        $timeString .= $seconds . " detik";
+                                    }
+                                    @endphp
+                                    @endif
                                     <tr>
                                         <td class="tb-col-os">{{ $loop->iteration }}</td>
+                                        <td class="tb-col-os">{{ $data->users->nama_pengguna }}</td>
                                         <td class="tb-col-os">{{ $data->user_agent }}</td>
                                         <td class="tb-col-ip"><span class="sub-text">{{ $data->ip_address }}</span></td>
-                                        <td class="tb-col-time"><span class="sub-text">{{ $data->login_at }}</span></td>
+                                        <td class="tb-col-time"><span class="sub-text">{{ $data->date_login_at }}   {{ $data->time_login_at }}</span></td>
+                                        <td class="tb-col-time"><span class="sub-text">{{ $data->date_logout_at }}  {{ $data->time_logout_at }}</span></td>
+                                        <td class="tb-col-time"><span class="title text-success">{{ ($data->time_logout_at && $data->date_logout_at)?$timeString:'-' }}</span></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -54,4 +80,4 @@
             </div><!-- .nk-block -->
         </div>
     </div>
-@endsection
+    @endsection

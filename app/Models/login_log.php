@@ -14,8 +14,10 @@ class login_log extends Model
         'user_id',
         'user_agent',
         'ip_address',
-        'login_at',
-        'logout_at',
+        'date_login_at',
+        'date_logout_at',
+        'time_login_at',
+        'time_logout_at',
         
     ];
      protected $hidden = [

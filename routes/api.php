@@ -33,6 +33,7 @@ Route::controller(AuthUserApi::class)->group(function (){
   });
 Route::controller(potonganController::class)->group(function(){
    Route::get('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
+   Route::get('potongan/checkkupon','checkkupon');
 });
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::apiResource('databarang', DatabarangApi::class)->except(['index']);

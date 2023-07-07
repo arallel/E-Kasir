@@ -12,11 +12,14 @@ class potongan extends Model
     protected $primaryKey = 'id_potongan';
     protected $fillable = [
         'id_barang',
-        'nama_potongan',
-        'harga_potongan',
+        'harga_awal',
+        'harga_potongan_rp',
+        'harga_potongan_persen',
         'tgl_awal_potongan',
         'tgl_akhir_potongan',
         'status_potongan',
+        'diskon_by_code',
+        'kode_promo',
         'harga_setelah_potongan',
     ];
     public function databarang()

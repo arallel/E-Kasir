@@ -14,62 +14,22 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $data = setting::first();
+        return view('admin.setting.indexsetting',compact('data'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\setting  $setting
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, setting $setting)
     {
-        //
+       $setting->update([
+            'nama_toko' => $request->nama_toko,
+            'copyright_toko' => $request->copyright_toko,
+            'email_toko' => $request->email_toko,
+            'is_register_admin' => $request->is_register_admin,
+        ]);
+       if($setting){
+        return to_route('setting.index')->with(['success' => 'Berhasil Ubah Data']);
+       }else{
+        return redirect()->back()->with(['error' => 'gagal Update Data']);
+       }
     }
 
     /**

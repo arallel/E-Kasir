@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\login_log;
+use App\Models\setting;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterUser;
@@ -19,14 +20,20 @@ class UserDataController extends Controller
      */
     public function index()
     {
-        $datauser = User::select('nama_pengguna','email','password','status','status_akun','level','id_user')->paginate(10);
-        return view('admin.userdata.indexdatauser',compact('datauser'));
+        $datauser = User::select('nama_pengguna','email','password','status','status_akun','level','id_user')->get();
+        $setting = setting::first();
+        return view('admin.userdata.indexdatauser',compact('datauser','setting'));
     }
     public function loguser()
     {
-        $datauser = login_log::with('users')->paginate(10);
+        $datauser = login_log::with('users')->get();
         return view('admin.userdata.loguser',compact('datauser'));
 
+    }
+    public function create()
+    {
+        $setting = setting::first();
+        return view('admin.userdata.createuser',compact('setting'));
     }
 
     /**
@@ -37,6 +44,7 @@ class UserDataController extends Controller
     public function mail($id)
     {
         $data = User::findOrFail($id);
+        if($data == null){abort(404);}
         return view('vendor.mail.mail',compact('data'));
     }
 
@@ -56,11 +64,14 @@ class UserDataController extends Controller
             'nama_pengguna' => $request->nama_pengguna,
             'email' => $request->email,
             'status' => 'offline',
-            'status_akun' => 'pending',
+            'status_akun' => 'aktif',
+            'password' => ($request->password != null)?$request->password:null,
             'level' => $request->level,
             'id_user' => Str::uuid()->toString(),
          ]);
-        Mail::to($request->email)->send(new RegisterUser($data));
+         if(setting::first()->is_register_admin == 'false'){
+          Mail::to($request->email)->send(new RegisterUser($data));
+         }
          if($data){
             return redirect()->route('UserData.index')->with('success', 'Data Pengguna Berhasil Disimpan');
          }else{
@@ -92,7 +103,7 @@ class UserDataController extends Controller
     public function edit($id)
     {
         $data = User::findOrFail($id);
-        // dd($data);                       
+        if($data == null){abort(404);}
         return view('admin.userdata.editdatauser',compact('data'));
     }
 
@@ -140,6 +151,7 @@ class UserDataController extends Controller
     public function destroy($id)
     {
        $data = User::findOrFail($id);
+       if($data == null){abort(404);}
        $data->delete($id);
        if ($data) {
         return redirect()->route('UserData.index')->with('success','berhasil Menghapus Data');

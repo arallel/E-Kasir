@@ -14,6 +14,9 @@
                         <div class="toggle-expand-content" data-content="pageMenu">
                             <ul class="nk-block-tools g-3">
                                 <li class="nk-block-tools-opt">
+                                    <a href="{{ route('potongan.create') }}" data-target="addProduct"
+                                    class="toggle btn btn-icon btn-primary d-md-none"><em
+                                    class="icon ni ni-plus"></em></a>
                                     <a href="{{ route('potongan.create') }}"
                                     class="btn btn-primary d-none d-md-inline-flex"><em
                                     class="icon ni ni-plus"></em><span>Tambah Data Potongan Harga</span></a>
@@ -34,10 +37,11 @@
                                     <th class="nk-tb-col ">
                                         No
                                     </th>
-                                    <th class="nk-tb-col"><span class="sub-text">Nama Potongan</span></th>
                                     <th class="nk-tb-col tb-col-mb"><span class="sub-text">Nama Barang</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Potongan</span></th>
+                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Kode Promo</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Harga Normal</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Potongan</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon %</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tgl Awal potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Akhir potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Status potongan</span></th>
@@ -51,18 +55,25 @@
                                 <td class="nk-tb-col ">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td class="nk-tb-col">
-                                    {{ $potongan->nama_potongan }}
-                                </td>
                                 <td class="nk-tb-col tb-col-mb">
                                     <span class="tb-lead">{{ ($potongan->databarang != null)?$potongan->databarang->nama_barang:'Barang Di Hapus' }}</span>
+                                </td>
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>{{ ($potongan->kode_promo != null)?$potongan->kode_promo:'-' }}</span>
+                                </td> 
+                                <td class="nk-tb-col tb-col-md">
+                                    <span>Rp.{{ number_format($potongan->harga_awal, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
                                     <span>Rp.{{ number_format($potongan->harga_setelah_potongan, 0, ',', '.') }}</span>
                                 </td> 
                                 <td class="nk-tb-col tb-col-md">
-                                    <span>Rp.{{ number_format($potongan->harga_potongan, 0, ',', '.') }}</span>
-                                </td>
+                                    @if($potongan->harga_potongan_persen)
+                                    <span>{{ number_format($potongan->harga_potongan_persen, 0, ',', '.') }}%</span>
+                                    @else
+                                    <span>-</span>
+                                    @endif
+                                </td> 
                                 <td class="nk-tb-col tb-col-lg">
                                     <span>{{ \Carbon\Carbon::parse($potongan->tgl_awal_potongan)->isoFormat('D MMMM Y') }}</span>
                                 </td>
@@ -85,8 +96,12 @@
                                             <div class="dropdown-menu dropdown-menu-end">
                                                     <ul class="link-list-opt no-bdr">
                                                         <li><a href="{{ route('potongan.edit', $potongan->id_potongan) }}"><em class="icon ni ni-edit"></em><span>Edit potongan</span></a></li>
-                                                        {{-- <li><a href="{{ route('potongan.show', $potongan->id_potongan) }}"><em class="icon ni ni-eye"></em><span>Tampilkan</span></a></li> --}}
-                                                        <li><a type="button" class="btn-delete" data-id="{{ $potongan->id_potongan }}"><em class="icon ni ni-trash btn-delete"></em><span>Hapus Barang</span></a>
+                                                        <li> <a type="button" class="btn-jumlah"
+                                                        data-id="{{ $potongan->id_potongan }}"
+                                                        data-route="{{ route('potongan.show', $potongan->id_potongan) }}"><em
+                                                        class="icon ni ni-label btn-jumlah"></em><span>Print
+                                                        Label Harga</span></a></li>
+                                                        <li><a type="button" class="btn-delete" data-id="{{ $potongan->id_potongan }}"><em class="icon ni ni-trash btn-delete"></em><span>Hapus Potongan</span></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -104,17 +119,33 @@
     </div>
 </div>
 </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).on('click', '.btn-delete', function() {
-            var id = $(this).data('id');
-            $('#form-edit').attr('action', '/potongan/delete/' + id);
-            $('#form-edit').append('<input type="hidden" name="_method" value="DELETE">');
-            $('#delete').modal('show');
-        });
-    </script>
+<div class="modal fade" id="jumlah" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Jumlah Yang Ingin Di Print</h5><a href="#" class="close" data-bs-dismiss="modal"
+                aria-label="Close"><em class="icon ni ni-cross"></em></a>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="POST" id="form-jumlah" class="form-validate" novalidate="novalidate">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label" for="jumlah">Jumlah</label>
+                        <div class="form-control-wrap">
+                            <input type="number" class="form-control" 
+                            name="jumlah" id="Jumlah" placeholder="Jumlah" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="btn btn-lg btn-mw btn-light" data-bs-dismiss="modal">Kembali</a>
+                        <button class="btn btn-primary btn-lg">Print</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
 
     <div class="modal fade" tabindex="-1" id="delete">
         <div class="modal-dialog" role="document">
@@ -137,5 +168,22 @@
         </div>
     </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        const formjumlah = $('#form-jumlah');
+        const jumlahModal = $('#jumlah');
+        $(document).on('click', '.btn-delete', function() {
+            var id = $(this).data('id');
+            $('#form-edit').attr('action', '/potongan/delete/' + id);
+            $('#form-edit').append('<input type="hidden" name="_method" value="DELETE">');
+            $('#delete').modal('show');
+        });
+         $(document).on('click', '.btn-jumlah', function() {
+            const id = $(this).data('id');
+            const route = $(this).data('route');
+            formjumlah.attr('action', route);
+            $('#jumlah').modal('show');
+        });
+    </script>
     @endsection
