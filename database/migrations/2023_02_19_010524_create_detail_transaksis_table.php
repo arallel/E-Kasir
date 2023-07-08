@@ -19,7 +19,10 @@ return new class extends Migration
             $table->foreign('id_barang')->references('id_barang')->on('databarang');
             $table->ForeignUuid('id_transaksi');
             $table->string('qty');
+            $table->integer('harga_asli');
             $table->integer('harga_item');
+            $table->integer('jumlah_diskon_rp')->nullable(); 
+            $table->integer('jumlah_diskon_persen')->nullable();
             $table->timestamps();
         });
     }

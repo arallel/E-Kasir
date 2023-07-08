@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DatabarangApi;
 use App\Http\Controllers\Api\KategoryApi;
+use App\Http\Controllers\Api\catatantransaksi;
 use App\Http\Controllers\potonganController;
 
 use App\Http\Controllers\Api\AuthUserApi;
@@ -35,6 +36,7 @@ Route::controller(potonganController::class)->group(function(){
    Route::get('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
    Route::get('potongan/checkkupon','checkkupon');
 });
+  Route::apiResource('catatan/transaksi',catatantransaksi::class);
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::apiResource('databarang', DatabarangApi::class)->except(['index']);
   Route::controller(DatabarangApi::class)->group(function () {

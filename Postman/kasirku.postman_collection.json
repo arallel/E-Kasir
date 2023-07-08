@@ -623,6 +623,191 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Catatan Transaksi",
+			"item": [
+				{
+					"name": "Index Catatan transaksi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/catatan/transaksi",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"catatan",
+								"transaksi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store catatan transaksi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tgl_transaksi",
+									"value": "2023-07-08",
+									"description": "tanggal transaksi hari ini",
+									"type": "text"
+								},
+								{
+									"key": "waktu_transaksi",
+									"value": "10:52:00",
+									"description": "jam transaksi",
+									"type": "text"
+								},
+								{
+									"key": "total_pembayaran",
+									"value": "160000",
+									"description": "total didapatkan dari harga x qty",
+									"type": "text"
+								},
+								{
+									"key": "no_pesanan",
+									"value": "asdsa",
+									"description": "no pesanan shoope",
+									"type": "text"
+								},
+								{
+									"key": "no_resi",
+									"value": "saewq",
+									"description": "no resi shoope",
+									"type": "text"
+								},
+								{
+									"key": "pembelian",
+									"value": "online",
+									"description": "pembelian : online/ offline",
+									"type": "text"
+								},
+								{
+									"key": "id_barang",
+									"value": "A0001",
+									"description": "id barang",
+									"type": "text"
+								},
+								{
+									"key": "qty",
+									"value": "1",
+									"description": "qty",
+									"type": "text"
+								},
+								{
+									"key": "id_user",
+									"value": "ed87b872-b2c7-4c26-824e-da4e7b7f005f",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Url-web}}/api/catatan/transaksi",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"catatan",
+								"transaksi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show catatan transaksi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/catatan/transaksi/a4047998-a367-4280-9272-52f64bd339d3",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"catatan",
+								"transaksi",
+								"a4047998-a367-4280-9272-52f64bd339d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete catatan transaksi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{Url-web}}/api/catatan/transaksi/865e22fe-f746-4dfb-a64f-03d6167a116s",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"catatan",
+								"transaksi",
+								"865e22fe-f746-4dfb-a64f-03d6167a116s"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

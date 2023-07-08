@@ -6,7 +6,6 @@ use App\Http\Controllers\KategoryController;
 use App\Http\Controllers\TransaksiBarangController;
 use App\Http\Controllers\potonganController;
 use App\Http\Controllers\UserDataController;
-use App\Http\Controllers\diskonController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CatatanTransaksi;
 use App\Http\Controllers\LaporanController;
@@ -42,11 +41,6 @@ Route::controller(DatabarangController::class)->group(function () {
 Route::resource('Kategory',KategoryController::class)->except(['delete']);
 Route::controller(KategoryController::class)->group(function () {
     Route::delete('Kategory/delete/{id}', 'destroy')->name('destroy.kategory');
-});
-//diskon
-Route::resource('diskon',diskonController::class)->except(['delete']);
-Route::controller(diskonController::class)->group(function(){
-Route::delete('diskon/delete/{id}','destroy');
 });
 
 //potongan

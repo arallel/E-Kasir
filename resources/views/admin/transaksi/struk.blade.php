@@ -96,16 +96,25 @@
             </div>
             <div>{{ $item->qty }} <span></span>Rp 
                 {{ number_format($item->databarang->harga_barang) }} 
-                {{ ($item->checkpotongan->harga_potongan_persen)?"Diskon:":'' }}
-                {{ ($item->checkpotongan->harga_potongan_rp)?"Potongan:":'' }}
+                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline')?"Diskon:":'' }}
+                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline')?"Potongan:":'' }}
             </div>
             <div>Rp {{ number_format($item->databarang->harga_barang * $item->qty ) }}   
-                {{ ($item->checkpotongan->harga_potongan_rp)?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp * $item->qty).')':'' }} 
-                {{ ($item->checkpotongan->harga_potongan_persen)?$item->checkpotongan->harga_potongan_persen.'%':'' }}
+                {{ ($item->checkpotongan &&  $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline' )?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp * $item->qty).')':'' }} 
+                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline')?$item->checkpotongan->harga_potongan_persen.'%':'' }}
             </div>
         </div>
+        @if($item->checkpotongan)     
+            @php
+             $sumharga_setelah_potongan = 0; 
+             $harga_awal = 0; 
+               $harga_awal += $item->checkpotongan->harga_awal;
+               $sumharga_setelah_potongan += $item->checkpotongan->harga_setelah_potongan;
+            @endphp 
+            @endif
         @endforeach
         <hr>
+        
         <div class="flex-container" style="text-align: right; margin-top: 10px;">
             <div></div>
             <div>
@@ -113,23 +122,19 @@
                     <li>Total:</li>
                     <li>Tunai:</li>
                     <li>Kembalian:</li>
+                     @if($harga_awal > 0 && $data->pembelian == 'offline')
                     <li>hemat:</li>
+                    @endif
                 </ul>
-            </div>     
-            @php
-             $harga_awal = 0; 
-             $sumharga_setelah_potongan = 0; 
-            foreach ($data->detailtransaksi  as $harga) {
-               $harga_awal += $harga->checkpotongan->harga_awal;
-               $sumharga_setelah_potongan += $harga->checkpotongan->harga_setelah_potongan;
-            }
-            @endphp
+            </div>
             <div style="text-align: right;">
                 <ul>
                     <li>Rp {{ number_format($data->total_pembayaran) }}</li>
                     <li>Rp {{ number_format($data->uang_dibayarkan) }}</li>
                     <li>Rp {{ number_format($data->total_kembalian) }}</li>
+                    @if($harga_awal > 0 && $data->pembelian == 'offline')
                     <li>Rp {{ number_format($harga_awal - $sumharga_setelah_potongan) }}</li>
+                    @endif
                 </ul>
             </div>
         </div>

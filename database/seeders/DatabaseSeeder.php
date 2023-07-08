@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'is_register_admin' => 'true',
         ]);
 
-         // $this->call(databarangseeder::class);
-         $this->call(catatantransaksiseeder::class);
+         $this->call(databarangseeder::class);
+         // $this->call(catatantransaksiseeder::class);
     }
 }

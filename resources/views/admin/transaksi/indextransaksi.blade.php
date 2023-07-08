@@ -137,7 +137,6 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal Title</h5>
                 <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
@@ -145,8 +144,8 @@
             <div class="modal-body">
                 <form action="{{ route('Transaksi.store') }}" method="post">
                     @csrf
-                    <input type="text" id="datastorageweb" name="datastorageweb">
-                    <input type="text" id="total-harga" name="total_harga">
+                    <input type="hidden" id="datastorageweb" name="datastorageweb">
+                    <input type="hidden" id="total-harga" name="total_harga">
                     <div class="form-group">
                         <label>Jumlah Uang Dibayarkan</label>
                         <input type="number" id="uang_dibayar" class="form-control" name="uang_dibayarkan">

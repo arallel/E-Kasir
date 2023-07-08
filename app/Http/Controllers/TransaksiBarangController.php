@@ -45,15 +45,19 @@ class TransaksiBarangController extends Controller
 
             foreach ($datacarts as $datacart) {
                 //detail transaksi
+                $barang = databarang::with('checkpotongan')->where('id_barang',$datacart->id)->first();
                 $detail_transaksi = detail_transaksi::create([
                     'id_detail_transaksi' => Str::uuid()->toString(),
                     'id_barang' => $datacart->id,
                     'id_transaksi' => $transaksi['id_transaksi'],
                     'qty' => $datacart->count,
                     'harga_item' => $datacart->price,
+                    'harga_asli' => $barang->harga_barang,
+                    'jumlah_diskon_rp' => ($barang->checkpotongan->harga_potongan_rp)?$barang->checkpotongan->harga_potongan_rp:null,
+                    'jumlah_diskon_persen' =>($barang->checkpotongan->harga_potongan_persen)?$barang->checkpotongan->harga_potongan_persen:null,
                 ]);
 
-                // //update stok barang
+                //update stok barang
                 $updatestokbarang = databarang::where('id_barang',$datacart->id)->first();
                     $hitung = $updatestokbarang->stok - $datacart->count;
                     $updatestokbarang->update([
@@ -69,6 +73,7 @@ class TransaksiBarangController extends Controller
             public function cetakstruk($id)
             {
                 $data = transaksi_barang::with('detailtransaksi','user','detailtransaksi.databarang')->findOrfail($id);
+                // dd($data);
                 if($data == null){abort(404);}
                 return view('admin.transaksi.struk',compact('data'));
             }

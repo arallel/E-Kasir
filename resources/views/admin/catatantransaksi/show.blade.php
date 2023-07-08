@@ -123,6 +123,9 @@
                                             </th>
                                             <th class="nk-tb-col"><span class="sub-text">Nama Barang</span></th>
                                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Quantity</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Potongan</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon %</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Asli</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Per Item</span></th>
                                         </tr>
                                     </thead>
@@ -137,6 +140,15 @@
                                             </td>
                                             <td class="nk-tb-col tb-col-mb">
                                                 <span class="sub-text">{{ $item->qty }}</span>
+                                            </td>
+                                            <td class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">{{ ($item->jumlah_diskon_rp != null)?'Rp.'.$item->jumlah_diskon_rp:'-' }}</span>
+                                            </td>
+                                            <td class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">{{ ($item->jumlah_diskon_persen != null)?$item->jumlah_diskon_persen.'%':'-' }}</span>
+                                            </td>
+                                            <td class="nk-tb-col tb-col-md">
+                                                <span class="sub-text">Rp.{{ $item->harga_asli }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
                                                 <span class="sub-text">Rp.{{ $item->harga_item }}</span>
