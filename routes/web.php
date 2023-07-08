@@ -9,6 +9,8 @@ use App\Http\Controllers\UserDataController;
 use App\Http\Controllers\diskonController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CatatanTransaksi;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\SettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,11 +50,12 @@ Route::delete('diskon/delete/{id}','destroy');
 });
 
 //potongan
-Route::resource('potongan',potonganController::class)->except(['delete']);
+Route::resource('potongan',potonganController::class)->except(['delete','show']);
 Route::controller(potonganController::class)->group(function(){
    // Route::post('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
    Route::delete('potongan/delete/{id}','destroy')->name('potongan.destroy');
    Route::post('potongan/Search','search')->name('potongan.search');
+   Route::post('potongan/{id}','show')->name('potongan.show');
 });
 
 //transaksi
@@ -62,17 +65,19 @@ Route::controller(TransaksiBarangController::class)->group(function(){
    Route::get('Cetak/Struk/{id}','cetakstruk')->name('cetak.struk');
 });
 //catatan transaksi
-Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','show','create','store']);
+Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','show','create','store','delete']);
 
 //user data
 Route::resource('UserData',UserDataController::class)->except(['delete']);
-Route::controller(UserDataController::class)->group(function(){
+ Route::controller(UserDataController::class)->group(function(){
     Route::get('Send/mail/{id}','mail')->name('test.mail');
     Route::delete('UserData/delete/{id}', 'destroy')->name('destroy.barang');
     Route::get('Riwayat/Login/User','loguser')->name('log.user');
-
+ });
+Route::resource('setting',SettingController::class)->only(['index','update']);
 });
-});
-
+//laporan
+Route::resource('Laporan',LaporanController::class);
+//setting
 require __DIR__.'/auth.php';
 

@@ -45,8 +45,8 @@
                                     </form>
                                 </li>
                                 <li class="nk-block-tools-opt">
-                                    <a href="#" data-target="addProduct"
-                                    class=" btn btn-icon btn-primary d-md-none"><em
+                                    <a href="#" onclick="storebarang()"  data-target="addProduct"
+                                    class="toggle btn btn-icon btn-primary d-md-none"><em
                                     class="icon ni ni-plus"></em></a>
                                     <a href="#" data-target="addProduct" onclick="storebarang()" 
                                     class="toggle btn btn-primary d-none d-md-inline-flex"><em
@@ -70,7 +70,6 @@
                                     </th>
                                     <th class="nk-tb-col tb-col-sm"><span>Kode barang</span></th>
                                     <th class="nk-tb-col"><span>Nama Barang</span></th>
-                                    <th class="nk-tb-col"><span>Barcode</span></th>
                                     <th class="nk-tb-col"><span>Harga Beli</span></th>
                                     <th class="nk-tb-col tb-col-md"><span>Harga Jual</span></th>
                                     <th class="nk-tb-col tb-col-md"><span>Stok</span></th>
@@ -110,9 +109,6 @@
                                         <span class="title text-start">{{ Str::limit($barang->nama_barang,50) }}</span>
                                     </span>
                                 </td>
-                                <td class="nk-tb-col">
-                                 <span class="tb-sub"> {!! DNS1D::getBarcodeSVG($barang->barcode, 'C128', 1.5, 50, true) !!}</span>
-                             </td>
                              <td class="nk-tb-col">
                                <span class="tb-lead">Rp.{{ number_format($barang->harga_pembelian, 0, ',', '.') }}</span>
                            </td>

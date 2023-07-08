@@ -31,19 +31,24 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $browser = Agent::browser();
+        $timenow = Carbon::now();
         $user = User::where('email',$request->email)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
-                Auth::login($user);
+            Auth::login($user);
             $user->update([
                 'status' => 'online',
             ]);
-            $log = login_log::create([
+            $ceklog = login_log::where('user_id',$user->id_user)->where('date_login_at', $timenow->format('Y-m-d'))->count();
+            if($ceklog ==  0){
+                 $log = login_log::create([
                  'user_id' => Auth::user()->id_user,
-                'user_agent' => $browser,
-                'ip_address' => $request->ip(),
-                'login_at' => Carbon::now(),
-            ]);    
+                 'user_agent' => $browser,
+                 'ip_address' => $request->ip(),
+                 'date_login_at' => $timenow->format('Y-m-d'),
+                 'time_login_at' => $timenow->format('H:i:s'),
+               ]);    
+            }
             return redirect()->intended(RouteServiceProvider::HOME);
           }else{
             return redirect()
@@ -63,13 +68,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $timenow = Carbon::now();
          $user = User::findOrFail($request->id_user);
         $user->update([
             'status' => 'offline',
         ]);
-        $log = login_log::where('user_id',Auth::user()->id_user)->first();
+        $log = login_log::where('user_id',Auth::user()->id_user)->where('date_login_at',$timenow->format('Y-m-d'))->first();
         $log->update([
-            'logout_at' => Carbon::now(),
+           'date_logout_at' => $timenow->format('Y-m-d'),
+           'time_logout_at' => $timenow->format('H:i:s'),
         ]);
         Auth::guard('web')->logout();
 

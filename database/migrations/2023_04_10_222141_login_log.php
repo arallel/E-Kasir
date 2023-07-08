@@ -18,8 +18,10 @@ return new class extends Migration
            $table->foreignUuid('user_id');
            $table->string('user_agent')->nullable();
            $table->string('ip_address')->nullable();
-           $table->timestamp('login_at')->nullable();
-           $table->timestamp('logout_at')->nullable();
+           $table->date('date_login_at');
+           $table->time('time_login_at');
+           $table->date('date_logout_at')->nullable(); 
+           $table->time('time_logout_at')->nullable();
            $table->timestamps();
         });
     }

@@ -1,14 +1,44 @@
-@extends('admin.layout.main')
-@section('title','Dashboard')
-@section('content')
-<div class="nk-content-inner">
-    <div class="nk-content-body">
-        <div class="nk-block-head nk-block-head-sm">
-            <div class="nk-block-between">
-                <div class="nk-block-head-content">
-                    <h3 class="nk-block-title page-title">Dashboard </h3>
-                </div><!-- .nk-block-head-content -->
-                <div class="nk-block-head-content">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <html lang="zxx" class="js">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Parallel">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <!-- Fav Icon  -->
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
+        <!-- Page Title  -->
+        <title>@yield('title')</title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.1') }}">
+        <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.1') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
+
+    </head>
+
+    <body class="nk-body bg-lighter npc-default has-sidebar ui-clean">
+        <div class="nk-app-root">
+            <!-- main @s -->
+            <div class="nk-main ">
+                @include('admin.layout.component.sidebar')
+                <!-- wrap @s -->
+                <div class="nk-wrap ">
+                 @include('admin.layout.component.header')
+                 <!-- content @s -->
+                 <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block-head nk-block-head-sm">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title page-title">Dashboard </h3>
+                                        </div><!-- .nk-block-head-content -->
+                                        <div class="nk-block-head-content">
                     {{-- <div class="toggle-wrap nk-block-tools-toggle">
                         <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
                         <div class="toggle-expand-content" data-content="pageMenu">
@@ -112,7 +142,7 @@
                         </div><!-- .col -->
                     </div><!-- .row -->
                 </div><!-- .col -->
-                <div class="col-xxl-4 col-md-8 col-lg-6">
+                <div class="col-xxl-4 col-md-6 col-lg-6">
                     <div class="card h-100">
                         <div class="card-inner">
                             <div class="card-title-group mb-2">
@@ -123,13 +153,14 @@
                                 </div>
                             </div>
                             <ul class="nk-top-products">
+                                @if($top5item)
                                 @foreach($top5item as $topitem)
                                 <li class="item">
                                     <div class="thumb">
-                                        @if ($data->foto_barang == null)
+                                        @if ($topitem->foto_barang == null)
                                         <img src="{{ asset('assets/images/no-image.png') }}" alt="" >
                                         @else
-                                        <img src="storage/{{ $data->foto_barang }}" >
+                                        <img src="storage/{{ $topitem->foto_barang }}" >
                                         @endif
                                     </div>
                                     <div class="info">
@@ -142,6 +173,7 @@
                                     </div>
                                 </li>
                                 @endforeach
+                                @endif
                             </ul>
                         </div><!-- .card-inner -->
                     </div><!-- .card -->
@@ -258,7 +290,7 @@
                                                     <span class="amount text-success">+Rp. {{ number_format($transaksi->total_pembayaran) }}</span>
                                                 </div>
                                                 <div class="tb-tnx-status">
-                                                 <ul class="nk-tb-actions gx-1">
+                                                   <ul class="nk-tb-actions gx-1">
                                                     <li>
                                                         <div class="drodown">
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -287,6 +319,30 @@
         </div><!-- .nk-block -->
     </div>
 </div>
+</div>
+</div>
+<!-- content @e -->
+<!-- footer @s -->
+<div class="nk-footer">
+    <div class="container-fluid">
+        <div class="nk-footer-wrap">
+            @include('admin.layout.component.footer')
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- main @e -->
+</div>
+<!-- app-root @e -->
+<!-- JavaScript -->
+<!-- FontAwesome Icons --> 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('assets/js/bundle.js?ver=3.1.1') }}"></script>
+<script src="{{ asset('assets/js/datadashboard.js') }}"></script>
+<script src="{{ asset('assets/js/scripts.js?ver=3.1.1') }}"></script>
 
-@endsection
+</body>
+</html>

@@ -64,7 +64,7 @@
     <div class="container">
         <div class="header" style="margin-bottom: 30px;">
             <h2>Kasir COMP</h2>
-            </div>
+        </div>
         <hr>
         <div class="flex-container-1">
             <div class="left">
@@ -90,14 +90,20 @@
             <div>Total</div>
         </div>
         @foreach ($data->detailtransaksi as $item)
-            <div class="flex-container" style="text-align: right;">
-                <div style="text-align: left;">{{ ($item->databarang != null)?Str::limit($item->databarang->nama_barang,12):'Barang Di hapus Oleh Kasir' }}</div>
-                <div>{{ $item->qty }} <span></span>Rp {{ number_format($item->databarang->harga_barang) }} 
-                    {{ ($item->checkpotongan)?"Diskon:":'' }}
-                </div>
-                <div>Rp {{ number_format($item->databarang->harga_barang * $item->qty ) }}   {{ ($item->checkpotongan)?'(Rp.'.number_format($item->checkpotongan->harga_potongan * $item->qty).')':'' }} 
-                </div>
+        <div class="flex-container" style="text-align: right;">
+            <div style="text-align: left;">
+                {{ ($item->databarang != null)?Str::limit($item->databarang->nama_barang,12):'Barang Di hapus Oleh Kasir' }}
             </div>
+            <div>{{ $item->qty }} <span></span>Rp 
+                {{ number_format($item->databarang->harga_barang) }} 
+                {{ ($item->checkpotongan->harga_potongan_persen)?"Diskon:":'' }}
+                {{ ($item->checkpotongan->harga_potongan_rp)?"Potongan:":'' }}
+            </div>
+            <div>Rp {{ number_format($item->databarang->harga_barang * $item->qty ) }}   
+                {{ ($item->checkpotongan->harga_potongan_rp)?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp * $item->qty).')':'' }} 
+                {{ ($item->checkpotongan->harga_potongan_persen)?$item->checkpotongan->harga_potongan_persen.'%':'' }}
+            </div>
+        </div>
         @endforeach
         <hr>
         <div class="flex-container" style="text-align: right; margin-top: 10px;">
@@ -107,13 +113,23 @@
                     <li>Total:</li>
                     <li>Tunai:</li>
                     <li>Kembalian:</li>
+                    <li>hemat:</li>
                 </ul>
-            </div>
+            </div>     
+            @php
+             $harga_awal = 0; 
+             $sumharga_setelah_potongan = 0; 
+            foreach ($data->detailtransaksi  as $harga) {
+               $harga_awal += $harga->checkpotongan->harga_awal;
+               $sumharga_setelah_potongan += $harga->checkpotongan->harga_setelah_potongan;
+            }
+            @endphp
             <div style="text-align: right;">
                 <ul>
                     <li>Rp {{ number_format($data->total_pembayaran) }}</li>
                     <li>Rp {{ number_format($data->uang_dibayarkan) }}</li>
                     <li>Rp {{ number_format($data->total_kembalian) }}</li>
+                    <li>Rp {{ number_format($harga_awal - $sumharga_setelah_potongan) }}</li>
                 </ul>
             </div>
         </div>
@@ -122,7 +138,7 @@
             <p>Terima Kasih,Selamat Belanja Kembali</p>
         </div>
     </div>
-     <script>     
+     {{-- <script>     
         const url = document.referrer;
         const baseUrl = new URL(url).origin +'/';
         const modifiedUrl = url.replace(baseUrl, "");
@@ -134,6 +150,6 @@
        setTimeout(()=>{
        printPage();
        },2000);
-    </script>
+   </script> --}}
 </body>
 </html>

@@ -139,7 +139,7 @@
                                             </div>
                                         </div>
                                     <div class="col-12 text-end mt-3">
-                                        <a href="{{ route('diskon.index') }}" class="btn btn-secondary">Kembali</a> 
+                                        <a href="{{ route('databarang.index') }}" class="btn btn-secondary">Kembali</a> 
                                         <button class="btn btn-success" >Simpan  Data</button>
                                     </div>
                                     </div>

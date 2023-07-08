@@ -14,19 +14,9 @@ class potonganController extends Controller
         $datapotongan = potongan::with('databarang')->get();
         return view('admin.potongan.indexpotongan',compact('datapotongan'));
     }
-     public function search(Request $request)
-    {
-        $datapotongan = potongan::with('databarang')->select('id_potongan','id_barang','harga_potongan','tgl_awal_potongan','tgl_akhir_potongan','status_potongan','nama_potongan','harga_setelah_potongan')
-            ->where('nama_potongan','like','%'.$request->search.'%')
-            ->Orwhere('harga_potongan',$request->search)
-            ->get();
-         return view('admin.potongan.indexpotongan',compact('datapotongan'));
-    }
     public function create()
     {
-        $searchbarang = null;
-        $show_modal = false;
-        return view('admin.potongan.createpotongan',compact('searchbarang','show_modal'));
+        return view('admin.potongan.createpotongan');
     }
     public function searchbarang(Request $request)
     {
@@ -36,41 +26,33 @@ class potonganController extends Controller
         if(count($searchbarang) == 0 ){
             return response()->json(['message' => 'no data' ]);
         }else{
-        return response()->json(['data' => $searchbarang]);
+            return response()->json(['data' => $searchbarang]);
         }
-   }
-   public function searchedit(Request $request,$id)
-   {
-    $searchbarang = databarang::select('nama_barang','id_barang','harga_barang')
-    ->where('nama_barang','like','%'.$request->cari_barang.'%')
-    ->Orwhere('barcode','like','%'.$request->cari_barang.'%')
-    ->get();
-    if (count($searchbarang) > 0) {
-       $show_modal = true;
-   }
-   $data = potongan::with('databarang')->findOrFail($id);
-
-   return view('admin.potongan.editpotongan',compact('searchbarang','show_modal','data'));
-   }
+    }
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'id_barang' => 'required',
-            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
-            'stok' => 'required|min:1',
-            'id_kategory' => 'required',
-            'barcode' => 'required',
-        ]);
-      $data = potongan::create([
-        'id_barang' => $request->id_barang,
-        'nama_potongan' => $request->nama_potongan,
-        'harga_potongan' => $request->harga_potongan,
-        'tgl_awal_potongan' => $request->tgl_awal_potongan,
-        'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
-        'harga_setelah_potongan'=> $request->harga_setelah_potongan,
-        'status_potongan' => 'aktif',
-    ]);
-      if ($data) {
+        $cek = potongan::where('id_barang',$request->id_barang)->count();
+        if($cek >= 1){
+           return redirect()
+           ->back()
+           ->with('error', 'Gagal Menyimpan Data Sudah Ada')
+           ->withInput();
+       }else{
+        $data = potongan::create([
+         'id_barang' => $request->id_barang,
+         'harga_awal' => $request->harga_awal,
+         'harga_potongan_rp' => ($request->harga_potongan_rp != null)?$request->harga_potongan_rp:null,
+         'harga_potongan_persen' => ($request->harga_persen != null)?$request->harga_persen:null,
+         'tgl_awal_potongan' => $request->tgl_awal_potongan,
+         'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
+         'status_potongan' => 'aktif',
+         'diskon_by_code' => ($request->kode_promo != null)?'true':'false',
+         'kode_promo' => $request->kode_promo,
+         'harga_setelah_potongan' => $request->harga_setelah_potongan,
+     ]);
+    }
+
+    if ($data) {
         return redirect()->route('potongan.index')->with('success', 'Data Berhasil Disimpan');
     } else {
      return redirect()
@@ -80,78 +62,78 @@ class potonganController extends Controller
      ->withInput();
  }
 }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\diskon  $diskon
-     * @return \Illuminate\Http\Response
-     */
-    public function show(diskon $diskon)
+public function show(Request $request,$id)
+{
+    $data = potongan::with('databarang')->findOrFail($id);
+    $jumlah = $request->jumlah;
+    if($data && $jumlah)
     {
-        //
+        return view('admin.potongan.printlabelpromo',compact('data','jumlah'));
+    }else{
+        abort(404);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\diskon  $diskon
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($diskon)
-    {
-        $searchbarang = null;
-        $show_modal = false;
-        $data = potongan::with('databarang')->findOrFail($diskon);
-        return view('admin.potongan.editpotongan',compact('data','searchbarang','show_modal'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\diskon  $diskon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request,$diskon)
-    {
-        $validate = $request->validated;
-        $data = potongan::findOrFail($diskon);
-        $data->update([
-            'id_barang' => $request->id_barang,
-            'nama_potongan' => $request->nama_potongan,
-            'harga_potongan' => $request->harga_potongan,
-            'status_potongan' => $request->status_potongan,
-            'tgl_awal_potongan' => $request->tgl_awal_potongan,
-            'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
-            'harga_setelah_potongan'=> $request->harga_setelah_potongan,
-        ]);
-        if ($data) {
-            return redirect()->route('potongan.index')->with('success', 'Data Berhasil Di Ubah');
-        } else {
-           return redirect()
+}
+public function edit($diskon)
+{
+    $data = potongan::with('databarang')->findOrFail($diskon);
+    if($data == null){abort(404);}
+    return view('admin.potongan.editpotongan',compact('data'));
+}
+public function update(Request $request,$diskon)
+{
+    $cek = potongan::where('id_barang',$request->id_barang)->count();
+    if($cek >= 2 ){
+        return redirect()
            ->back()
-           ->withErrors($validate)
-           ->with('error', 'Gagal Menyimpan Data')
+           ->with('error', 'Gagal Menyimpan Data Sudah Ada Pada Diskon Harap Di Hapus Apabila Tidak Dipakai')
            ->withInput();
-       }
+    }else{
+     $data = potongan::findOrFail($diskon);
+     $data->update([
+       'id_barang' => $request->id_barang,
+       'harga_awal' => $request->harga_awal,
+       'harga_potongan_rp' => ($request->harga_potongan_rp != null)?$request->harga_potongan_rp:null,
+       'harga_potongan_persen' => ($request->harga_persen != null)?$request->harga_persen:null,
+       'tgl_awal_potongan' => $request->tgl_awal_potongan,
+       'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
+       'status_potongan' => $request->status_potongan,
+       'diskon_by_code' => ($request->kode_promo != null)?'true':'false',
+       'kode_promo' => $request->kode_promo,
+       'harga_setelah_potongan' => $request->harga_setelah_potongan,
+   ]);
+    if ($data) {
+        return redirect()->route('potongan.index')->with('success', 'Data Berhasil Di Ubah');
+    }else {
+       return redirect()
+       ->back()
+       ->withErrors($validate)
+       ->with('error', 'Gagal Menyimpan Data')
+       ->withInput();
    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\diskon  $diskon
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($diskon)
-    {
-       $data = potongan::findOrFail($diskon);
-       $data->delete();
-
-       if($data){
-         return redirect()->route('potongan.index')->with('success', 'Data Berhasil Di Hapus');
-       }else{
-         return redirect()->back()->with('danger', 'Data Tidak Berhasil Di Hapus');
-       }
+   }
+}
+public function destroy($diskon)
+{
+   $data = potongan::findOrFail($diskon);
+   if($data == null){abort(404);}
+   $data->delete();
+   if($data){
+     return redirect()->route('potongan.index')->with('success', 'Data Berhasil Di Hapus');
+ }else{
+     return redirect()->back()->with('danger', 'Data Tidak Berhasil Di Hapus');
+ }
+}
+public function checkkupon(Request $request)
+{
+    if($request->kode_promo){
+        $data = potongan::where('kode_promo',$request->kode_promo)->first();
+        if($data->status_potongan == 'aktif' && $data->diskon_by_code == 'true'){
+            return response()->json($data);
+        }else{
+            return response()->json(['Kupon Kadaluarsa atau Salah Kode']);
+        }
+    }else{
+        return response()->json(['message' => 'Mohon Mengisi Input']);
     }
+}
 }

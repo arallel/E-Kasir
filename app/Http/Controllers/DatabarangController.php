@@ -70,7 +70,7 @@ class DatabarangController extends Controller
     }
     public function create()
     {
-        $kategory = kategory::all();
+     $kategory = kategory::all();
       return view('admin.databarang.indexbarang',compact('kategory'));
 
     }
@@ -78,12 +78,14 @@ class DatabarangController extends Controller
     {
         $data = databarang::findOrFail($id);
         $jumlah = $request->jumlah;
+        if($jumlah == null && $data == null){abort(404);}
         return view('admin.databarang.printlabelharga',compact('data','jumlah'));
     }
     public function printbarcode(Request $request,$id)
     {
       $data = databarang::findOrFail($id);
       $jumlah = $request->jumlah;
+      if($jumlah == null && $data == null){abort(404);}
       return view('admin.databarang.printbarcodebarang',compact('data','jumlah'));
     }
     public function store(ProductRequest $request)
@@ -122,6 +124,7 @@ class DatabarangController extends Controller
             'barcode' => 'required',
         ]);
         $data = databarang::findOrFail($databarang);
+        if($data == null){abort(404);}
         $data->update([
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
@@ -146,18 +149,20 @@ class DatabarangController extends Controller
     {
         $data = databarang::with('kategory')->findOrFail($databarang);
         $kategory = kategory::all();
-
+        if($data == null && $kategory == null){abort(404);}
         return view('admin.databarang.detailbarang',compact('data','kategory'));
     }
     public function edit($databarang)
     {
         $data = databarang::with('kategory')->findOrFail($databarang);
         $kategory = kategory::all();
+        if($kategory == null && $data == null){abort(404);}
         return view('admin.databarang.editbarang',compact('data','kategory'));
     }
     public function destroy($databarang)
     {
         $data = databarang::findOrFail($databarang);
+        if($data == null){abort(404);}
         if ($data->foto_barang != null) {
         Storage::delete($data->foto_barang);
         $data->delete();
@@ -169,6 +174,7 @@ class DatabarangController extends Controller
     public function addstok(Request $request,$id)
     {
         $data = databarang::findOrFail($id);
+        if($data == null){abort(404);}
         if($data){
             $data->update([
                 'stok' => $data->stok + $request->jumlah

@@ -69,6 +69,7 @@ class TransaksiBarangController extends Controller
             public function cetakstruk($id)
             {
                 $data = transaksi_barang::with('detailtransaksi','user','detailtransaksi.databarang')->findOrfail($id);
+                if($data == null){abort(404);}
                 return view('admin.transaksi.struk',compact('data'));
             }
         }

@@ -10,12 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="assets/images/favicon.png">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
     <!-- Page Title  -->
     <title>@yield('title')</title>
     <!-- StyleSheets  -->
-    <link rel="stylesheet" href="{{ asset('./assets/css/dashlite.css?ver=3.1.1') }}">
-    <link id="skin-default" rel="stylesheet" href="{{ asset('./assets/css/theme.css?ver=3.1.1') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.1') }}">
+    <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.1') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
+
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ui-clean">
@@ -50,10 +52,9 @@
     <!-- app-root @e -->
     <!-- JavaScript -->
      <!-- FontAwesome Icons --> 
-    <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
-    <script src="{{ asset('./assets/js/bundle.js?ver=3.1.1') }}"></script>
-    <script src="{{ asset('./assets/js/scripts.js?ver=3.1.1') }}"></script>
-    <script src="{{ asset('./assets/js/charts/chart-ecommerce.js?ver=3.1.1') }}"></script>
-    <script src="{{ asset('assets/js/datadashboard.js') }}"></script>
+    @stack('script')
+            <script src="{{ asset('assets/js/bundle.js?ver=3.1.1') }}"></script>
+    <script src="{{ asset('assets/js/scripts.js?ver=3.1.1') }}"></script>
+
 </body>
 </html>
