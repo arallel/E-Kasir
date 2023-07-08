@@ -18,6 +18,9 @@ class detail_transaksi extends Model
        'id_transaksi',
         'qty',
         'harga_item',
+        'harga_asli',
+        'jumlah_diskon_rp',
+        'jumlah_diskon_persen',
     ];
     public function transaksi()
     {

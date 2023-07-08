@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\catatantransaksiresource;
 use App\Models\transaksi_barang;
 use App\Models\databarang;
 use App\Models\detail_transaksi;
 use Str;
-use Auth;
 
-class CatatanTransaksi extends Controller
+class catatantransaksi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +19,22 @@ class CatatanTransaksi extends Controller
      */
     public function index()
     {
-        $datas = transaksi_barang::with('user','detailtransaksi')->get();
-        return view('admin.catatantransaksi.index',compact('datas'));
+        $data = transaksi_barang::with('user','detailtransaksi')->get();
+        if($data){
+            return response()->json(catatantransaksiresource::collection($data));
+        }else{
+            return response()->json(['message'=>'tidak Ada Data'],404);
+        }
     }
-    public function create(){
-        $searchbarang = null;
-        $show_modal = false;
-        return view('admin.catatantransaksi.createcatatan',compact('searchbarang','show_modal'));
-    }
-    public function store(Request $request){
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validate = $request->validate([
             'tgl_transaksi' => 'required|date',
             'waktu_transaksi' => 'required',
@@ -35,7 +43,7 @@ class CatatanTransaksi extends Controller
             'no_resi' => 'required|string',
             'pembelian' => 'required',
             'id_barang' => 'required',
-            '   ' => 'required|integer'
+            'qty' => 'required|integer'
         ]);
         // Invoice 
         $lastinv = transaksi_barang::orderBy('id_transaksi','asc')->count();
@@ -50,7 +58,7 @@ class CatatanTransaksi extends Controller
             'waktu_transaksi'=> $request->waktu_transaksi, 
             'total_pembayaran' => $request->total_pembayaran,
             'uang_dibayarkan' => $request->uang_dibayarkan,
-            'id_user' => Auth::user()->id_user,
+            'id_user' => $request->id_user,
             'no_pesanan' => $request->no_pesanan,
             'no_resi' => $request->no_resi,
             'pembelian' => $request->pembelian,
@@ -69,30 +77,54 @@ class CatatanTransaksi extends Controller
         $data->update([
             'stok' => $hitung,
         ]);
-
         if($transaksi && $detail_transaksi){
-            return redirect()->route('Catatan-transaksi.index');
+            return response()->json(['message' => 'data berhasil disimpan'],200);
         }else{
-            return redirect()->back();
+            return response()->json(['message' => 'data gagal disimpan'],404);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
-       $data = transaksi_barang::with('user','detailtransaksi','detailtransaksi.databarang')->find($id);
+        $data = transaksi_barang::with('user','detailtransaksi','detailtransaksi.databarang')->find($id);
        if($data == null)
        {
-        abort(404);
+        return response()->json(['message' => 'data tidak ada'],404);
        }
-        return view('admin.catatantransaksi.show',compact('data'));
+       return response()->json(new catatantransaksiresource($data));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
-        $data = transaksi_barang::findOrFail($id);
+        $data = transaksi_barang::find($id);
+         if($data == null){
+           return response()->json(['message'=> 'Data Tidak Ada']);
+         }
         $data->delete();
-        if($data){
-            return to_route('Catatan-transaksi.index')->with(['success' => 'data Berhasil Di Hapus']);
-        }else{
-            return redirect()->back()->with(['error' => 'gagal Menghapus Data']);
-        }
+           return response()->json(['message'=> 'data berhasil dihapus']);
     }
 }
