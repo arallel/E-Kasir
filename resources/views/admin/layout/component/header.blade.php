@@ -16,7 +16,7 @@
             <div class="nk-header-tools">
                 <ul class="nk-quick-nav">
                     
-                    <li class="dropdown chats-dropdown hide-mb-xs">
+                    {{-- <li class="dropdown chats-dropdown hide-mb-xs">
                         <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
                         </a>
@@ -74,7 +74,7 @@
                                 </div><!-- .nk-notification -->
                             </div><!-- .nk-dropdown-body -->
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="dropdown user-dropdown">
                         <a href="#" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
                             <div class="user-toggle">
@@ -101,9 +101,9 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
-                                    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                    <li><a href="{{ route('profile.index') }}" ><em class="icon ni ni-user-alt" ></em><span>View Profile</span></a></li>
                                     <li><a href="{{ route('setting.index') }}"><em class="icon ni ni-setting-alt"></em><span>Setting</span></a></li>
-                                    <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                    <li><a href="{{ route('log.user') }}"><em class="icon ni ni-activity-alt"></em><span>Aktivitas Login</span></a></li>
                                 </ul>
                             </div>
                             <div class="dropdown-inner">

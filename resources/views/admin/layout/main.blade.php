@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html>
-
-<head>
 <html lang="zxx" class="js">
-
 <head>
     <meta charset="utf-8">
     <meta name="author" content="Parallel">
@@ -17,9 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dashlite.css?ver=3.1.1') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('assets/css/theme.css?ver=3.1.1') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('./assets/css/libs/fontawesome-icons.css') }}"> 
-
 </head>
-
 <body class="nk-body bg-lighter npc-default has-sidebar ui-clean">
     <div class="nk-app-root">
         <!-- main @s -->
@@ -49,12 +43,7 @@
         </div>
         <!-- main @e -->
     </div>
-    <!-- app-root @e -->
-    <!-- JavaScript -->
-     <!-- FontAwesome Icons --> 
-    @stack('script')
-            <script src="{{ asset('assets/js/bundle.js?ver=3.1.1') }}"></script>
+    <script src="{{ asset('assets/js/bundle.js?ver=3.1.1') }}"></script>
     <script src="{{ asset('assets/js/scripts.js?ver=3.1.1') }}"></script>
-
 </body>
 </html>

@@ -38,6 +38,7 @@ class RegisteredUserController extends Controller
         $user->update([
             'password' => Hash::make($request->password),
             'status_akun' => 'aktif',
+            'status' => 'online',
         ]);
         event(new Registered($user));
 

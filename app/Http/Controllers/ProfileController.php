@@ -2,59 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Auth;
+use App\Models\User;
+use Hash;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
-    {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+  public function index()
+  {
+    $id = Auth::user()->id_user;
+    if($id == null){
+        abort(404);
     }
-
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+    $data = User::with('userlog')->where('id_user',$id)->first();
+    return view('auth.profile',compact('data'));
+  }
+  public function update(Request $request,$id){
+     $user = User::find($id)->first();
+     $user->update([
+        'nama_pengguna' => $request->nama_pengguna,
+        'email' => $request->email,
+     ]);
+     if($user){
+        return to_route('profile.index')->with('success','Berhasil Update Data');
+     }else{
+        return to_route('profile.index')->with('error','Gagal Update Data');
+     }
+ }
+ public function updatepassword(Request $request,$id){
+     $user = User::find($id)->first();
+     $validate = $request->validate([
+         'password' => 'required|string',
+         'confirm_password' => 'required|string|min:6',
+     ]);
+      if (!Hash::check($request->password, $user->password)) {
+            return to_route('profile.index')->with('error', 'Password Salah');
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
+     $user->update([
+        'password' =>  Hash::make($request->confirm_password),
+     ]);
+     if($user){
+        return to_route('profile.index')->with('success','Berhasil Update Data');
+     }else{
+        return to_route('profile.index')->with('error','Gagal Update Data');
+     }
+ }
 }

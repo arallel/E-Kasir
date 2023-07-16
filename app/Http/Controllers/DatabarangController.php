@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Storage;
 use Illuminate\Support\Str;
+use Image;
 
 class DatabarangController extends Controller
 {
@@ -90,13 +91,28 @@ class DatabarangController extends Controller
     }
     public function store(ProductRequest $request)
     {
+        $validate = $request->validate([
+         'barcode' => 'required|unique:databarang,barcode',
+        ], [
+         'barcode.required' => 'Kode barcode harus diisi.',
+         'barcode.unique' => 'Kode barcode sudah digunakan.',
+        ]);
+        $image = $request->file('foto_barang');
+        $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
+        $destinationPath = storage_path('app/images');
+        $img = Image::make($image->path());
+        $img->resize(1200, 1200, function ($constraint) {
+            $constraint->aspectRatio();
+                    // $constraint->upsize();
+        })->save($destinationPath.'/'.$input['imagename']);
+
         $lastbarang = databarang::orderBy('id_transaksi','asc')->count();
         $prefix = 'A';
         $lastInvoiceNumber = $lastbarang + 1; 
         $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
         $data = databarang::create([
             'id_barang' => $kodebarang,
-            'foto_barang' => ($request->foto_barang)?$request->file('foto_barang')->store('images'):null,
+            'foto_barang' => ($request->foto_barang)?'images/'.$img->basename:null,
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
             'id_kategory' => $request->id_kategory,
@@ -114,21 +130,31 @@ class DatabarangController extends Controller
              ->withInput();
         }
     }
-    public function update(Request $request, $databarang)
+    public function update(ProductRequest $request, $databarang)
     {
         $validate = $request->validate([
-            'nama_barang' => 'required|string|max:255',
-            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
-            'stok' => 'required|min:1',
-            'id_kategory' => 'required',
-            'barcode' => 'required',
+         'barcode' => 'required',
+        ], [
+         'barcode.required' => 'Kode barcode harus diisi.',
         ]);
         $data = databarang::findOrFail($databarang);
+        if($request->foto_barang && Storage::exists($data->foto_barang))
+        {
+            Storage::delete($data->foto_barang);
+            $image = $request->file('foto_barang');
+            $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
+            $destinationPath = storage_path('app/images');
+            $img = Image::make($image->path());
+            $img->resize(1200, 1200, function ($constraint) {
+                $constraint->aspectRatio();
+                    // $constraint->upsize();
+            })->save($destinationPath.'/'.$input['imagename']);
+        }
         if($data == null){abort(404);}
         $data->update([
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
-            'foto_barang' => ($request->foto_barang)?$request->file('foto_barang')->store('images'):null,
+            'foto_barang' => ($request->foto_barang)?'images/'.$img->basename:null,
             'id_kategory' => $request->id_kategory,
             'status_barang' => $request->status_barang,
             'barcode' => $request->barcode,

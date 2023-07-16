@@ -104,14 +104,14 @@
                 {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline')?$item->checkpotongan->harga_potongan_persen.'%':'' }}
             </div>
         </div>
-        @if($item->checkpotongan)     
             @php
              $sumharga_setelah_potongan = 0; 
              $harga_awal = 0; 
+            if($item->checkpotongan){     
                $harga_awal += $item->checkpotongan->harga_awal;
                $sumharga_setelah_potongan += $item->checkpotongan->harga_setelah_potongan;
+            }
             @endphp 
-            @endif
         @endforeach
         <hr>
         
@@ -143,7 +143,7 @@
             <p>Terima Kasih,Selamat Belanja Kembali</p>
         </div>
     </div>
-     {{-- <script>     
+     <script>     
         const url = document.referrer;
         const baseUrl = new URL(url).origin +'/';
         const modifiedUrl = url.replace(baseUrl, "");
@@ -155,6 +155,6 @@
        setTimeout(()=>{
        printPage();
        },2000);
-   </script> --}}
+   </script>
 </body>
 </html>

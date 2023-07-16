@@ -20,8 +20,7 @@ class potonganController extends Controller
     }
     public function searchbarang(Request $request)
     {
-        $searchbarang = databarang::select('nama_barang','id_barang','harga_barang','stok')
-        ->where('nama_barang','like','%'.$request->cari_barang.'%')
+        $searchbarang = databarang::with('checkpotongan')->select('id_barang','nama_barang','harga_barang','stok')->where('nama_barang','like','%'.$request->cari_barang.'%')
         ->get();
         if(count($searchbarang) == 0 ){
             return response()->json(['message' => 'no data' ]);
@@ -29,7 +28,7 @@ class potonganController extends Controller
             return response()->json(['data' => $searchbarang]);
         }
     }
-    public function store(Request $request)
+    public function store(potonganRequest $request)
     {
         $cek = potongan::where('id_barang',$request->id_barang)->count();
         if($cek >= 1){
@@ -46,13 +45,11 @@ class potonganController extends Controller
          'tgl_awal_potongan' => $request->tgl_awal_potongan,
          'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
          'status_potongan' => 'aktif',
-         'diskon_by_code' => ($request->kode_promo != null)?'true':'false',
-         'kode_promo' => $request->kode_promo,
          'harga_setelah_potongan' => $request->harga_setelah_potongan,
      ]);
     }
 
-    if ($data) {
+    if ($data){
         return redirect()->route('potongan.index')->with('success', 'Data Berhasil Disimpan');
     } else {
      return redirect()
@@ -79,7 +76,7 @@ public function edit($diskon)
     if($data == null){abort(404);}
     return view('admin.potongan.editpotongan',compact('data'));
 }
-public function update(Request $request,$diskon)
+public function update(potonganRequest $request,$diskon)
 {
     $cek = potongan::where('id_barang',$request->id_barang)->count();
     if($cek >= 2 ){
@@ -96,8 +93,6 @@ public function update(Request $request,$diskon)
        'harga_potongan_persen' => ($request->harga_persen != null)?$request->harga_persen:null,
        'tgl_awal_potongan' => $request->tgl_awal_potongan,
        'tgl_akhir_potongan' => $request->tgl_akhir_potongan,
-       'status_potongan' => $request->status_potongan,
-       'diskon_by_code' => ($request->kode_promo != null)?'true':'false',
        'kode_promo' => $request->kode_promo,
        'harga_setelah_potongan' => $request->harga_setelah_potongan,
    ]);

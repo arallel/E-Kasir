@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <form action="{{ route('Catatan-transaksi.store') }}" method="POST"
-                            enctype="multipart/form-data" autocomplete="off">
+                            enctype="multipart/form-data" id="form" autocomplete="off" style="display:none;">
                             @csrf
                             <div class="row g-3">
                               <input type="hidden" class="id_barang"  name="id_barang">
@@ -251,6 +251,7 @@
    
    function pilihbarang(rowIndex) {
       $('#modalTop').modal('hide');
+      document.getElementById('form').style.display = 'block';
       const row = $('table tbody tr:eq(' + rowIndex + ')');
       const button = document.getElementsByClassName('btn-pilih')[rowIndex];
       const idbarang = button.getAttribute('data-id');
