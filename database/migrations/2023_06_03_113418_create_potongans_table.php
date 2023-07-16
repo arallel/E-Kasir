@@ -22,8 +22,6 @@ return new class extends Migration
             $table->integer('harga_potongan_persen')->nullable();
             $table->date('tgl_awal_potongan');
             $table->date('tgl_akhir_potongan');
-            $table->string('kode_promo')->nullable();
-            $table->enum('diskon_by_code',['true','false']);
             $table->enum('status_potongan',['aktif','tidak_aktif'])->default('aktif');
             $table->foreign('id_barang')->references('id_barang')->on('databarang');
             $table->timestamps();

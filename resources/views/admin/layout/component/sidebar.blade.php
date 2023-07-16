@@ -64,48 +64,38 @@
                             <span class="nk-menu-text">User</span>
                         </a>
                         <ul class="nk-menu-sub">
+                            @if(Auth::user()->level == 'admin')
                             <li class="nk-menu-item">
                                 <a href="{{ route('UserData.index') }}" class="nk-menu-link"><span class="nk-menu-text">Data Pengguna</span></a>
                             </li>
                             <li class="nk-menu-item">
                                 <a href="{{ route('log.user') }}" class="nk-menu-link"><span class="nk-menu-text">Riwayat Login Pengguna</span></a>
                             </li>
+                            @endif
                             <li class="nk-menu-item">
-                                <a href="#" class="nk-menu-link"><span class="nk-menu-text">Profile Pengguna</span></a>
+                                <a href="{{ route('profile.index') }}" class="nk-menu-link"><span class="nk-menu-text">Profile Pengguna</span></a>
                             </li>
                         </ul><!-- .nk-menu-sub -->
                     </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                    <li class="nk-menu-item">
+                        <a href="{{ route('Laporan.index') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span>
-                            <span class="nk-menu-text">Generate Laporan</span>
+                            <span class="nk-menu-text">Laporan Penjualan</span>
                         </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('Laporan.index') }}" class="nk-menu-link"><span class="nk-menu-text">Laporan Penjualan</span></a>
-                            </li>
-                                        {{-- <li class="nk-menu-item">
-                                            <a href="{{ route('Kategory.index') }}" class="nk-menu-link"><span class="nk-menu-text">Riwayat Login Pengguna</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ route('Kategory.index') }}" class="nk-menu-link"><span class="nk-menu-text">Profile Pengguna</span></a>
-                                        </li> --}}
-                                    </ul><!-- .nk-menu-sub -->
-                                </li><!-- .nk-menu-item -->
+                    </li><!-- .nk-menu-item -->
+                    <li class="nk-menu-heading">
+                        <h6 class="overline-title text-primary-alt">Setting</h6>
+                    </li><!-- .nk-menu-heading -->
 
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Setting</h6>
-                                </li><!-- .nk-menu-heading -->
-                                
-                                <li class="nk-menu-item">
-                                    <a href="{{ route('setting.index') }}" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
-                                        <span class="nk-menu-text">Setting</span>
-                                    </a>
-                                </li><!-- .nk-menu-item -->
-                            </ul><!-- .nk-menu -->
-                        </div><!-- .nk-sidebar-menu -->
-                    </div><!-- .nk-sidebar-content -->
-                </div><!-- .nk-sidebar-element -->
-            </div>
-            <!-- sidebar @e -->
+                    <li class="nk-menu-item">
+                        <a href="{{ route('setting.index') }}" class="nk-menu-link">
+                            <span class="nk-menu-icon"><em class="icon ni ni-setting"></em></span>
+                            <span class="nk-menu-text">Setting</span>
+                        </a>
+                    </li><!-- .nk-menu-item -->
+                </ul><!-- .nk-menu -->
+            </div><!-- .nk-sidebar-menu -->
+        </div><!-- .nk-sidebar-content -->
+    </div><!-- .nk-sidebar-element -->
+</div>
+<!-- sidebar @e -->

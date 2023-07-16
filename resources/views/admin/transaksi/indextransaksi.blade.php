@@ -2,20 +2,7 @@
 @section('title', 'Transaksi')
 @section('content')
 <style>
-    .imgbarang {
-        cursor: pointer;
-    }
-    .disabled-card{
-       cursor: no-drop;
-   }
-   .overflow-y-scroll{
-    overflow-y:scroll;
-    scroll-behavior: smooth;
-    height: calc(130vh - 200px);
-}
-.overflow-y-scroll-transaksi{
-    scroll-behavior: smooth;
-}
+
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="nk-content-inner">
@@ -45,12 +32,12 @@
                                 <div class="card-inner">
                                     <form id="barcode_form">
                                         <div class="row">
-                                            <div class="col-6 mb-3">
+                                            <div class="col-12 col-md-6 mb-3">
                                                 <input type="text" autofocus class="form-control" name="barcode"
                                                 id="barcode" placeholder="Scan Barcode">
                                             </div>
                                         </form>
-                                        <div class="col-6 mb-3">
+                                        <div class="col-12 col-md-6 mb-3">
                                             <div class="form-control-wrap">    
                                                 <div class="input-group">        
                                                  <input type="text" autofocus class="form-control" name="nama_barang"
@@ -66,35 +53,39 @@
                             <div class="card-inner overflow-y-scroll">
                                 <div class="row ">
                                     @foreach ($databarang as $data)
-                                    <div class="col-12 col-md-4 mt-2">
-                                        <div class="card {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow"    data-barcode="{{ $data->barcode }}"
+                                    <div class="col-md-4 col-sm-7 mt-2">
+                                        <div class="card product-card  {{ ($data->stok == 0)?'disabled-card':'imgbarang' }} shadow" 
+                                            data-barcode="{{ $data->barcode }}"
                                             data-stok="{{ $data->stok }}" data-nama="{{ $data->nama_barang }}"
                                             data-foto="{{ $data->foto_barang }}" data-id="{{ $data->id_barang }}"
-                                            data-harga="{{ ($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif' && $data->checkpotongan->kode_promo == null)?$data->checkpotongan->harga_setelah_potongan : $data->harga_barang }}"
-                                            >
-                                            <div class="card-inner ">
-                                             @if ($data->foto_barang == null)
-                                             <img src="{{ asset('assets/images/no-image.png') }}"height="109" width="109">
-                                             @else
-                                             <img src="storage/{{ $data->foto_barang }}" class=""
-                                             height="109" width="109">
-                                             {{-- <img src="{{ $data->foto_barang }}" class="" height="109,44" width="109,44"> --}}
-                                             @endif
-                                             <h6 class=" mt-3">{{ Str::limit($data->nama_barang,20) }}</h6>
-                                             <p class="fw-medium m-0">Stok:{{ $data->stok }}</p>
-                                             <p class="fw-medium m-0">Rp.
+                                            data-harga="{{ ($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif' && $data->checkpotongan->kode_promo == null)?$data->checkpotongan->harga_setelah_potongan : $data->harga_barang }}">
+                                            <div class="product-thumb">
+                                                <a href="">
+                                                    @if ($data->foto_barang == null)
+                                                    <img src="{{ asset('assets/images/no-image2.jpg') }}">
+                                                    @else
+                                                    <img class="card-img-top img-fluid" src=" storage/{{ $data->foto_barang }}">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="card-inner text-center">
+                                                <h6 class="product-title">{{ Str::limit($data->nama_barang,20) }}</h6>
+                                                <p>Stok:{{ $data->stok }}</p>
+                                                <div class="product-price text-primary h5  fw-medium">
                                                 @if($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif' && $data->checkpotongan->harga_potongan_persen && $data->checkpotongan->kode_promo == null)
-                                                {{ number_format($data->checkpotongan->harga_setelah_potongan) }}<br><span class="badge bg-primary">Diskon</span>
+                                                    <small class="text-muted fs-16px text-primary">Diskon:<span class="badge bg-primary">%{{ $data->checkpotongan->harga_potongan_persen }}</span></small>
+                                                {{ 'Rp.'.number_format($data->checkpotongan->harga_setelah_potongan) }}
                                                 @elseif($data->checkpotongan != null && $data->checkpotongan->status_potongan == 'aktif' && $data->checkpotongan->harga_potongan_rp && $data->checkpotongan->kode_promo == null)
-                                                {{ number_format($data->checkpotongan->harga_setelah_potongan) }}<br><span class="badge bg-info">Potongan Harga</span>
+                                                <small class="text-muted del fs-13px">Rp.{{ $data->checkpotongan->harga_potongan_rp }}</small>
+                                                {{ 'Rp'.number_format($data->checkpotongan->harga_setelah_potongan) }}
                                                 @else
-                                                {{ number_format($data->harga_barang) }}
+                                                {{ 'Rp'.number_format($data->harga_barang) }}
                                                 @endif
-                                            </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                @endforeach
+                                    </div><!-- .col -->
+                                    @endforeach
                             </div>
                         </div>
                     </div>
@@ -114,10 +105,6 @@
                         </div>
                         <div class="card mt-3 shadow">
                             <div class="card-inner" id="show-btn" >
-                                <div class="form-group">
-                                    <label>Kode Promo</label>
-                                    <input type="text" placeholder="Kode Promo" class="form-control mb-2" name="kode_promo" id="kode_promo">
-                                </div>
                                 <button type="button" class="btn btn-warning clear-cart">Bersihkan Cart</button>
                                 <button id="btn-bayar" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDefault">Bayar</button>
                             </div>
@@ -223,7 +210,6 @@
     }
 })
     function checkkodepromo(kode_promo){
-        console.log(kode_promo);
         $.ajax({
             url: "api/potongan/checkkupon",
             method: "GET",
@@ -257,7 +243,7 @@
                   .attr('onclick', 'pilihbarang(' + index + ')')
                   .attr('data-id', item.id_barang)
                   .attr('data-nama', item.nama_barang)
-                  .attr('data-harga', item.harga_barang)
+                  .attr('data-harga', item.checkpotongan != null ? item.checkpotongan.harga_setelah_potongan : item.harga_barang)
                   .attr('data-stok', item.stok)
                   .addClass('btn btn-success btn-pilih')
                   .text('pilih')
@@ -288,34 +274,6 @@
         inputsearchnama.value = '';
      $('#modalTop').modal('hide');
   }
-
-    function getListItemByName(nama_barang) {
-     $.ajax({
-        url: "api/getitembyname",
-        method: "GET",
-        data: {
-          nama_barang: nama_barang
-      },
-      success: function(data) {
-        event.preventDefault();
-        if(data.nama_barang != null && data.harga_barang != null && data.id_barang != null){
-            const name = data.nama_barang;
-            const id = data.id_barang;
-            const price = Number(data.harga_barang);
-            const qtymax = data.stok;
-
-            shoppingCart.addItemToCart(name, price,id, 1,qtymax);
-            displayCart();
-            checkscroll();
-            inputbarcode.value = '';
-        }else{
-            console.log('data null');
-        }
-    },
-    error: function(error) {
-    }
-});
- }
  function getListItemByBarcode(barcode) {
      $.ajax({
         url: "api/getitembybarcode",

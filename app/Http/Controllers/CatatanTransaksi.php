@@ -35,7 +35,6 @@ class CatatanTransaksi extends Controller
             'no_resi' => 'required|string',
             'pembelian' => 'required',
             'id_barang' => 'required',
-            '   ' => 'required|integer'
         ]);
         // Invoice 
         $lastinv = transaksi_barang::orderBy('id_transaksi','asc')->count();
@@ -61,7 +60,7 @@ class CatatanTransaksi extends Controller
                 'id_barang' => $request->id_barang,
                 'id_transaksi' => $transaksi->id_transaksi,
                 'qty' => $request->qty,
-                'harga_item' => $data->harga_barang,
+                'harga_item' => $data->harga_barang * $request->qty,
                 'harga_asli' => $data->harga_barang,
         ]);
         //update stok barang

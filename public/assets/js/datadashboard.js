@@ -40,10 +40,14 @@
       document.getElementById("jumlahbulanan").innerHTML = formattedNumber;
 
       //data mingguan
+      const today = new Date();
+      const day = today.getDay();
       const datamingguan = [];
       for (let c = 1; c < data.datamingguan.length + 1; c++) {
+        const color = (c === day) ? "#854fff" : NioApp.hexRGB("#854fff", .2);
         datamingguan.push({
-          data: parseInt(data.datamingguan[c - 1].total)
+          data: parseInt(data.datamingguan[c - 1].total),
+           color: color
         });
       }
       const dataminggu = {
@@ -52,15 +56,9 @@
        stacked: true,
        datasets: [{
          label: "Sales Revenue",
-         color: [
-            NioApp.hexRGB("#854fff", .2),
-            "#854fff",
-            NioApp.hexRGB("#854fff", .2),
-            NioApp.hexRGB("#854fff", .2),
-            NioApp.hexRGB("#854fff", .2),
-            NioApp.hexRGB("#854fff", .2),
-            NioApp.hexRGB("#854fff", .2)],
-         
+         color: datamingguan.map(function(data) {
+          return data.color;
+            }),
          data: datamingguan.map(function(data) {
               return data.data;
             })

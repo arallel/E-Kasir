@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CatatanTransaksi;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,15 +64,25 @@ Route::resource('Catatan-transaksi',CatatanTransaksi::class)->only(['index','sho
 
 //user data
 Route::resource('UserData',UserDataController::class)->except(['delete']);
- Route::controller(UserDataController::class)->group(function(){
+Route::controller(UserDataController::class)->group(function(){
     Route::get('Send/mail/{id}','mail')->name('test.mail');
     Route::delete('UserData/delete/{id}', 'destroy')->name('destroy.barang');
     Route::get('Riwayat/Login/User','loguser')->name('log.user');
- });
-Route::resource('setting',SettingController::class)->only(['index','update']);
 });
-//laporan
-Route::resource('Laporan',LaporanController::class);
 //setting
+Route::resource('setting',SettingController::class)->only(['index','update']);
+//laporan
+// Route::resource('Laporan',LaporanController::class);
+ Route::controller(LaporanController::class)->group(function(){
+    Route::get('Laporan','index')->name('Laporan.index');
+    Route::get('export/laporan','LaporanHarian')->name('export.laporan.Harian');
+    Route::get('export/databarang','exportdatabarang')->name('export.databarang');
+ });
+});
+Route::controller(ProfileController::class)->group(function(){
+    Route::get('profile/user','index')->name('profile.index');
+    Route::put('profile/update/user/{id}','update')->name('profile.update');
+    Route::put('profile/update/passaword/{id}','updatepassword')->name('profile.update.password');
+ });
 require __DIR__.'/auth.php';
 

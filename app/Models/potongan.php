@@ -18,8 +18,6 @@ class potongan extends Model
         'tgl_awal_potongan',
         'tgl_akhir_potongan',
         'status_potongan',
-        'diskon_by_code',
-        'kode_promo',
         'harga_setelah_potongan',
     ];
     public function databarang()

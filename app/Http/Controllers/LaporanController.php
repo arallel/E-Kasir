@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\LaporanTransaksi;
+use App\Exports\databarangexport;
+use App\Exports\Laporanmultiplesheet;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\detail_transaksi;
+use Carbon\Carbon;
 
 class LaporanController extends Controller
 {
@@ -15,15 +21,24 @@ class LaporanController extends Controller
     {
         return view('admin.laporan.indexlaporan');
     }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function LaporanHarian(Request $request)
     {
-        //
+        $carbon = Carbon::now();
+        if($request->tipe_laporan == 'laporanharian'){
+         $date = Carbon::createFromDate($request->tanggal);
+         return Excel::download(new LaporanTransaksi($date), 'Laporan Penjualan Harian Tanggal '.strtoupper($date->isoFormat('D MMMM Y')).'.xlsx');
+        }else{
+         $date = Carbon::createFromDate($request->tanggal);
+         $tanggalawal = $date->startOfMonth(); 
+         $namafile = 'Bulan '.$date->isoFormat('MMMM');
+         return Excel::download(new Laporanmultiplesheet($tanggalawal), 'Laporan Penjualan '.$namafile.'.xlsx');
+        }
+        
     }
 
     /**
@@ -32,53 +47,8 @@ class LaporanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function exportdatabarang()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return Excel::download(new databarangexport(), 'Export Databarang.xlsx');
     }
 }

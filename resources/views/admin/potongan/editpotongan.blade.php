@@ -44,17 +44,6 @@
                 <input type="hidden" id="harga_awal" name="harga_awal" value="{{ $data->harga_awal }}">
                 <input type="hidden" id="harga_setelah_potongan" value="{{ $data->harga_setelah_potongan }}" name="harga_setelah_potongan">
                 <div class="row g-3">
-                  <div class="col-12 ">
-                    <div class="form-group">
-                      <label class="form-label" for="kode_promo">Kode Promo</label>
-                      <div class="form-control-wrap">
-                        <input type="text" class="form-control"
-                        name="kode_promo" value="{{ $data->kode_promo }}" id="kode_promo"
-                        placeholder="Kode Promo">
-                        <span class="fw-bold">Tidak Wajib Di isi</span>
-                      </div>
-                    </div>
-                  </div>
                   <div class="col-12">
                     <label>Pilih Tipe potongan</label>
                     <select class="form-select" id="tipe_potongan">

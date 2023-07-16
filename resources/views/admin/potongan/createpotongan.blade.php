@@ -38,23 +38,12 @@
                   </form>
                 </div>
               </div>
-              <form action="{{ route('potongan.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off" id="form-potongan" style="display: block;">
+              <form action="{{ route('potongan.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off" id="form-potongan" style="display: none;">
                 @csrf
                 <input type="hidden" id="id_barang" name="id_barang">
                 <input type="hidden" id="harga_awal" name="harga_awal">
                 <input type="hidden" id="harga_setelah_potongan" name="harga_setelah_potongan">
                 <div class="row g-3">
-                  <div class="col-12 ">
-                    <div class="form-group">
-                      <label class="form-label" for="kode_promo">Kode Promo</label>
-                      <div class="form-control-wrap">
-                        <input type="text" class="form-control"
-                        name="kode_promo" value="{{ old('kode_promo') }}" id="kode_promo"
-                        placeholder="Kode Promo">
-                        <span class="fw-bold">Tidak Wajib Di isi</span>
-                      </div>
-                    </div>
-                  </div>
                   <div class="col-12">
                     <label>Pilih Tipe potongan</label>
                     <select class="form-select" id="tipe_potongan">

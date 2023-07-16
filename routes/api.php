@@ -36,8 +36,8 @@ Route::controller(potonganController::class)->group(function(){
    Route::get('potongan/searchbarang','searchbarang')->name('potongan.searchbarang');
    Route::get('potongan/checkkupon','checkkupon');
 });
-  Route::apiResource('catatan/transaksi',catatantransaksi::class);
 Route::middleware(['auth:sanctum'])->group(function () {
+  Route::apiResource('catatan/transaksi',catatantransaksi::class);
   Route::apiResource('databarang', DatabarangApi::class)->except(['index']);
   Route::controller(DatabarangApi::class)->group(function () {
     Route::get('databarang','filtersearch');
