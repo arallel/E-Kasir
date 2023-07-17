@@ -158,7 +158,7 @@
                                 <li class="item">
                                     <div class="thumb">
                                         @if ($topitem->foto_barang == null)
-                                        <img src="{{ asset('assets/images/no-image.png') }}" alt="" >
+                                        <img src="{{ asset('assets/images/no-image.jpg') }}" alt="" >
                                         @else
                                         <img src="storage/{{ $topitem->foto_barang }}" >
                                         @endif

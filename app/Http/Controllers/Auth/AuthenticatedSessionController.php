@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
     {
         $browser = Agent::browser();
         $timenow = Carbon::now();
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email',$request->email)->orWhere('nama_pengguna',$request->email)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
             Auth::login($user);
@@ -69,15 +69,17 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $timenow = Carbon::now();
-         $user = User::findOrFail($request->id_user);
+         $user = User::findOrFail(Auth::user()->id_user);
         $user->update([
             'status' => 'offline',
         ]);
         $log = login_log::where('user_id',Auth::user()->id_user)->where('date_login_at',$timenow->format('Y-m-d'))->first();
+        if($log != null){     
         $log->update([
            'date_logout_at' => $timenow->format('Y-m-d'),
            'time_logout_at' => $timenow->format('H:i:s'),
         ]);
+        }
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\setting;
+use App\Models\login_log;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SettingController extends Controller
 {
@@ -38,8 +40,14 @@ class SettingController extends Controller
      * @param  \App\Models\setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function destroy(setting $setting)
+    public function destroy()
     {
-        //
+        $data = login_log::where('date_login_at','<>',Carbon::now()->format('Y-m-d'));
+        $data->delete();
+         if($data){
+        return to_route('setting.index')->with(['success' => 'Berhasil Ubah Data']);
+       }else{
+        return redirect()->back()->with(['error' => 'gagal Update Data']);
+       }
     }
 }

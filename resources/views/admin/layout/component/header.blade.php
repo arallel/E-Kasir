@@ -102,8 +102,10 @@
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li><a href="{{ route('profile.index') }}" ><em class="icon ni ni-user-alt" ></em><span>View Profile</span></a></li>
+                                    @if(Auth::user()->level == 'admin')
                                     <li><a href="{{ route('setting.index') }}"><em class="icon ni ni-setting-alt"></em><span>Setting</span></a></li>
                                     <li><a href="{{ route('log.user') }}"><em class="icon ni ni-activity-alt"></em><span>Aktivitas Login</span></a></li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="dropdown-inner">

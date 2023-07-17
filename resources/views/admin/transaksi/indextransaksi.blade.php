@@ -62,7 +62,7 @@
                                             <div class="product-thumb">
                                                 <a href="">
                                                     @if ($data->foto_barang == null)
-                                                    <img src="{{ asset('assets/images/no-image2.jpg') }}">
+                                                    <img src="{{ asset('assets/images/no-image.jpg') }}">
                                                     @else
                                                     <img class="card-img-top img-fluid" src=" storage/{{ $data->foto_barang }}">
                                                     @endif
@@ -201,28 +201,6 @@
         const value = this.value;
         getListItemByBarcode(value);
     });
-    document.getElementById('kode_promo').addEventListener('change',function(){
-       btnbayar.classList.add("disabled");
-       if(this.value != ''){
-         checkkodepromo(this.value);
-     }else{
-        btnbayar.classList.remove("disabled");
-    }
-})
-    function checkkodepromo(kode_promo){
-        $.ajax({
-            url: "api/potongan/checkkupon",
-            method: "GET",
-            data: {
-              kode_promo: kode_promo
-          },
-          success: function(data) {
-            console.log(data);
-        },
-        error: function(error) {
-        }
-    });
-    }
     function getbarangbyname(nama_barang) {
         $.ajax({
           url: '{{ route('potongan.searchbarang') }}',

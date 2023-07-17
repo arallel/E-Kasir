@@ -5,8 +5,8 @@
         <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
             <div class="brand-logo pb-4 text-center">
                 <a href="" class="logo-link">
-                    <img class="logo-light logo-img logo-img-lg" src="{{ asset('assets/images/logo.png') }}" alt="logo">
-                    <img class="logo-dark logo-img logo-img-lg" src="{{ asset('assets/images/logo-dark.png') }}"
+                    <img class="logo-light logo-img logo-img-lg" src="{{ asset('assets/images/Logo-merge.jpg') }}" alt="logo">
+                    <img class="logo-dark logo-img logo-img-lg" src="{{ asset('assets/images/Logo-merge.jpg') }}"
                         alt="logo-dark">
                 </a>
             </div>
@@ -16,7 +16,7 @@
                         <div class="nk-block-head-content">
                             <h4 class="nk-block-title">Login</h4>
                             <div class="nk-block-des">
-                                <p>Access the Dashlite panel using your email and passcode.</p>
+                                <p>Login Untuk Menggunakan Aplikasi</p>
                             </div>
                             @if (session('salah'))
                                 <div class="alert alert-icon alert-danger" role="alert"> <em
@@ -38,8 +38,8 @@
                                 <label class="form-label" for="email">Email</label>
                             </div>
                             <div class="form-control-wrap">
-                                <input type="email" name="email" value="{{ old('email') }}" required class="form-control form-control-lg" id="email"
-                                    placeholder="Masukan Email">
+                                <input type="text" name="email" value="{{ old('email') }}" required class="form-control form-control-lg" id="email"
+                                    placeholder="Masukan Email / Nama Pengguna">
                             </div>
                         </div>
                         <div class="form-group">
