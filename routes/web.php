@@ -71,18 +71,22 @@ Route::controller(UserDataController::class)->group(function(){
 });
 //setting
 Route::resource('setting',SettingController::class)->only(['index','update']);
+Route::controller(SettingController::class)->group(function(){
+    Route::delete('Hapus/Data-log','destroy')->name('setting.destroy');
+ });
 //laporan
 // Route::resource('Laporan',LaporanController::class);
  Route::controller(LaporanController::class)->group(function(){
-    Route::get('Laporan','index')->name('Laporan.index');
     Route::get('export/laporan','LaporanHarian')->name('export.laporan.Harian');
     Route::get('export/databarang','exportdatabarang')->name('export.databarang');
- });
-});
+    Route::get('Laporan','index')->name('Laporan.index');
+ });    
+
 Route::controller(ProfileController::class)->group(function(){
     Route::get('profile/user','index')->name('profile.index');
     Route::put('profile/update/user/{id}','update')->name('profile.update');
     Route::put('profile/update/passaword/{id}','updatepassword')->name('profile.update.password');
  });
+});
 require __DIR__.'/auth.php';
 

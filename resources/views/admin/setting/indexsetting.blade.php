@@ -22,6 +22,11 @@
 							<div class="tab-content">
 								<div class="tab-pane active" id="tabItem5">
 									<h4 class="title nk-block-title">Setting</h4>
+									<form action="{{ route('setting.destroy') }}" method="POST">
+										@csrf
+										<h6>Hapus Data Log</h6>
+										<button type="submit" class="btn btn-danger">Hapus Log Data User</button>
+									</form>
 									<form action="{{ route('setting.update',$data->id_setting) }}" class="gy-3 form-settings" method="POST">
 										@csrf
 										@method('patch')

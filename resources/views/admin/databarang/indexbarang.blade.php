@@ -100,7 +100,7 @@
                                      <td class="nk-tb-col tb-col-sm">
                                         <span class="tb-product">
                                             @if ($barang->foto_barang == null)
-                                            <img src="{{ asset('assets/images/no-image.png') }}" alt=""
+                                            <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""
                                             class="thumb" style="height:3rem;">
                                             @else
                                             <img src="storage/{{ $barang->foto_barang }}" alt=""class="thumb" style="height:3rem;">
