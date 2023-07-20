@@ -33,7 +33,7 @@ class DatabarangController extends Controller
             $orderBy = 'desc';
             break;
         default:
-            $orderBy = 'desc';
+            $orderBy = 'asc';
             break;
     }
 
@@ -62,10 +62,10 @@ class DatabarangController extends Controller
     }
 
     if ($emptyQueries) {
-        $databarang = $query->orderBy('nama_barang',$orderBy)->get();
+        $databarang = $query->orderBy('id_barang',$orderBy)->get();
           return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     } else {
-       $databarang = $query->orderBy('nama_barang',$orderBy)->get();
+       $databarang = $query->orderBy('id_barang',$orderBy)->get();
           return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     }   
     }
@@ -97,15 +97,17 @@ class DatabarangController extends Controller
          'barcode.required' => 'Kode barcode harus diisi.',
          'barcode.unique' => 'Kode barcode sudah digunakan.',
         ]);
-        $image = $request->file('foto_barang');
-        $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
-        $destinationPath = storage_path('app/images');
-        $img = Image::make($image->path());
-        $img->resize(1200, 1200, function ($constraint) {
-            $constraint->aspectRatio();
+        if($request->foto_barang && Storage::exists($data->foto_barang)){
+             $image = $request->file('foto_barang');
+             $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
+             $destinationPath = storage_path('app/images');
+             $img = Image::make($image->path());
+             $img->resize(1200, 1200, function ($constraint) {
+             $constraint->aspectRatio();
                     // $constraint->upsize();
-        })->save($destinationPath.'/'.$input['imagename']);
-
+             })->save($destinationPath.'/'.$input['imagename']);
+        }
+    
         $lastbarang = databarang::orderBy('id_transaksi','asc')->count();
         $prefix = 'A';
         $lastInvoiceNumber = $lastbarang + 1; 

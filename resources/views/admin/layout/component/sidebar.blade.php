@@ -3,9 +3,9 @@
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
             <a href="{{ route('dashboard') }}" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{ asset('assets/images/Logo-merge.jpg') }}" srcset="{{ asset('assets/images/logo2x.png ') }}2x" alt="logo">
-                <img class="logo-dark logo-img" src="{{ asset('assets/images/Logo-merge.jpg') }}" srcset="{{ asset('assets/images/logo-dark2x.png') }} 2x" alt="logo-dark">
-                <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/logo_toko.jpg') }}" srcset="{{ asset('assets/images/logo-small2x.png') }} 2x" alt="logo-small">
+                <img class="logo-light logo-img" src="{{ asset('assets/images/Logo-merge.jpg') }}" alt="logo">
+                <img class="logo-dark logo-img" src="{{ asset('assets/images/Logo-merge.jpg') }}"  alt="logo-dark">
+                <img class="logo-small logo-img logo-img-small" src="{{ asset('assets/images/logo_toko.jpg') }}" alt="logo-small">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">

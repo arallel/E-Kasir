@@ -94,14 +94,28 @@
             <div style="text-align: left;">
                 {{ ($item->databarang != null)?Str::limit($item->databarang->nama_barang,12):'Barang Di hapus Oleh Kasir' }}
             </div>
-            <div>{{ $item->qty }} <span></span>Rp 
+            <div>{{ $item->qty }} Rp 
                 {{ number_format($item->databarang->harga_barang) }} 
-                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline')?"Diskon:":'' }}
-                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline')?"Potongan:":'' }}
+                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline' || $item->jumlah_diskon_persen)?"Diskon:":'' }}
+                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline'||$item->jumlah_diskon_rp)?"Potongan:":'' }}
             </div>
-            <div>Rp {{ number_format($item->databarang->harga_barang * $item->qty ) }}   
-                {{ ($item->checkpotongan &&  $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline' )?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp * $item->qty).')':'' }} 
-                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline')?$item->checkpotongan->harga_potongan_persen.'%':'' }}
+            <div>Rp 
+            {{ number_format($item->databarang->harga_barang * $item->qty ) }} <br>  
+
+               {{--  {{ ($item->checkpotongan &&  $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline'|| $item->jumlah_diskon_rp )?'(Rp.'.
+                ($item->checkpotongan)?number_format($item->checkpotongan->harga_potongan_rp * $item->qty):number_format($item->checkpotongan->harga_potongan_rp * $item->qty)
+                .')':'' }}  --}}
+                @if($item->checkpotongan && $item->checkpotongan->harga_potongan_rp)
+                {{ ($item->checkpotongan->harga_potongan_rp)?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp).')':'' }}
+                @elseif($item->jumlah_diskon_rp)
+                {{'(Rp.'.number_format($item->jumlah_diskon_rp).')'}}
+                @endif
+
+                @if($item->checkpotongan)
+                 {{ ($item->checkpotongan->harga_potongan_persen)?$item->checkpotongan->harga_potongan_persen.'%':'' }}
+                @elseif($item->jumlah_diskon_persen)
+                {{ $item->jumlah_diskon_persen.'%' }}
+                @endif
             </div>
         </div>
             @php
@@ -154,7 +168,7 @@
        }
        setTimeout(()=>{
        printPage();
-       },2000);
+       },3000);
    </script>
 </body>
 </html>
