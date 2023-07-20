@@ -39,8 +39,8 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
         $this->data = detail_transaksi::with('databarang', 'transaksi', 'transaksi.user')
         ->join('transaksi_barang', 'transaksi_barang.id_transaksi', '=', 'detail_transaksi.id_transaksi')
         ->whereDate('tgl_transaksi', $this->date->format('Y-m-d'))
-        ->orderBy('no_transaksi');
-        // dd($this->date);
+        ->orderBy('no_transaksi')
+        ->where('no_transaksi','INV-000039');
     }
     public function collection()
     {
@@ -60,13 +60,13 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
 
         $highestColumnCoordinate = Coordinate::columnIndexFromString($highestColumn);
         $footercell = 'A' . ($highestRow + 1);
-        $endfootercell = 'M' . ($highestRow + 1);
-        $sheet->getStyle('A1:M3')
+        $endfootercell = 'O' . ($highestRow + 1);
+        $sheet->getStyle('A1:O3')
             ->getFont()
             ->setBold(true)
             ->setSize(14);
 
-        $sheet->getStyle('A4:M5')
+        $sheet->getStyle('A4:O5')
             ->getFont()
             ->setBold(true)
             ->setSize(12);
@@ -76,7 +76,7 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
               ->setBold(true)
               ->setSize(13);
 
-        $sheet->getStyle('A1:M3')
+        $sheet->getStyle('A1:O3')
               ->getFill()
               ->setFillType(Fill::FILL_SOLID)
               ->getStartColor()
@@ -88,16 +88,16 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
               ->getStartColor()
               ->setARGB('b3c6e7'); // Blue color 
 
-        $sheet->getStyle('A5:M5')
+        $sheet->getStyle('A5:O5')
               ->getFill()
               ->setFillType(Fill::FILL_SOLID)
               ->getStartColor()
               ->setARGB('b3c6e7'); // Blue color
         
-        $sheet->mergeCells('A1:M1');
-        $sheet->mergeCells('A2:M2');
-        $sheet->mergeCells('A3:M3');
-        $sheet->mergeCells('A4:M4');
+        $sheet->mergeCells('A1:O1');
+        $sheet->mergeCells('A2:O2');
+        $sheet->mergeCells('A3:O3');
+        $sheet->mergeCells('A4:O4');
         $sheet->mergeCells($footercell.':'.$endfootercell);
 
         $sheet->setCellValue('A1', 'LAPORAN PENJUALAN HARIAN');
@@ -122,7 +122,7 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
                 ],
             ]);
 
-        $sheet->getStyle('A1:M3')
+        $sheet->getStyle('A1:O3')
               ->getAlignment()
               ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
@@ -134,7 +134,6 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
     }
      public function map($detailtransaksi): array
     {
-        // dd($detailtransaksi->sum('harga_item'));
         return [
             $this->no++,
             $detailtransaksi->transaksi->no_transaksi,
@@ -144,6 +143,9 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
             'PCS',
             'Rp.' . str_replace(',', '.', number_format($detailtransaksi->harga_asli)),
             'Rp.' . str_replace(',', '.', number_format($detailtransaksi->harga_item)),
+
+            ($detailtransaksi->jumlah_diskon_rp)?'Rp.'.str_replace(',', '.', number_format($detailtransaksi->jumlah_diskon_rp)):'-',
+            ($detailtransaksi->jumlah_diskon_persen)?$detailtransaksi->jumlah_diskon_persen.'%':'-',
             $detailtransaksi->transaksi->user->nama_pengguna,
             $detailtransaksi->transaksi->tgl_transaksi.'/'.$detailtransaksi->transaksi->waktu_transaksi,
             ($detailtransaksi->transaksi->no_pesanan)?$detailtransaksi->transaksi->no_pesanan:'-',
@@ -161,8 +163,10 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
             'Nama Barang', 
             'Qty', 
             'Satuan', 
-            'Harga', 
+            'Harga Normal', 
             'Jumlah', 
+            'Potongan Harga', 
+            'Diskon', 
             'Nama Kasir', 
             'Tanggal & Jam Transaksi', 
             'Nomer Pesanan', 

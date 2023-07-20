@@ -35,7 +35,16 @@
     </div>
 </div>
 <script>     
-     
+     const url = document.referrer;
+        const baseUrl = new URL(url).origin +'/';
+        const modifiedUrl = url.replace(baseUrl, "");
+        function printPage() {
+        window.print();
+         window.location.href = "../../" + modifiedUrl;
+       }
+       setTimeout(()=>{
+       printPage();
+       },2000);
     </script>
 </body>
 </html>
