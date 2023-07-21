@@ -39,8 +39,7 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
         $this->data = detail_transaksi::with('databarang', 'transaksi', 'transaksi.user')
         ->join('transaksi_barang', 'transaksi_barang.id_transaksi', '=', 'detail_transaksi.id_transaksi')
         ->whereDate('tgl_transaksi', $this->date->format('Y-m-d'))
-        ->orderBy('no_transaksi')
-        ->where('no_transaksi','INV-000039');
+        ->orderBy('no_transaksi');
     }
     public function collection()
     {
