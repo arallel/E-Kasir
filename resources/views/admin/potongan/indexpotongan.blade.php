@@ -40,10 +40,10 @@
                                     <th class="nk-tb-col tb-col-mb"><span class="sub-text">Nama Barang</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Kode Promo</span></th>
                                     <th class="nk-tb-col tb-col-lg"><span class="sub-text">Harga Normal</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Potongan</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon %</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tgl Awal potongan</span></th>
-                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Akhir potongan</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Potongan</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon</span></th>
+                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tgl Dimulai potongan</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Berakhir potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Status potongan</span></th>
                                     <th class="nk-tb-col nk-tb-col-tools text-end">
                                     </th>

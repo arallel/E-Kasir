@@ -123,10 +123,10 @@
                                             </th>
                                             <th class="nk-tb-col"><span class="sub-text">Nama Barang</span></th>
                                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Quantity</span></th>
-                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Potongan</span></th>
-                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon %</span></th>
-                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Asli</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Potongan Harga</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Per Item</span></th>
+                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">SubTotal</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>

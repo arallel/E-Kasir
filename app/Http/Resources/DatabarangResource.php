@@ -7,12 +7,6 @@ use Storage;
 
 class DatabarangResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
     public function toArray($request)
     {
         return [
@@ -25,7 +19,9 @@ class DatabarangResource extends JsonResource
             'barcode' => $this->barcode,
             'harga_barang' => $this->harga_barang,
             'harga_pembelian' => $this->harga_pembelian,
-            'foto_barang' => ($this->foto_barang != null)? Storage::url($this->foto_barang) : 'assets/images/no-image.png',
+            'foto_barang' => ($this->foto_barang != null)? ltrim(Storage::url($this->foto_barang), '/') : 'assets/images/no-image.jpg',
+            'created_at' => $this->created_at,
+            'banyak_dijual' => $this->detailtransaksi->sum('qty'),
         ];
 
     }

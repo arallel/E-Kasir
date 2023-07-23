@@ -30,4 +30,7 @@ class databarang extends Model
     public function checkpotongan(){
         return $this->hasOne(potongan::class,'id_barang','id_barang');
     }
+    public function detailtransaksi(){
+        return $this->hasMany(detail_transaksi::class,'id_barang','id_barang');
+    }
 }

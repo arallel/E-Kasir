@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <div class="header" style="margin-bottom: 30px;">
-            <h2>Kasir COMP</h2>
+            <h2>{{ $data->nama_toko }}</h2>
         </div>
         <hr>
         <div class="flex-container-1">
@@ -144,7 +144,7 @@
             <div style="text-align: right;">
                 <ul>
                     <li>Rp {{ number_format($data->total_pembayaran) }}</li>
-                    <li>Rp {{ number_format($data->uang_dibayarkan) }}</li>
+                    <li>Rp {{ ($data->uang_dibayarkan != null)?number_format($data->uang_dibayarkan):number_format($data->total_pembayaran) }}</li>
                     <li>Rp {{ number_format($data->total_kembalian) }}</li>
                     @if($harga_awal > 0 && $data->pembelian == 'offline')
                     <li>Rp {{ number_format($harga_awal - $sumharga_setelah_potongan) }}</li>
@@ -157,7 +157,7 @@
             <p>Terima Kasih,Selamat Belanja Kembali</p>
         </div>
     </div>
-     <script>     
+     {{-- <script>     
         const url = document.referrer;
         const baseUrl = new URL(url).origin +'/';
         const modifiedUrl = url.replace(baseUrl, "");
@@ -169,6 +169,6 @@
        setTimeout(()=>{
        printPage();
        },3000);
-   </script>
+   </script> --}}
 </body>
 </html>

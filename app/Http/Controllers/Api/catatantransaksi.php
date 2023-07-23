@@ -35,16 +35,6 @@ class catatantransaksi extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'tgl_transaksi' => 'required|date',
-            'waktu_transaksi' => 'required',
-            'total_pembayaran' => 'required|integer',
-            'no_pesanan' => 'required|string',
-            'no_resi' => 'required|string',
-            'pembelian' => 'required',
-            'id_barang' => 'required',
-            'qty' => 'required|integer'
-        ]);
         // Invoice 
         $lastinv = transaksi_barang::orderBy('id_transaksi','asc')->count();
         $prefix = 'INV-';
@@ -69,7 +59,7 @@ class catatantransaksi extends Controller
                 'id_barang' => $request->id_barang,
                 'id_transaksi' => $transaksi->id_transaksi,
                 'qty' => $request->qty,
-                'harga_item' => $data->harga_barang,
+                'harga_item' => $data->harga_barang * $request->qty,
                 'harga_asli' => $data->harga_barang,
         ]);
         //update stok barang
