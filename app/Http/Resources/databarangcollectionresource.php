@@ -8,16 +8,10 @@ use Storage;
 
 class databarangcollectionresource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
     public function toArray($request)
     {
         return [
-        'id_barang' => $this->id_barang,
+            'id_barang' => $this->id_barang,
             'nama_barang' => $this->nama_barang,
             'stok' => $this->stok,
             'id_kategory' => $this->id_kategory,
@@ -27,7 +21,9 @@ class databarangcollectionresource extends JsonResource
             'harga_barang' => ($this->checkpotongan != null && $this->checkpotongan->status_potongan == 'aktif')?$this->checkpotongan->harga_setelah_potongan:$this->harga_barang,
             'harga_normal' => $this->harga_barang,
             'harga_pembelian' => $this->harga_pembelian,
-            'foto_barang' => ($this->foto_barang != null)? Storage::url($this->foto_barang) : 'assets/images/no-image.png',
+            'foto_barang' => ($this->foto_barang != null)? ltrim(Storage::url($this->foto_barang), '/') : 'assets/images/no-image.jpg',
+            'created_at' => $this->created_at,
+            'banyak_dijual' => $this->detailtransaksi->sum('qty'),
         ];
     }
 }

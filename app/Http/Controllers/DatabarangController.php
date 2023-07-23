@@ -97,7 +97,7 @@ class DatabarangController extends Controller
          'barcode.required' => 'Kode barcode harus diisi.',
          'barcode.unique' => 'Kode barcode sudah digunakan.',
         ]);
-        if($request->foto_barang && Storage::exists($data->foto_barang)){
+        if($request->foto_barang){
              $image = $request->file('foto_barang');
              $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
              $destinationPath = storage_path('app/images');

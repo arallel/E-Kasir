@@ -45,9 +45,9 @@ class SettingController extends Controller
         $data = login_log::where('date_login_at','<>',Carbon::now()->format('Y-m-d'));
         $data->delete();
          if($data){
-        return to_route('setting.index')->with(['success' => 'Berhasil Ubah Data']);
+        return to_route('setting.index')->with(['success' => 'Berhasil Hapus Data']);
        }else{
-        return redirect()->back()->with(['error' => 'gagal Update Data']);
+        return redirect()->back()->with(['error' => 'gagal Hapus Data']);
        }
     }
 }

@@ -10,7 +10,7 @@
 			"name": "databarang",
 			"item": [
 				{
-					"name": "Get Databarang",
+					"name": "Get Databarang and Filter",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -32,6 +32,92 @@
 							"path": [
 								"api",
 								"databarang"
+							],
+							"query": [
+								{
+									"key": "status_barang",
+									"value": "aktif",
+									"description": "aktif,tidak_aktif",
+									"disabled": true
+								},
+								{
+									"key": "id_kategory",
+									"value": "2",
+									"description": "id_kategory",
+									"disabled": true
+								},
+								{
+									"key": "urutkan_by_name",
+									"value": "desc",
+									"description": "asc,desc, a-z,z-a",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "test",
+									"description": "search by name",
+									"disabled": true
+								},
+								{
+									"key": "urutkan_by_stok",
+									"value": "desc",
+									"description": "asc,desc",
+									"disabled": true
+								},
+								{
+									"key": "urutkan_by_datetoday",
+									"value": "desc",
+									"description": "asc,desc",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Barang",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/databarang/5d96bdfb-5dec-472c-bba2-eb842595742c",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"databarang",
+								"5d96bdfb-5dec-472c-bba2-eb842595742c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "penjualan bulanan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-web}}/api/chart/penjualan",
+							"host": [
+								"{{Url-web}}"
+							],
+							"path": [
+								"api",
+								"chart",
+								"penjualan"
 							]
 						}
 					},
@@ -57,7 +143,7 @@
 							"formdata": [
 								{
 									"key": "nama_barang",
-									"value": "test 2",
+									"value": "test with image",
 									"type": "text"
 								},
 								{
@@ -88,7 +174,7 @@
 								{
 									"key": "foto_barang",
 									"type": "file",
-									"src": "/D:/unduh all  data/WhatsApp Image 2023-05-13 at 12.27.11.png",
+									"src": "/D:/unduh all  data/kartu peserta.jpeg",
 									"disabled": true
 								},
 								{
@@ -175,14 +261,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/databarang/fe5a5f3f-dc33-47ab-9d2b-1ddaa1ffb4bb",
+							"raw": "{{Url-web}}/api/databarang/A0005",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
 								"databarang",
-								"fe5a5f3f-dc33-47ab-9d2b-1ddaa1ffb4bb"
+								"A0005"
 							]
 						}
 					},
@@ -204,112 +290,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/databarang/fe5a5f3f-dc33-47ab-9d2b-1ddaa1ffb4bb",
+							"raw": "{{Url-web}}/api/databarang/A0005",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
 								"databarang",
-								"fe5a5f3f-dc33-47ab-9d2b-1ddaa1ffb4bb"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Show Barang",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/databarang/5d96bdfb-5dec-472c-bba2-eb842595742c",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"databarang",
-								"5d96bdfb-5dec-472c-bba2-eb842595742c"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "filter",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/databarang?status_barang=aktif&id_kategory=2&urutkan=desc&search=test1",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"databarang"
-							],
-							"query": [
-								{
-									"key": "status_barang",
-									"value": "aktif",
-									"description": "aktif,tidak_aktif"
-								},
-								{
-									"key": "id_kategory",
-									"value": "2",
-									"description": "id_kategory"
-								},
-								{
-									"key": "urutkan",
-									"value": "desc",
-									"description": "asc,desc"
-								},
-								{
-									"key": "search",
-									"value": "test1",
-									"description": "search by name"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "penjualan bulanan",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{Url-web}}/api/chart/penjualan",
-							"host": [
-								"{{Url-web}}"
-							],
-							"path": [
-								"api",
-								"chart",
-								"penjualan"
+								"A0005"
 							]
 						}
 					},
@@ -759,7 +747,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/catatan/transaksi/a4047998-a367-4280-9272-52f64bd339d3",
+							"raw": "{{Url-web}}/api/catatan/transaksi/ba5da358-8aba-41af-80b3-e520e3a5c213",
 							"host": [
 								"{{Url-web}}"
 							],
@@ -767,7 +755,7 @@
 								"api",
 								"catatan",
 								"transaksi",
-								"a4047998-a367-4280-9272-52f64bd339d3"
+								"ba5da358-8aba-41af-80b3-e520e3a5c213"
 							]
 						}
 					},

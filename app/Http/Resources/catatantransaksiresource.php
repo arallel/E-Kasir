@@ -6,12 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class catatantransaksiresource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
     public function toArray($request)
     {
         return [
@@ -21,7 +15,7 @@ class catatantransaksiresource extends JsonResource
             'waktu_transaksi' => $this->waktu_transaksi,
             'total_pembayaran' => $this->total_pembayaran,
             'uang_dibayarkan' => $this->uang_dibayarkan,
-            'id_user' => $this->id_user,
+            'nama_pengguna' => $this->user->nama_pengguna,
             'total_kembalian' => $this->total_kembalian,
             'pembelian' => $this->pembelian,
             'no_pesanan' => $this->no_pesanan,
@@ -30,6 +24,7 @@ class catatantransaksiresource extends JsonResource
                 return [
                     'id_transaksi' => $detailTransaksi->id_transaksi,
                     'id_barang' => $detailTransaksi->id_barang,
+                    'nama_barang' => $detailTransaksi->databarang->nama_barang,
                     'qty' => $detailTransaksi->qty,
                     'harga_item' => $detailTransaksi->harga_item,
                     'harga_asli' => $detailTransaksi->harga_asli,

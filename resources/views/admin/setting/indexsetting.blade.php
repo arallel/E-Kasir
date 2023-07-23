@@ -24,6 +24,7 @@
 									<h4 class="title nk-block-title">Setting</h4>
 									<form action="{{ route('setting.destroy') }}" method="POST">
 										@csrf
+										@method('delete')
 										<h6>Hapus Data Log</h6>
 										<button type="submit" class="btn btn-danger">Hapus Log Data User</button>
 									</form>

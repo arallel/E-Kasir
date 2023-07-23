@@ -38,10 +38,7 @@ Route::controller(potonganController::class)->group(function(){
 });
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::apiResource('catatan/transaksi',catatantransaksi::class);
-  Route::apiResource('databarang', DatabarangApi::class)->except(['index']);
-  Route::controller(DatabarangApi::class)->group(function () {
-    Route::get('databarang','filtersearch');
-  });
+  Route::apiResource('databarang', DatabarangApi::class);
   Route::apiResource('kategory',KategoryApi::class);
   Route::controller(KategoryApi::class)->group(function () {
     Route::get('search/kategory', 'search');

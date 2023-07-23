@@ -73,8 +73,7 @@ class TransaksiBarangController extends Controller
 }
 public function cetakstruk($id)
 {
-    $data = transaksi_barang::with('detailtransaksi','user','detailtransaksi.databarang')->findOrfail($id);
-                // dd($data);
+    $data = transaksi_barang::with('detailtransaksi','user','detailtransaksi.databarang')->where('id_transaksi',$id)->crossJoin('settings')->first();
     if($data == null){abort(404);}
     return view('admin.transaksi.struk',compact('data'));
 }
