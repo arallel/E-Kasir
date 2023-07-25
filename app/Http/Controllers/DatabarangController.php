@@ -9,6 +9,7 @@ use App\Http\Requests\ProductRequest;
 use Storage;
 use Illuminate\Support\Str;
 use Image;
+use Illuminate\Validation\Rule;
 
 class DatabarangController extends Controller
 {
@@ -93,13 +94,17 @@ class DatabarangController extends Controller
     {
         $validate = $request->validate([
          'barcode' => 'required|unique:databarang,barcode',
+         'kode_barang' => 'required|unique:App\Models\databarang,kode_barang',
         ], [
+         'kode_barang.unique' => 'kode barang Sudah Ada.',
+         'kode_barang.required' => 'kode barang harus diisi.',
          'barcode.required' => 'Kode barcode harus diisi.',
          'barcode.unique' => 'Kode barcode sudah digunakan.',
         ]);
+        
         if($request->foto_barang){
              $image = $request->file('foto_barang');
-             $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
+             $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.jpg';
              $destinationPath = storage_path('app/images');
              $img = Image::make($image->path());
              $img->resize(1200, 1200, function ($constraint) {
@@ -108,12 +113,9 @@ class DatabarangController extends Controller
              })->save($destinationPath.'/'.$input['imagename']);
         }
     
-        $lastbarang = databarang::orderBy('id_transaksi','asc')->count();
-        $prefix = 'A';
-        $lastInvoiceNumber = $lastbarang + 1; 
-        $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
         $data = databarang::create([
-            'id_barang' => $kodebarang,
+            'id_barang' => Str::uuid(),
+            'kode_barang' => $request->kode_barang,
             'foto_barang' => ($request->foto_barang)?'images/'.$img->basename:null,
             'nama_barang' => $request->nama_barang,
             'stok' => $request->stok,
@@ -135,9 +137,13 @@ class DatabarangController extends Controller
     public function update(ProductRequest $request, $databarang)
     {
         $validate = $request->validate([
-         'barcode' => 'required',
+         'barcode' => ['required', Rule::unique('App\Models\databarang')->ignore($request->barcode, 'barcode')],
+         'kode_barang' => ['required', Rule::unique('App\Models\databarang')->ignore($request->kode_barang, 'kode_barang')],
         ], [
+         'kode_barang.unique' => 'kode barang Sudah Ada.',
+         'kode_barang.required' => 'kode barang harus diisi.',
          'barcode.required' => 'Kode barcode harus diisi.',
+         'barcode.unique' => 'Kode Barcode Sudah Ada.',
         ]);
         $data = databarang::findOrFail($databarang);
         if($request->foto_barang && Storage::exists($data->foto_barang))
@@ -155,6 +161,7 @@ class DatabarangController extends Controller
         if($data == null){abort(404);}
         $data->update([
             'nama_barang' => $request->nama_barang,
+            'kode_barang' => $request->kode_barang,
             'stok' => $request->stok,
             'foto_barang' => ($request->foto_barang)?'images/'.$img->basename:null,
             'id_kategory' => $request->id_kategory,

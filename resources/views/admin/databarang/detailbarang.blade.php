@@ -26,7 +26,7 @@
                                                 <label class="form-label" for="stok">Kode Barang</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" min="1" name="stok" class="form-control"
-                                                        value="{{ $data->id_barang }}" id="stok" placeholder="Stok Barang"
+                                                        value="{{ $data->kode_barang }}" id="stok" placeholder="Stok Barang"
                                                         required>
                                                 </div>
                                             </div>

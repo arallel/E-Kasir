@@ -79,14 +79,14 @@
 
 										</div>
 										<div class="tab-pane" id="loguser">
-											<table class="datatable-init table table-ulogs">
+											<table class="datatable-init table">
 												<thead class="table-light">
 													<tr>
 														<th class="tb-col-os"><span class="overline-title">No</span></th>
-														<th class="tb-col-os"><span class="overline-title">Browser</span></th>
-														<th class="tb-col-ip"><span class="overline-title">IP</span></th>
-														<th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Login</span></th>
-														<th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Logout</span></th>
+														<th class="tb-col-os tb-col-mb"><span class="overline-title">Browser</span></th>
+														<th class="tb-col-ip tb-col-mb"><span class="overline-title">IP</span></th>
+														<th class="tb-col-time tb-col-mb"><span class="overline-title">Tanggal Dan Jam Login</span></th>
+														<th class="tb-col-time tb-col-mb"><span class="overline-title">Tanggal Dan Jam Logout</span></th>
 														<th class="tb-col-time"><span class="overline-title">Total Jam Login Harian</span></th>
 													</tr>
 												</thead>
@@ -114,10 +114,10 @@
 													@endif
 													<tr>
 														<td class="tb-col-os">{{ $loop->iteration }}</td>
-														<td class="tb-col-os">{{ $loguser->user_agent }}</td>
-														<td class="tb-col-ip"><span class="sub-text">{{ $loguser->ip_address }}</span></td>
-														<td class="tb-col-time"><span class="sub-text">{{ $loguser->date_login_at }}   {{ $loguser->time_login_at }}</span></td>
-														<td class="tb-col-time"><span class="sub-text">{{ $loguser->date_logout_at }}  {{ $loguser->time_logout_at }}</span></td>
+														<td class="tb-col-os tb-col-mb">{{ $loguser->user_agent }}</td>
+														<td class="tb-col-ip tb-col-mb"><span class="sub-text">{{ $loguser->ip_address }}</span></td>
+														<td class="tb-col-time tb-col-mb"><span class="sub-text">{{ $loguser->date_login_at }}   {{ $loguser->time_login_at }}</span></td>
+														<td class="tb-col-time tb-col-mb"><span class="sub-text">{{ $loguser->date_logout_at }}  {{ $loguser->time_logout_at }}</span></td>
 														<td class="tb-col-time"><span class="title text-success">{{ ($loguser->time_logout_at && $loguser->date_logout_at)?$timeString:'-' }}</span></td>
 													</tr>
 													@endforeach

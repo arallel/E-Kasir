@@ -37,12 +37,11 @@
                                     <th class="nk-tb-col ">
                                         No
                                     </th>
-                                    <th class="nk-tb-col tb-col-mb"><span class="sub-text">Nama Barang</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Kode Promo</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Harga Normal</span></th>
+                                    <th class="nk-tb-col "><span class="sub-text">Nama Barang</span></th>
+                                    <th class="nk-tb-col"><span class="sub-text">Harga Normal</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Tgl Dimulai potongan</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Dimulai potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Tgl Berakhir potongan</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Status potongan</span></th>
                                     <th class="nk-tb-col nk-tb-col-tools text-end">
@@ -55,13 +54,10 @@
                                 <td class="nk-tb-col ">
                                     {{ $loop->iteration }}
                                 </td>
-                                <td class="nk-tb-col tb-col-mb">
+                                <td class="nk-tb-col">
                                     <span class="tb-lead">{{ ($potongan->databarang != null)?$potongan->databarang->nama_barang:'Barang Di Hapus' }}</span>
                                 </td>
-                                <td class="nk-tb-col tb-col-md">
-                                    <span>{{ ($potongan->kode_promo != null)?$potongan->kode_promo:'-' }}</span>
-                                </td> 
-                                <td class="nk-tb-col tb-col-md">
+                                <td class="nk-tb-col">
                                     <span>Rp.{{ number_format($potongan->harga_awal, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">
@@ -74,10 +70,10 @@
                                     <span>-</span>
                                     @endif
                                 </td> 
-                                <td class="nk-tb-col tb-col-lg">
+                                <td class="nk-tb-col tb-col-md">
                                     <span>{{ \Carbon\Carbon::parse($potongan->tgl_awal_potongan)->isoFormat('D MMMM Y') }}</span>
                                 </td>
-                                <td class="nk-tb-col tb-col-lg">
+                                <td class="nk-tb-col tb-col-md">
                                     <span> {{ \Carbon\Carbon::parse($potongan->tgl_akhir_potongan)->isoFormat('D MMMM Y') }}</span>
                                 </td>
                                 <td class="nk-tb-col tb-col-md">

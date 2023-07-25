@@ -103,7 +103,7 @@ class databarangexport implements FromCollection,ShouldAutoSize,WithCustomStartC
     {
         return [
             $this->no++,
-            $databarang->id_barang,
+            $databarang->kode_barang,
             $databarang->nama_barang,
             $databarang->kategory->nama_kategory,
             $databarang->harga_barang,
@@ -119,7 +119,7 @@ class databarangexport implements FromCollection,ShouldAutoSize,WithCustomStartC
     {
         return [
             'No', 
-            'Id Barang',
+            'Kode Barang',
             'Nama Barang',
             'Kategory',
             'Harga Barang',

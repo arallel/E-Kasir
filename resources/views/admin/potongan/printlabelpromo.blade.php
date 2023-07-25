@@ -24,7 +24,7 @@
                         <div class="col text-end">
                             <h3>{{ number_format($data->harga_setelah_potongan, 0, ',', '.') }}</h3>
                             <p></p>
-                            <p class="fs-9px mt-2">{{ $data->databarang->id_barang }}</p>
+                            <p class="fs-9px mt-2">{{ $data->databarang->kode_barang }}</p>
                         </div>
                     </div>
                     <h5 class="mt-1 fw-bold">Promo Promo Promo</h5>

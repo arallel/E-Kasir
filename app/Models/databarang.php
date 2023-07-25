@@ -17,6 +17,7 @@ class databarang extends Model
         'nama_barang',
         'foto_barang',
         'stok',
+        'kode_barang',
         'id_kategory',
         'status_barang',
         'barcode',

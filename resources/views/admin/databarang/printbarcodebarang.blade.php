@@ -23,7 +23,7 @@
                         </div>
                         <div class="col text-end">
                             <h3>{{ number_format($data->harga_barang, 0, ',', '.') }}</h3>
-                            <p class="fs-14px mt-2">{{ $data->id_barang }}</p>
+                            <p class="fs-14px mt-2">{{ $data->kode_barang }}</p>
                         </div>
                     </div>
                     <div class="justify-content-center ms-5 mt-2 ">  

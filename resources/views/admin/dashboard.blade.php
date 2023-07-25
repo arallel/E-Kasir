@@ -81,10 +81,10 @@
                                     <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
                                         <div class="nk-sale-data-group flex-md-nowrap g-4">
                                             <div class="nk-sale-data">
-                                                <span class="amount">Rp.{{ number_format($total_bulanan) }}</span>
+                                                <span class="amount">Rp. {{ number_format($total_bulanan, 0, ',', '.') }}</span>
                                             </div>
                                             <div class="nk-sale-data">
-                                                <span class="amount">Rp.{{ number_format($total_mingguan) }}</span>
+                                                <span class="amount">Rp. {{ number_format($total_mingguan, 0, ',', '.') }}</span>
                                             </div>
                                         </div>
                                         <div class="nk-sales-ck sales-revenue">
@@ -107,7 +107,7 @@
                                                 </div>
                                                 <div class="data">
                                                     <div class="data-group">
-                                                        <div class="amount">Rp.{{ number_format($transaksi_barang->sum('total_pembayaran')) }}</div>
+                                                        <div class="amount">Rp. {{ number_format($transaksi_barang->sum('total_pembayaran'), 0, ',', '.') }}</div>
                                                         <div class="nk-ecwg6-ck">
                                                             <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
                                                         </div>
@@ -128,7 +128,7 @@
                                                 </div>
                                                 <div class="data">
                                                     <div class="data-group">
-                                                        <div class="amount">Rp.{{ number_format($transaksi_harian->sum('total_pembayaran')) }}</div>
+                                                        <div class="amount">Rp. {{ number_format($transaksi_harian->sum('total_pembayaran'), 0, ',', '.') }}</div>
                                                         <div class="nk-ecwg6-ck">
                                                             <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
                                                         </div>
@@ -165,10 +165,9 @@
                                     </div>
                                     <div class="info">
                                         <div class="title">{{ $topitem->databarang->nama_barang }}</div>
-                                        <div class="price">Rp.{{ number_format($topitem->databarang->harga_barang) }}</div>
                                     </div>
                                     <div class="total">
-                                        <div class="amount">Rp.{{ $topitem->databarang->harga_barang * $topitem->total_qty}}</div>
+                                        <div class="amount">Rp. {{ number_format($topitem->total, 0, ',', '.')}}</div>
                                         <div class="count">Terjual {{ $topitem->total_qty }}</div>
                                     </div>
                                 </li>
@@ -287,7 +286,7 @@
                                             </td>
                                             <td class="tb-tnx-amount">
                                                 <div class="tb-tnx-total">
-                                                    <span class="amount text-success">+Rp. {{ number_format($transaksi->total_pembayaran) }}</span>
+                                                    <span class="amount text-success">+Rp. {{ number_format($transaksi->total_pembayaran, 0, ',', '.') }}</span>
                                                 </div>
                                                 <div class="tb-tnx-status">
                                                    <ul class="nk-tb-actions gx-1">

@@ -61,7 +61,7 @@
                                                 </div>
                                             </td>
                                             <td class="nk-tb-col tb-col-mb" >
-                                                <span class="currency text-success">+Rp. {{ number_format($data->total_pembayaran) }}</span>
+                                                <span class="currency text-success">+Rp. {{ number_format($data->total_pembayaran, 0, ',', '.') }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
                                                 <span>{{ \Carbon\Carbon::parse($data->tgl_transaksi)->isoFormat('D MMMM Y') }}</span>

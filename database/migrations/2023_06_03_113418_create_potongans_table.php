@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('potongan', function (Blueprint $table) {
             $table->id('id_potongan');
-            $table->string('id_barang');
+            $table->foreignUuid('id_barang');
             $table->integer('harga_awal');
             $table->integer('harga_setelah_potongan');
             $table->integer('harga_potongan_rp')->nullable();

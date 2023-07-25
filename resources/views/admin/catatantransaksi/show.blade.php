@@ -27,7 +27,7 @@
                         <div class="card-inner ">
                         	<div class="container">
                         		<div class="row">
-                        			<div class="col-4 mt-2">
+                        			<div class="col-12 col-md-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">No Invoice</label>
                                         <div class="form-control-wrap">
@@ -36,7 +36,7 @@
                                         </div>
                                       </div>
                         			</div>
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Kasir Yang Bertugas</label>
                                         <div class="form-control-wrap">
@@ -46,7 +46,7 @@
                                       </div>
                         			</div>
                                     @if($data->no_pesanan && $data->no_resi)
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                                       <div class="form-group">
                                         <label class="form-label" for="kode_promo">No Pesanan</label>
                                         <div class="form-control-wrap">
@@ -55,7 +55,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                                       <div class="form-group">
                                         <label class="form-label" for="kode_promo">No Resi</label>
                                         <div class="form-control-wrap">
@@ -66,37 +66,37 @@
                                     </div>
                                     @endif
                                     @if($data->uang_dibayarkan)
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Uang Dibayarkan Oleh Pembeli</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control"
-                                             value="{{ $data->uang_dibayarkan }}" disabled>
+                                             value="Rp.{{ number_format($data->uang_dibayarkan, 0, ',', '.') }}" disabled>
                                         </div>
                                       </div>
                         			</div>
                                     @endif
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Total Harga Semua Barang</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control"
-                                             value="{{ $data->total_pembayaran }}" disabled>
+                                             value="Rp.{{ number_format($data->total_pembayaran, 0, ',', '.') }}" disabled>
                                         </div>
                                       </div>
                         			</div>
                                     @if($data->total_kembalian)
-                                    <div class="col-4 mt-2">
+                                    <div class="col-12 col-md-4 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Kembalian Yang Diterima Pengguna</label>
                                         <div class="form-control-wrap">
                                             <input type="text" class="form-control"
-                                             value="{{ $data->total_kembalian }}" disabled>
+                                             value="Rp.{{ number_format($data->total_kembalian, 0, ',', '.') }}" disabled>
                                         </div>
                                       </div>
                         			</div>
                                     @endif
-                                    <div class="col-2 mt-2">
+                                    <div class="col-6 col-md-2 mt-2">
                         			  <div class="form-group">
                                         <label class="form-label" for="kode_promo">Tanggal Transaksi</label>
                                         <div class="form-control-wrap">
@@ -104,7 +104,7 @@
                                              value="{{ $data->tgl_transaksi }}" disabled>
                                         </div>
                                       </div>
-                        			</div><div class="col-2 mt-2">
+                        			</div><div class="col-6 col-md-2 mt-2">
                                       <div class="form-group">
                                         <label class="form-label" for="kode_promo">Jam  Transaksi</label>
                                         <div class="form-control-wrap">
@@ -122,11 +122,11 @@
                                                 <span class="sub-text">No</span>
                                             </th>
                                             <th class="nk-tb-col"><span class="sub-text">Nama Barang</span></th>
+                                            <th class="nk-tb-col "><span class="sub-text">Harga Per Item</span></th>
                                             <th class="nk-tb-col tb-col-mb"><span class="sub-text">Quantity</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Potongan Harga</span></th>
                                             <th class="nk-tb-col tb-col-md"><span class="sub-text">Diskon</span></th>
-                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">Harga Per Item</span></th>
-                                            <th class="nk-tb-col tb-col-md"><span class="sub-text">SubTotal</span></th>
+                                            <th class="nk-tb-col "><span class="sub-text">SubTotal</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,20 +138,20 @@
                                             <td class="nk-tb-col">
                                                 <span class="sub-text">{{ ($item->databarang != null)?$item->databarang->nama_barang:'Barang DI Hapus ' }}</span>
                                             </td>
+                                            <td class="nk-tb-col ">
+                                                <span class="sub-text">Rp.{{ number_format($item->harga_asli, 0, ',', '.') }}</span>
+                                            </td>
                                             <td class="nk-tb-col tb-col-mb">
                                                 <span class="sub-text">{{ $item->qty }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
-                                                <span class="sub-text">{{ ($item->jumlah_diskon_rp != null)?'Rp.'.$item->jumlah_diskon_rp:'-' }}</span>
+                                                <span class="sub-text">{{ ($item->jumlah_diskon_rp != null)?'Rp.'.number_format($item->jumlah_diskon_rp, 0, ',', '.'):'-' }}</span>
                                             </td>
                                             <td class="nk-tb-col tb-col-md">
                                                 <span class="sub-text">{{ ($item->jumlah_diskon_persen != null)?$item->jumlah_diskon_persen.'%':'-' }}</span>
                                             </td>
-                                            <td class="nk-tb-col tb-col-md">
-                                                <span class="sub-text">Rp.{{ $item->harga_asli }}</span>
-                                            </td>
-                                            <td class="nk-tb-col tb-col-md">
-                                                <span class="sub-text">Rp.{{ $item->harga_item }}</span>
+                                            <td class="nk-tb-col ">
+                                                <span class="sub-text">Rp.{{ number_format($item->harga_item, 0, ',', '.') }}</span>
                                             </td>
                                         </tr><!-- .nk-tb-item  -->  
                                         @endforeach 

@@ -136,7 +136,7 @@ class LaporanTransaksi  implements FromCollection,ShouldAutoSize,WithCustomStart
         return [
             $this->no++,
             $detailtransaksi->transaksi->no_transaksi,
-            $detailtransaksi->id_barang,
+            $detailtransaksi->databarang->kode_barang,
             $detailtransaksi->databarang->nama_barang,
             $detailtransaksi->qty,
             'PCS',

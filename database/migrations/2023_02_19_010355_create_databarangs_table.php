@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('databarang', function (Blueprint $table) {
-            $table->string('id_barang')->primary();
+            $table->uuid('id_barang')->primary();
+            $table->string('kode_barang');
             $table->string('nama_barang');
             $table->string('foto_barang')->nullable();
             $table->integer('stok');
@@ -26,12 +27,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('databarang');
