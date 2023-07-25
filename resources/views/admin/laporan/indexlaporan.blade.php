@@ -29,11 +29,11 @@
                 <div class="card-inner-group">
                     <div class="card-inner">
                         <!-- Modal Trigger Code -->
-                        <button  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LaporanHarian"><em class="icon ni ni-file-text"></em><span>Export Laporan Harian</span> </button>
+                        <button  class="btn btn-primary me-1 mt-1" data-bs-toggle="modal" data-bs-target="#LaporanHarian"><em class="icon ni ni-file-text"></em><span>Export Laporan Harian</span> </button>
 
-                        <button  class="btn btn-info" data-bs-toggle="modal" data-bs-target="#LaporanBulanan"><em class="icon ni ni-file-text"></em><span>Export Laporan Bulanan</span> </button>
+                        <button  class="btn btn-info me-1 mt-1" data-bs-toggle="modal" data-bs-target="#LaporanBulanan"><em class="icon ni ni-file-text"></em><span>Export Laporan Bulanan</span> </button>
 
-                        <a href="{{ route('export.databarang') }}" class="btn btn-success" id="export-databarang" ><em class="icon ni ni-box"></em><span>Export Databarang</span> </a>
+                        <a href="{{ route('export.databarang') }}" class="btn btn-success me-1 mt-1" id="export-databarang" ><em class="icon ni ni-box"></em><span>Export Databarang</span> </a>
 
                     </div>
                 </div>

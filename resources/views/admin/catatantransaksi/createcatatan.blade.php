@@ -37,15 +37,15 @@
                                 </div>
                             </div>
                             <form action="{{ route('Catatan-transaksi.store') }}" method="POST"
-                            enctype="multipart/form-data" id="form" autocomplete="off" style="display:none;">
+                            enctype="multipart/form-data" id="form" autocomplete="off" style="display:block;">
                             @csrf
                             <div class="row g-3">
-                              <input type="hidden" class="id_barang"  name="id_barang">
+                              <input type="text" class="id_barang"  name="id_barang">
                               <div class="col-12 col-md-4">
                                 <div class="form-group">
                                     <label class="form-label" for="nama_potongan">Kode Barang</label>
                                     <div class="form-control-wrap">
-                                        <input type="text" class="id_barang form-control"
+                                        <input type="text" class="kodebarang form-control"
                                          disabled>
                                     </div>
                                 </div>
@@ -228,6 +228,7 @@
              .attr('data-id',item.id_barang)
              .attr('data-nama',item.nama_barang)
              .attr('data-harga',item.harga_barang)
+             .attr('data-kode_barang',item.kode_barang)
              .addClass('btn btn-success btn-pilih')
              .text('pilih')
              ));
@@ -256,9 +257,11 @@
       const button = document.getElementsByClassName('btn-pilih')[rowIndex];
       const idbarang = button.getAttribute('data-id');
       const hargabarang = button.getAttribute('data-harga');
+      const kodebarang = button.getAttribute('data-kode_barang');
       const namabarang = button.getAttribute('data-nama');
 
        $('.id_barang').val(idbarang);
+       $('.kodebarang').val(kodebarang);
        $('#cari_barang').val(namabarang);
        $('#harga_barang').val(hargabarang);
        $('#nama_barang').val(namabarang);

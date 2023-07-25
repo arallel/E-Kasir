@@ -16,7 +16,7 @@ class AuthUserApi extends Controller
          'email' => 'required|email',
          'password' => 'required',
       ]);
-      $user = User::where('email', $request->email)->first();
+      $user = User::where('email', $request->email)->orWhere('nama_pengguna',$request->email)->first();
       if ($user && Hash::check($request->password, $user->password)) {
         $user->update(['status'=>'online']);
          $token = $user->createToken('Kasirku-Token');

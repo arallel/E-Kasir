@@ -12,6 +12,7 @@ class databarangcollectionresource extends JsonResource
     {
         return [
             'id_barang' => $this->id_barang,
+            'kode_barang' => $this->kode_barang,
             'nama_barang' => $this->nama_barang,
             'stok' => $this->stok,
             'id_kategory' => $this->id_kategory,

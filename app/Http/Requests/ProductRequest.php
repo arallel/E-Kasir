@@ -17,6 +17,7 @@ class ProductRequest extends FormRequest
             'id_kategory' => 'required|numeric',
             'harga_barang' => 'min_digits:1|numeric|required',
             'harga_pembelian' => 'min_digits:1|numeric|required',
+            
              
         ];
     }

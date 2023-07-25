@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transaksi_barang = transaksi_barang::with('user','detailtransaksi')->get();
+        $transaksi_barang = transaksi_barang::with('user','detailtransaksi')->orderBy('no_transaksi')->get();
         $databarang = databarang::count();
         $kategory = kategory::count();
         $user = User::count();
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $total_mingguan = transaksi_barang::whereBetween('tgl_transaksi', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->sum('total_pembayaran');
        $top5item = detail_transaksi::with('databarang')
-                   ->select('id_barang', DB::raw('SUM(qty) as total_qty'))
+                   ->select('id_barang',DB::raw('SUM(qty) as total_qty'),DB::raw('SUM(harga_item) as total'))
                    ->groupBy('id_barang')
                    ->orderByDesc('total_qty')
                    ->limit(5)

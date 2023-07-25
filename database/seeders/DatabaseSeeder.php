@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
             'id_user' => Str::uuid()->toString(),
          ]);
          databarang::create([
-            'id_barang' => 'A0001',
+            'id_barang' => 'a49a6b63-4f32-4682-97a6-dfed46af34de',
+            'kode_barang' => 'A0001',
             'nama_barang' => 'test',
             'foto_barang' => NULL,
             'stok' => '12',

@@ -42,8 +42,8 @@
                                     <th class="nk-tb-col"><span class="sub-text">Nama Pengguna</span></th>
                                     <th class="nk-tb-col tb-col-mb"><span class="sub-text">Email</span></th>
                                     <th class="nk-tb-col tb-col-md"><span class="sub-text">Status Login</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Status Akun</span></th>
-                                    <th class="nk-tb-col tb-col-lg"><span class="sub-text">Role</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Status Akun</span></th>
+                                    <th class="nk-tb-col tb-col-md"><span class="sub-text">Role</span></th>
                                     <th class="nk-tb-col nk-tb-col-tools text-end">
                                     </th>
                                 </tr>

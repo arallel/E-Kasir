@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\databarang;
 use App\Models\detail_transaksi;
 use Str;
+use Carbon\Carbon;
 
 class catatantransaksiseeder extends Seeder
 {
@@ -22,7 +23,7 @@ class catatantransaksiseeder extends Seeder
         $faker = Faker::create();
 
         $id = User::first();
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 0; $i <= Carbon::now()->endOfMonth()->format('d'); $i++) {
             $lastinv = transaksi_barang::orderBy('id_transaksi', 'desc')->count();
             $prefix = 'INV-';
             $lastInvoiceNumber = $lastinv + 1;
@@ -31,7 +32,7 @@ class catatantransaksiseeder extends Seeder
             $transaksi = transaksi_barang::create([
                 'id_transaksi' => $faker->uuid,
                 'no_transaksi' => $invoice,
-                'tgl_transaksi' => '2023-07-' . $i,
+                'tgl_transaksi' => Carbon::now()->startOfMonth()->add($i,'days')->format('Y-m-d'),
                 'waktu_transaksi' => $faker->time,
                 'total_pembayaran' => $faker->randomNumber(5, true),
                 'id_user' => $id->id_user,
@@ -40,7 +41,7 @@ class catatantransaksiseeder extends Seeder
                 'pembelian' => $faker->randomElement($array = ['online', 'offline']),
             ]);
 
-            $barang = databarang::with('checkpotongan')->where('id_barang', 'A0001')->first();
+            $barang = databarang::with('checkpotongan')->where('id_barang', 'a49a6b63-4f32-4682-97a6-dfed46af34de')->first();
             $qty = $faker->numberBetween(1, 3);
             $detail_transaksi = detail_transaksi::create([
                 'id_detail_transaksi' => Str::uuid()->toString(),

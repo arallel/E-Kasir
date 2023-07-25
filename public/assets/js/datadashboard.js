@@ -7,6 +7,7 @@
     url: "api/chart/penjualan",
     method: "GET",
     success: function(data) {
+      console.log(data);
       //data bulanan
       const labels = [];
       const datas = [];

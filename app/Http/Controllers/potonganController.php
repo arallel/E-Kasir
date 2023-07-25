@@ -20,7 +20,7 @@ class potonganController extends Controller
     }
     public function searchbarang(Request $request)
     {
-        $searchbarang = databarang::with('checkpotongan')->select('id_barang','nama_barang','harga_barang','stok')->where('nama_barang','like','%'.$request->cari_barang.'%')
+        $searchbarang = databarang::with('checkpotongan')->select('id_barang','nama_barang','harga_barang','stok','kode_barang')->where('nama_barang','like','%'.$request->cari_barang.'%')
         ->get();
         if(count($searchbarang) == 0 ){
             return response()->json(['message' => 'no data' ]);

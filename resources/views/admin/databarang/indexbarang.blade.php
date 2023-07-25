@@ -68,12 +68,13 @@
                                         <th class="nk-tb-col ">
                                             <span>No</span>
                                         </th>
-                                        <th class="nk-tb-col tb-col-sm"><span>Kode barang</span></th>
+                                        <th class="nk-tb-col "><span>Kode barang</span></th>
                                         <th class="nk-tb-col"><span>Nama Barang</span></th>
                                         <th class="nk-tb-col"><span>Harga Beli</span></th>
                                         <th class="nk-tb-col tb-col-md"><span>Harga Jual</span></th>
                                         <th class="nk-tb-col tb-col-md"><span>Stok</span></th>
                                         <th class="nk-tb-col tb-col-md"><span>Kategory</span></th>
+                                        <th class="nk-tb-col tb-col-md"><span>Kode barcode</span></th>
                                         <th class="nk-tb-col tb-col-md"><span>Status Barang</span></th>
                                         <th class="nk-tb-col nk-tb-col-tools">
                                             <ul class="nk-tb-actions gx-1 my-n1">
@@ -95,28 +96,28 @@
                                          <span class="tb-lead">{{ $loop->iteration }}</span>
                                      </td> 
                                      <td class="nk-tb-col">
-                                         <span class="tb-lead">{{ $barang->id_barang }}</span>
+                                         <span class="tb-lead">{{ $barang->kode_barang }}</span>
                                      </td>
-                                     <td class="nk-tb-col tb-col-sm">
+                                     <td class="nk-tb-col ">
                                         <span class="tb-product">
                                             @if ($barang->foto_barang == null)
                                             <img src="{{ asset('assets/images/no-image.jpg') }}" alt=""
-                                            class="thumb" style="height:3rem;">
+                                            class="thumb">
                                             @else
                                             <img src="storage/{{ $barang->foto_barang }}" alt=""class="thumb" style="height:3rem;">
-                                            {{-- <img src="{{ $barang->foto_barang }}"class="thumb" style="height:3rem;"> --}}
                                             @endif
-                                            <span class="title text-start">{{ Str::limit($barang->nama_barang,50) }}</span>
+                                            <span class="text-start title">{{ Str::limit($barang->nama_barang,50) }}</span>
                                         </span>
                                     </td>
-                                    <td class="nk-tb-col">
+                                    <td class="nk-tb-col ">
                                      <span class="tb-lead">Rp.{{ number_format($barang->harga_pembelian, 0, ',', '.') }}</span>
                                  </td>
-                                 <td class="nk-tb-col">
+                                 <td class="nk-tb-col tb-col-md">
                                      <span class="tb-lead">Rp.{{ number_format($barang->harga_barang, 0, ',', '.'); }}</span>
                                  </td>
                                  <td class="nk-tb-col tb-col-md"><span class="tb-sub">{{ $barang->stok }}</span></td>
                                  <td class="nk-tb-col tb-col-md"><span class="tb-sub">{{ $barang->kategory->nama_kategory }}</span></td>
+                                 <td class="nk-tb-col tb-col-md"><span class="tb-lead">{{ $barang->barcode }}</span></td>
                                  <td class="nk-tb-col tb-col-md">
                                     @if ($barang->stok == 0)
                                     <span class="badge rounded-pill bg-warning badge-md">Stok Kosong</span>
@@ -209,12 +210,27 @@ data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data
             </div>
         </div>
     </div>
-    <div class="col-12">
+    <div class="col-md-6">
         <div class="form-group">
             <label class="form-label" for="nama_barang">Nama Barang</label>
             <div class="form-control-wrap">
                 <input type="text" class="form-control" value="{{ old('nama_barang') }}"
                 name="nama_barang" id="nama_barang" placeholder="Nama Barang" required>
+            </div>
+        </div>
+    </div>
+    @php 
+       $lastbarang = \App\Models\databarang::orderBy('kode_barang','asc')->count();
+        $prefix = 'A';
+        $lastInvoiceNumber = $lastbarang + 1; 
+        $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
+    @endphp
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="form-label" for="kode_barang">Kode Barang</label>
+            <div class="form-control-wrap">
+                <input type="text" class="form-control" value="{{ $kodebarang }}"
+                name="kode_barang" id="kode_barang" placeholder="Nama Barang" required>
             </div>
         </div>
     </div>

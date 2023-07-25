@@ -28,15 +28,15 @@
                 <div class="card card-stretch">
                     <div class="card-inner-group">
                         <div class="card-inner">
-                            <table class="datatable-init table table-ulogs">
+                            <table class="datatable-init table ">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="tb-col-os"><span class="overline-title">No</span></th>
                                         <th class="tb-col-os"><span class="overline-title">Nama Pengguna</span></th>
-                                        <th class="tb-col-os"><span class="overline-title">Browser</span></th>
-                                        <th class="tb-col-ip"><span class="overline-title">IP</span></th>
-                                        <th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Login</span></th>
-                                        <th class="tb-col-time"><span class="overline-title">Tanggal Dan Jam Logout</span></th>
+                                        <th class="tb-col-os tb-col-mb"><span class="overline-title">Browser</span></th>
+                                        <th class="tb-col-ip tb-col-mb"><span class="overline-title">IP</span></th>
+                                        <th class="tb-col-time tb-col-mb"><span class="overline-title">Tanggal Dan Jam Login</span></th>
+                                        <th class="tb-col-time tb-col-mb"><span class="overline-title">Tanggal Dan Jam Logout</span></th>
                                         <th class="tb-col-time"><span class="overline-title">Total Jam Login Harian</span></th>
                                     </tr>
                                 </thead>
@@ -65,11 +65,11 @@
                                     <tr>
                                         <td class="tb-col-os">{{ $loop->iteration }}</td>
                                         <td class="tb-col-os">{{ $data->users->nama_pengguna }}</td>
-                                        <td class="tb-col-os">{{ $data->user_agent }}</td>
-                                        <td class="tb-col-ip"><span class="sub-text">{{ $data->ip_address }}</span></td>
-                                        <td class="tb-col-time"><span class="sub-text">{{ $data->date_login_at }}   {{ $data->time_login_at }}</span></td>
-                                        <td class="tb-col-time"><span class="sub-text">{{ $data->date_logout_at }}  {{ $data->time_logout_at }}</span></td>
-                                        <td class="tb-col-time"><span class="title text-success">{{ ($data->time_logout_at && $data->date_logout_at)?$timeString:'-' }}</span></td>
+                                        <td class="tb-col-os tb-col-mb">{{ $data->user_agent }}</td>
+                                        <td class="tb-col-ip tb-col-mb"><span class="sub-text">{{ $data->ip_address  }}</span></td>
+                                        <td class="tb-col-time tb-col-mb"><span class="sub-text">{{ $data->date_login_at }}   {{ $data->time_login_at }}</span></td>
+                                        <td class="tb-col-time tb-col-mb"><span class="sub-text">{{ $data->date_logout_at }}  {{ $data->time_logout_at }}</span></td>
+                                        <td class="tb-col-time "><span class="title text-success">{{ ($data->time_logout_at && $data->date_logout_at)?$timeString:'-' }}</span></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

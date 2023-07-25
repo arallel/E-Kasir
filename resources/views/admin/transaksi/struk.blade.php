@@ -95,35 +95,22 @@
                 {{ ($item->databarang != null)?Str::limit($item->databarang->nama_barang,12):'Barang Di hapus Oleh Kasir' }}
             </div>
             <div>{{ $item->qty }} Rp 
-                {{ number_format($item->databarang->harga_barang) }} 
-                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_persen && $data->pembelian == 'offline' || $item->jumlah_diskon_persen)?"Diskon:":'' }}
-                {{ ($item->checkpotongan && $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline'||$item->jumlah_diskon_rp)?"Potongan:":'' }}
+                {{ number_format($item->databarang->harga_barang, 0, ',', '.') }} 
+                {{ ($item->jumlah_diskon_persen != null)?"Diskon:":'' }}
+                {{ ($item->jumlah_diskon_rp != null)?"Potongan:":'' }}
             </div>
             <div>Rp 
-            {{ number_format($item->databarang->harga_barang * $item->qty ) }} <br>  
-
-               {{--  {{ ($item->checkpotongan &&  $item->checkpotongan->harga_potongan_rp && $data->pembelian == 'offline'|| $item->jumlah_diskon_rp )?'(Rp.'.
-                ($item->checkpotongan)?number_format($item->checkpotongan->harga_potongan_rp * $item->qty):number_format($item->checkpotongan->harga_potongan_rp * $item->qty)
-                .')':'' }}  --}}
-                @if($item->checkpotongan && $item->checkpotongan->harga_potongan_rp)
-                {{ ($item->checkpotongan->harga_potongan_rp)?'(Rp.'.number_format($item->checkpotongan->harga_potongan_rp).')':'' }}
-                @elseif($item->jumlah_diskon_rp)
-                {{'(Rp.'.number_format($item->jumlah_diskon_rp).')'}}
-                @endif
-
-                @if($item->checkpotongan)
-                 {{ ($item->checkpotongan->harga_potongan_persen)?$item->checkpotongan->harga_potongan_persen.'%':'' }}
-                @elseif($item->jumlah_diskon_persen)
-                {{ $item->jumlah_diskon_persen.'%' }}
-                @endif
+                {{ number_format($item->harga_asli, 0, ',', '.') }} <br>  
+                {{ ($item->jumlah_diskon_rp != null)?'(Rp.'.number_format($item->jumlah_diskon_rp, 0, ',', '.').')':'' }}
+                 {{ ($item->jumlah_diskon_persen)?$item->jumlah_diskon_persen.'%':'' }}
             </div>
         </div>
             @php
              $sumharga_setelah_potongan = 0; 
              $harga_awal = 0; 
             if($item->checkpotongan){     
-               $harga_awal += $item->checkpotongan->harga_awal;
-               $sumharga_setelah_potongan += $item->checkpotongan->harga_setelah_potongan;
+               $harga_awal += $item->harga_asli;
+               $sumharga_setelah_potongan += $item->harga_item;
             }
             @endphp 
         @endforeach
@@ -143,11 +130,11 @@
             </div>
             <div style="text-align: right;">
                 <ul>
-                    <li>Rp {{ number_format($data->total_pembayaran) }}</li>
-                    <li>Rp {{ ($data->uang_dibayarkan != null)?number_format($data->uang_dibayarkan):number_format($data->total_pembayaran) }}</li>
-                    <li>Rp {{ number_format($data->total_kembalian) }}</li>
+                    <li>Rp {{ number_format($data->total_pembayaran, 0, ',', '.') }}</li>
+                    <li>Rp {{ ($data->uang_dibayarkan != null)?number_format($data->uang_dibayarkan, 0, ',', '.'):number_format($data->total_pembayaran, 0, ',', '.') }}</li>
+                    <li>Rp {{ number_format($data->total_kembalian, 0, ',', '.') }}</li>
                     @if($harga_awal > 0 && $data->pembelian == 'offline')
-                    <li>Rp {{ number_format($harga_awal - $sumharga_setelah_potongan) }}</li>
+                    <li>Rp {{ number_format($harga_awal - $sumharga_setelah_potongan, 0, ',', '.') }}</li>
                     @endif
                 </ul>
             </div>
@@ -157,7 +144,7 @@
             <p>Terima Kasih,Selamat Belanja Kembali</p>
         </div>
     </div>
-     {{-- <script>     
+     <script>     
         const url = document.referrer;
         const baseUrl = new URL(url).origin +'/';
         const modifiedUrl = url.replace(baseUrl, "");
@@ -169,6 +156,6 @@
        setTimeout(()=>{
        printPage();
        },3000);
-   </script> --}}
+   </script>
 </body>
 </html>

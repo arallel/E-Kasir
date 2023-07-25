@@ -35,11 +35,11 @@
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <div class="form-group">
-                                                <label class="form-label" for="id_barang">Kode Barang</label>
+                                                <label class="form-label" for="kode_barang">Kode Barang</label>
                                                 <div class="form-control-wrap">
                                                     <input type="text" class="form-control" 
-                                                        value="{{ $data->id_barang }}" name="id_barang" disabled id="id_barang"
-                                                        placeholder="Barcode Barang" required>
+                                                        value="{{ $data->kode_barang }}" name="kode_barang" id="kode_barang"
+                                                        placeholder="Kode Barang" required>
                                                 </div>
                                             </div>
                                         </div>
