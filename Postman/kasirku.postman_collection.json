@@ -91,14 +91,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/databarang/5d96bdfb-5dec-472c-bba2-eb842595742c",
+							"raw": "{{Url-web}}/api/databarang/a49a6b63-4f32-4682-97a6-dfed46af34de",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
 								"databarang",
-								"5d96bdfb-5dec-472c-bba2-eb842595742c"
+								"a49a6b63-4f32-4682-97a6-dfed46af34de"
 							]
 						}
 					},
@@ -182,6 +182,11 @@
 									"value": "aktif",
 									"description": "aktif / tidak_aktif",
 									"type": "text"
+								},
+								{
+									"key": "kode_barang",
+									"value": "A0003",
+									"type": "text"
 								}
 							]
 						},
@@ -257,18 +262,23 @@
 									"key": "harga_pembelian",
 									"value": "2000",
 									"type": "text"
+								},
+								{
+									"key": "kode_barang",
+									"value": "A0001",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{Url-web}}/api/databarang/A0005",
+							"raw": "{{Url-web}}/api/databarang/a49a6b63-4f32-4682-97a6-dfed46af34de",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
 								"databarang",
-								"A0005"
+								"a49a6b63-4f32-4682-97a6-dfed46af34de"
 							]
 						}
 					},
@@ -290,14 +300,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{Url-web}}/api/databarang/A0005",
+							"raw": "{{Url-web}}/api/databarang/a49a6b63-4f32-4682-97a6-dfed46af34de",
 							"host": [
 								"{{Url-web}}"
 							],
 							"path": [
 								"api",
 								"databarang",
-								"A0005"
+								"a49a6b63-4f32-4682-97a6-dfed46af34de"
 							]
 						}
 					},
