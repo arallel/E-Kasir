@@ -19,7 +19,7 @@ class catatantransaksi extends Controller
      */
     public function index()
     {
-        $data = transaksi_barang::with('user','detailtransaksi')->orderBy('id_barang','asc')->get();
+        $data = transaksi_barang::with('user','detailtransaksi')->get();
         if($data){
             return response()->json(catatantransaksiresource::collection($data));
         }else{
