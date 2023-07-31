@@ -32,60 +32,62 @@ class AuthenticatedSessionController extends Controller
     {
         $browser = Agent::browser();
         $timenow = Carbon::now();
-        $user = User::where('email',$request->email)->orWhere('nama_pengguna',$request->email)->first();
-        if($user){
-            if(Hash::check($request->password, $user->password)){
-            Auth::login($user);
-            $user->update([
+        $email = $request->email;
+        $password = $request->password;
+        $user = User::where('email',$email)->orWhere('nama_pengguna',$email)->first();
+        if($user && $user->status_akun == 'aktif'){
+            if(Hash::check($password, $user->password)){
+               Auth::login($user);
+               $user->update([
                 'status' => 'online',
             ]);
-            $ceklog = login_log::where('user_id',$user->id_user)->where('date_login_at', $timenow->format('Y-m-d'))->count();
-            if($ceklog ==  0){
-                 $log = login_log::create([
-                 'user_id' => Auth::user()->id_user,
-                 'user_agent' => $browser,
-                 'ip_address' => $request->ip(),
-                 'date_login_at' => $timenow->format('Y-m-d'),
-                 'time_login_at' => $timenow->format('H:i:s'),
-               ]);    
-            }
-            return redirect()->intended(RouteServiceProvider::HOME);
-          }else{
+               $ceklog = login_log::where('user_id',$user->id_user)->where('date_login_at', $timenow->format('Y-m-d'))->count();
+               if($ceklog ==  0){
+                   $log = login_log::create([
+                       'user_id' => Auth::user()->id_user,
+                       'user_agent' => $browser,
+                       'ip_address' => $request->ip(),
+                       'date_login_at' => $timenow->format('Y-m-d'),
+                       'time_login_at' => $timenow->format('H:i:s'),
+                   ]);    
+               }
+               return redirect()->intended(RouteServiceProvider::HOME);
+           }else{
             return redirect()
             ->back()
             ->with('salah', 'Maaf, Sepertinya Password Salah')
             ->withInput();
-         }
-        }else{
-            return redirect()
-            ->back()
-            ->with('salah', 'Maaf, Sepertinya Email Tidak Ditemukan Atau Salah')
-            ->withInput();
-        }
+           }
+       }else{
+          return redirect()
+          ->back()
+          ->with('salah', 'Maaf, Sepertinya Email Tidak Ditemukan Atau Diblokir ')
+          ->withInput();
     }
+}
     /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $timenow = Carbon::now();
-         $user = User::findOrFail(Auth::user()->id_user);
-        $user->update([
-            'status' => 'offline',
-        ]);
-        $log = login_log::where('user_id',Auth::user()->id_user)->where('date_login_at',$timenow->format('Y-m-d'))->first();
-        if($log != null){     
-        $log->update([
-           'date_logout_at' => $timenow->format('Y-m-d'),
-           'time_logout_at' => $timenow->format('H:i:s'),
-        ]);
+        if(Auth::user() != null){
+            $timenow = Carbon::now();
+            $id = Auth::user()->id_user;
+            $user = User::findOrFail($id);
+            $user->update([
+                'status' => 'offline',
+            ]);
+            $log = login_log::where('user_id',$id)->where('date_login_at',$timenow->format('Y-m-d'))->first();
+            if($log != null){     
+                $log->update([
+                 'date_logout_at' => $timenow->format('Y-m-d'),
+                 'time_logout_at' => $timenow->format('H:i:s'),
+             ]);
+            }
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/');
         }
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
     }
 }

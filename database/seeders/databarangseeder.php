@@ -19,12 +19,18 @@ class databarangseeder extends Seeder
     {
         $faker = Faker::create();
         $response = Http::get('https://fakestoreapi.com/products');
-              if ($response->successful()) {
-                   $groceryItems = json_decode($response, true);
-                  foreach ($groceryItems as $groceryItem) {
+        if ($response->successful()) {
+         $groceryItems = json_decode($response, true);
+         foreach ($groceryItems as $groceryItem) {
+            $data = \App\Models\databarang::orderBy('kode_barang','desc')->first();
+            $lastbarang = str_replace("A000", "", $data->kode_barang);
+            $prefix = 'A';
+            $lastInvoiceNumber = intval($lastbarang) + 1;
+            $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
                    // dd($groceryItem);
-                databarang::create([
+            databarang::create([
                 'id_barang' => $faker->uuid(),
+                'kode_barang' => $kodebarang,
                 'nama_barang' => $groceryItem['title'],
                 'foto_barang' =>  $groceryItem['image'], 
                 'stok' => $faker->numberBetween(1, 100),
@@ -32,10 +38,10 @@ class databarangseeder extends Seeder
                 'harga_pembelian' => $faker->numberBetween(10000, 1000000),
                 'id_kategory' => $faker->numberBetween(1, 2),
                 'status_barang' => $faker->randomElement(['aktif', 'tidak_aktif']),
-                'barcode' => $faker->numberBetween(1000000000000, 9999999999999),
+                'barcode' => $faker->numberBetween(100000000, 999999999),
             ]);
-                   }
-
         }
+
+    }
     }
 }

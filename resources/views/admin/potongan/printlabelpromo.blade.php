@@ -17,7 +17,7 @@
                 <div class="card-inner">
                     <div class="row">
                         <div class="col">
-                            <p class="fs-11px" style=" text-decoration: line-through;">{{ $data->databarang->harga_barang }}</p>
+                            <p class="fs-11px" style=" text-decoration: line-through;">{{ number_format($data->harga_awal, 0, ',', '.')  }}</p>
                             <p>Rp.</p>
                             <p class="fs-9px">{{ date('d-m-Y') }}</p>
                         </div>

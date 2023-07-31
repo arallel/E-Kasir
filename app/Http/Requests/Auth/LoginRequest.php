@@ -7,17 +7,17 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
+// use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return true;
-    }
+    // public function authorize(): bool
+    // {
+    //     return true;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -27,15 +27,20 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => ['required'],
+            'password' => 'required|string|min:6',
+            'email' => 'required|string',
         ];
     }
     public function messages()
     {
-    return [
-        // 'password.min' => 'Password Harus Minimal 6',
-    ];
-     }
+       return [
+        'password.required' => 'Password harus diisi.',
+        'password.min' => 'Password harus minimal 6 digit.',
+        'password.string' => 'Password hanya boleh terdiri dari huruf dan angka.',
+        'email.string' => 'Email hanya boleh terdiri dari huruf dan angka.',
+        'email.required' => 'Email Atau Nama harus diisi.',
+       ];
+    }
 
     /**
      * Attempt to authenticate the request's credentials.

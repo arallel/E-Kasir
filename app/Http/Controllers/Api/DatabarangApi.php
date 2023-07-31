@@ -138,15 +138,14 @@ class DatabarangApi extends Controller
     public function store(Request $request){
         if($request->foto_barang)
         {
-          $image = $request->file('foto_barang');
-          $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
-          $destinationPath = storage_path('app/images');
-          $img = Image::make($image->path());
-          $img->resize(1200, 1200, function ($constraint) {
-              $constraint->aspectRatio();
-                    // $constraint->upsize();
-          })->save($destinationPath.'/'.$input['imagename']);
-        }
+           $image = $request->file('foto_barang');
+           $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.jpg';
+           $destinationPath = storage_path('app/images');
+           $img = Image::make($image->path());
+           $img->resize(1200, 1200, function ($constraint) {
+               $constraint->aspectRatio();
+           })->save($destinationPath.'/'.$input['imagename']);
+       }
         $data = databarang::create([
             'id_barang' => Str::uuid(),
             'kode_barang' => $request->kode_barang,

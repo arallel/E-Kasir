@@ -64,7 +64,8 @@
                                                     @if ($data->foto_barang == null)
                                                     <img src="{{ asset('assets/images/no-image.jpg') }}">
                                                     @else
-                                                    <img class="card-img-top img-fluid" src=" storage/{{ $data->foto_barang }}">
+                                                    <img class="card-img-top img-fluid lazyload" src=" storage/{{ $data->foto_barang }}">
+                                                    {{-- <img class="card-img-top img-fluid lazyload" src="{{ $data->foto_barang }}"/> --}}
                                                     @endif
                                                 </a>
                                             </div>
@@ -187,6 +188,7 @@
 </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     const inputsearchnama = document.getElementById('search_namabarang');

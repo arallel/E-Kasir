@@ -63,10 +63,10 @@ class DatabarangController extends Controller
     }
 
     if ($emptyQueries) {
-        $databarang = $query->orderBy('id_barang',$orderBy)->get();
+        $databarang = $query->orderBy('kode_barang',$orderBy)->get();
           return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     } else {
-       $databarang = $query->orderBy('id_barang',$orderBy)->get();
+       $databarang = $query->orderBy('kode_barang',$orderBy)->get();
           return view('admin.databarang.indexbarang',compact('databarang','kategory'));
     }   
     }
@@ -112,7 +112,6 @@ class DatabarangController extends Controller
                     // $constraint->upsize();
              })->save($destinationPath.'/'.$input['imagename']);
         }
-    
         $data = databarang::create([
             'id_barang' => Str::uuid(),
             'kode_barang' => $request->kode_barang,
@@ -146,16 +145,17 @@ class DatabarangController extends Controller
          'barcode.unique' => 'Kode Barcode Sudah Ada.',
         ]);
         $data = databarang::findOrFail($databarang);
-        if($request->foto_barang && Storage::exists($data->foto_barang))
+        if($request->foto_barang)
         {
-            Storage::delete($data->foto_barang);
+            if($data->foto_barang != null){
+             Storage::delete($data->foto_barang);
+            }
             $image = $request->file('foto_barang');
             $input['imagename'] = 'fotobarang-'.date('d-m-y').time().'.'.$image->extension();
             $destinationPath = storage_path('app/images');
             $img = Image::make($image->path());
             $img->resize(1200, 1200, function ($constraint) {
                 $constraint->aspectRatio();
-                    // $constraint->upsize();
             })->save($destinationPath.'/'.$input['imagename']);
         }
         if($data == null){abort(404);}
