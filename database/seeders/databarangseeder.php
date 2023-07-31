@@ -22,10 +22,9 @@ class databarangseeder extends Seeder
         if ($response->successful()) {
          $groceryItems = json_decode($response, true);
          foreach ($groceryItems as $groceryItem) {
-            $data = \App\Models\databarang::orderBy('kode_barang','desc')->first();
-            $lastbarang = str_replace("A000", "", $data->kode_barang);
+            $lastbarang = \App\Models\databarang::orderBy('kode_barang','desc')->count();
             $prefix = 'A';
-            $lastInvoiceNumber = intval($lastbarang) + 1;
+            $lastInvoiceNumber = $lastbarang + 1;
             $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
                    // dd($groceryItem);
             databarang::create([
