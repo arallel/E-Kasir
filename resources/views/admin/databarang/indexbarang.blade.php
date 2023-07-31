@@ -16,7 +16,6 @@
                                     <ul class="nk-block-tools g-3">
                                         <li>
                                             <form action="{{ route('databarang.index') }}" method="Get" id="filter">
-                                                @csrf
                                                 <div class="form-control-select">
                                                     <select class="form-control" name="status" id="filter-select">
                                                         <option selected disabled>Status</option>
@@ -106,7 +105,7 @@
                                             @else
                                             <img src="storage/{{ $barang->foto_barang }}" alt=""class="thumb" style="height:3rem;">
                                             @endif
-                                            <span class="text-start title">{{ Str::limit($barang->nama_barang,50) }}</span>
+                                            <span class="text-start title">{{ Str::limit($barang->nama_barang,23) }}</span>
                                         </span>
                                     </td>
                                     <td class="nk-tb-col ">
@@ -124,8 +123,7 @@
                                     @elseif($barang->status_barang == 'aktif')
                                     <span class="badge rounded-pill bg-success badge-md">Tersedia</span>
                                     @else
-                                    <span class="badge rounded-pill bg-secondary badge-md">Tidak
-                                    Tersedia</span>
+                                    <span class="badge rounded-pill bg-secondary badge-md">Tidak Tersedia</span>
                                     @endif
                                 </td>
                                 <td class="nk-tb-col nk-tb-col-tools">
@@ -204,7 +202,7 @@ data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data
         <div class="form-group">
             <label class="form-label" for="barcode">Barcode Barang</label>
             <div class="form-control-wrap">
-                <input type="text" class="form-control" required
+                <input type="number" class="form-control" required
                 value="{{ old('barcode') }}" name="barcode" id="barcode"
                 placeholder="Barcode Barang">
             </div>
@@ -220,10 +218,11 @@ data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data
         </div>
     </div>
     @php 
-       $lastbarang = \App\Models\databarang::orderBy('kode_barang','asc')->count();
-        $prefix = 'A';
-        $lastInvoiceNumber = $lastbarang + 1; 
-        $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
+      $data = \App\Models\databarang::orderBy('kode_barang','desc')->first();
+      $lastbarang = str_replace("A000", "", $data->kode_barang);
+      $prefix = 'A';
+      $lastInvoiceNumber = intval($lastbarang) + 1;
+      $kodebarang = $prefix . sprintf('%04d', $lastInvoiceNumber);
     @endphp
     <div class="col-md-6">
         <div class="form-group">

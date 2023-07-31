@@ -60,7 +60,7 @@
                                                     <div class="form-text-hint">
                                                         <span class="overline-title">Rp</span>
                                                     </div>
-                                                    <input type="text" class="form-control" required
+                                                    <input type="number" class="form-control" required
                                                         value="{{ $data->harga_pembelian }}" name="harga_pembelian"
                                                         id="default-05" placeholder="Harga pembelian">
 
@@ -74,7 +74,7 @@
                                                     <div class="form-text-hint">
                                                         <span class="overline-title">Rp</span>
                                                     </div>
-                                                    <input type="text" class="form-control" required
+                                                    <input type="number" class="form-control" required
                                                         value="{{ $data->harga_barang }}" name="harga_barang"
                                                         id="default-05" placeholder="Harga Barang">
 

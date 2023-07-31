@@ -5,14 +5,13 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-
 class ProductRequest extends FormRequest
 {
     public function rules($id = null)
     {
         return [
             'nama_barang' => 'required|string|max:255',
-            'foto_barang' => 'image|max:10240|mimes:jpg,jpeg,png,svg',
+            'foto_barang' => 'sometimes|image|max:10240|mimes:jpg,jpeg,png,svg',
             'stok' => 'required|min:1|numeric',
             'id_kategory' => 'required|numeric',
             'harga_barang' => 'min_digits:1|numeric|required',

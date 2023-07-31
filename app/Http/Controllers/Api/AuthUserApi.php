@@ -13,8 +13,8 @@ class AuthUserApi extends Controller
     public function Login(Request $request)
     {
       $request->validate([
-         'email' => 'required|email',
-         'password' => 'required',
+         'email' => 'required|string',
+         'password' => 'required|string|min:6',
       ]);
       $user = User::where('email', $request->email)->orWhere('nama_pengguna',$request->email)->first();
       if ($user && Hash::check($request->password, $user->password)) {

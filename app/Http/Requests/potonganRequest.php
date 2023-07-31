@@ -29,7 +29,7 @@ class potonganRequest extends FormRequest
             'harga_potongan_rp' => 'numeric|nullable',
             'harga_potongan_persen' => 'numeric|nullable',
             'tgl_awal_potongan' => 'required|date',
-            'tgl_akhir_potongan' => 'required|date',
+            'tgl_akhir_potongan' => 'required|date|after:tgl_awal_potongan',
             'harga_setelah_potongan' => 'required|numeric',
         ];
     }

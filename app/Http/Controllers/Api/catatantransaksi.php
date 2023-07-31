@@ -19,7 +19,7 @@ class catatantransaksi extends Controller
      */
     public function index()
     {
-        $data = transaksi_barang::with('user','detailtransaksi')->get();
+        $data = transaksi_barang::with('user','detailtransaksi')->orderBy('id_barang','asc')->get();
         if($data){
             return response()->json(catatantransaksiresource::collection($data));
         }else{
@@ -36,7 +36,7 @@ class catatantransaksi extends Controller
     public function store(Request $request)
     {
         // Invoice 
-        $lastinv = transaksi_barang::orderBy('id_transaksi','asc')->count();
+        $lastinv = transaksi_barang::orderBy('id_barang','asc')->count();
         $prefix = 'INV-';
         $lastInvoiceNumber = $lastinv + 1; 
         $invoice = $prefix . sprintf('%06d', $lastInvoiceNumber);

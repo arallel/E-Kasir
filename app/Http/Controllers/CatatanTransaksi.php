@@ -22,9 +22,7 @@ class CatatanTransaksi extends Controller
         return view('admin.catatantransaksi.index',compact('datas'));
     }
     public function create(){
-        $searchbarang = null;
-        $show_modal = false;
-        return view('admin.catatantransaksi.createcatatan',compact('searchbarang','show_modal'));
+        return view('admin.catatantransaksi.createcatatan');
     }
     public function store(Request $request){
         $validate = $request->validate([
@@ -70,7 +68,7 @@ class CatatanTransaksi extends Controller
         ]);
 
         if($transaksi && $detail_transaksi){
-            return redirect()->route('Catatan-transaksi.index');
+            return redirect()->route('Catatan-transaksi.index')->with('success','Berhasil Menambahkan Transaksi');
         }else{
             return redirect()->back();
         }

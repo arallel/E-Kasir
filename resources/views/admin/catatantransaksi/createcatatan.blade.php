@@ -37,10 +37,10 @@
                                 </div>
                             </div>
                             <form action="{{ route('Catatan-transaksi.store') }}" method="POST"
-                            enctype="multipart/form-data" id="form" autocomplete="off" style="display:block;">
+                            enctype="multipart/form-data" id="form" autocomplete="off" style="display:none;">
                             @csrf
                             <div class="row g-3">
-                              <input type="text" class="id_barang"  name="id_barang">
+                              <input type="hidden" class="id_barang"  name="id_barang">
                               <div class="col-12 col-md-4">
                                 <div class="form-group">
                                     <label class="form-label" for="nama_potongan">Kode Barang</label>
